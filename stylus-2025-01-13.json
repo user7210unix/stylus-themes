@@ -1,0 +1,435 @@
+[
+  {
+    "settings": {
+      "openEditInWindow": false,
+      "openEditInWindow.popup": false,
+      "windowPosition": {},
+      "show-badge": true,
+      "disableAll": false,
+      "exposeIframes": false,
+      "exposeStyleName": false,
+      "newStyleAsUsercss": false,
+      "styleViaASS": false,
+      "styleViaXhr": false,
+      "patchCsp": false,
+      "urlInstaller": true,
+      "config.autosave": true,
+      "schemeSwitcher.enabled": "system",
+      "schemeSwitcher.nightStart": "18:00",
+      "schemeSwitcher.nightEnd": "06:00",
+      "popup.enabledFirst": true,
+      "popup.stylesFirst": true,
+      "popup.autoResort": false,
+      "popup.borders": false,
+      "popup.findSort": "w",
+      "manage.onlyEnabled": false,
+      "manage.onlyLocal": false,
+      "manage.onlyUsercss": false,
+      "manage.onlyEnabled.invert": false,
+      "manage.onlyLocal.invert": false,
+      "manage.onlyUsercss.invert": false,
+      "manage.actions.expanded": true,
+      "manage.backup.expanded": true,
+      "manage.filters.expanded": true,
+      "manage.minColumnWidth": 750,
+      "manage.newUI": true,
+      "manage.newUI.favicons": true,
+      "manage.newUI.faviconsGray": false,
+      "manage.newUI.targets": 3,
+      "manage.newUI.sort": "title,asc",
+      "manage.searchMode": "meta",
+      "editor.options": {},
+      "editor.toc.expanded": true,
+      "editor.options.expanded": true,
+      "editor.lint.expanded": true,
+      "editor.publish.expanded": true,
+      "editor.lineWrapping": true,
+      "editor.smartIndent": true,
+      "editor.indentWithTabs": false,
+      "editor.tabSize": 4,
+      "editor.keyMap": "default",
+      "editor.theme": "default",
+      "editor.beautify": {
+        "selector_separator_newline": true,
+        "newline_before_open_brace": false,
+        "newline_after_open_brace": true,
+        "newline_between_properties": true,
+        "newline_before_close_brace": true,
+        "newline_between_rules": false,
+        "preserve_newlines": true,
+        "end_with_newline": false,
+        "indent_conditional": true,
+        "indent_mozdoc": true,
+        "space_around_combinator": true,
+        "space_around_cmp": false
+      },
+      "editor.beautify.hotkey": "",
+      "editor.lintDelay": 300,
+      "editor.linter": "csslint",
+      "editor.lintReportDelay": 500,
+      "editor.matchHighlight": "token",
+      "editor.autoCloseBrackets": true,
+      "editor.autocompleteOnTyping": false,
+      "editor.contextDelete": false,
+      "editor.selectByTokens": true,
+      "editor.arrowKeysTraverse": true,
+      "editor.appliesToLineWidget": true,
+      "editor.autosaveDraft": 10,
+      "editor.livePreview": true,
+      "editor.livePreview.delay": 0.2,
+      "editor.targetsFirst": true,
+      "editor.colorpicker": true,
+      "editor.colorpicker.hexUppercase": false,
+      "editor.colorpicker.hotkey": "",
+      "editor.colorpicker.color": "",
+      "editor.colorpicker.maxHeight": 300,
+      "hotkey._execute_browser_action": "",
+      "hotkey.openManage": "",
+      "hotkey.styleDisableAll": "",
+      "sync.enabled": "none",
+      "iconset": -1,
+      "badgeDisabled": "#8B0000",
+      "badgeNormal": "#006666",
+      "headerWidth.edit": 280,
+      "headerWidth.install": 280,
+      "headerWidth.manage": 280,
+      "popup.search.globals": false,
+      "popupWidth": 246,
+      "popupWidthMax": 280,
+      "updateInterval": 24,
+      "updateOnlyEnabled": false
+    },
+    "order": {
+      "main": [],
+      "prio": []
+    }
+  },
+  {
+    "enabled": true,
+    "installDate": 1736543766057,
+    "sections": [
+      {
+        "code": ""
+      }
+    ],
+    "sourceCode": "/* ==UserStyle==\n@name             Dracula for Reddit\n@namespace        github.com/druxorey/stylus-themes\n@version          1.2.1\n@description      Are you tired of the same boring colors on Reddit? Then try this modern color style based on the Dracula theme\n@author           Druxorey\n@license          GNU General Public License v3.0\n==/UserStyle== */\n\n@-moz-document domain(\"reddit.com\") {\n\n    * {\n        --bg-lighter: #585B6E;\n        --bg-light: #44475A;\n        --bg: #040B0F;\n        --bg-dark: #040B0F;\n        --bg-darker: #040B0F;\n\n        --fg: #F8F8F2;\n        --fg-dark: #DFDFD9;\n\n        --comment: #6272A4;\n\n        --red-light: #ff6e6e;\n        --red: #ff5555;\n        --red-dark: #E63C3C;\n        --orange-light: #FFD185;\n        --orange: #FFB86C;\n        --orange-dark: #E69F53;\n        --yellow-light: #ffffa5;\n        --yellow: #F1FA8C;\n        --yellow-dark: #D8E173;\n        --green-light: #69ff94;\n        --green: #50FA7B;\n        --green-dark: #37EB62;\n        --cyan-light: #a4ffff;\n        --cyan: #8BE9FD;\n        --cyan-dark: #72D0E4;\n        --blue-light: #6DCCFF;\n        --blue: #54B3FF;\n        --blue-dark: #3B9AE6;\n        --purple-light: #d6acff;\n        --purple: #BD93F9;\n        --purple-dark: #A47AE0;\n        --pink-light: #ff92df;\n        --pink: #FF79C6;\n        --pink-dark: #E660AD;\n\n        --accent-1: var(--purple);\n        --accent-2: var(--pink);\n\n        --color-primary-onBackground: var(--red) !important;\n        --color-primary-onBackground-selected: var(--red);\n        --color-neutral-border: var(--bg-dark) !important;\n\n        --color-neutral-content: var(--accent-1) !important;\n        --color-neutral-content-disabled: var(--red) !important;\n        --color-neutral-content-weak: var(--fg) !important;\n        --color-neutral-content-strong: var(--accent-1) !important;\n        --color-neutral-background: var(--bg) !important;\n        --color-neutral-background-selected: var(--accent-1) !important;\n        --color-neutral-background-weak: var(--bg-dark) !important;\n        --color-neutral-background-medium: var(--red) !important;\n        --color-neutral-background-strong: var(--bg) !important;\n        --color-neutral-background-hover: var(--bg-darker) !important;\n        --color-neutral-border-weak: transparent !important;\n        --color-neutral-border-strong: var(--accent-1) !important;\n        --color-tone-1: var(--accent-1) !important;\n        --color-tone-2: var(--accent-2) !important;\n        --color-tone-3: var(--fg) !important;\n        --color-tone-4: var(--bg-light) !important;\n        --color-tone-5: transparent !important;\n        --color-tone-6: var(--bg-lighter) !important;\n        --color-tone-7: var(--bg) !important;\n        --color-primary: var(--blue) !important;\n        --color-primary-hover: var(--accent-2) !important;\n        --color-primary-background: var(--bg-light) !important;\n        --color-primary-background-hover: var(--blue) !important;\n        --color-primary-background-selected: var(--blue) !important;\n        --color-secondary: var(--fg) !important;\n        --color-secondary-hover: var(--fg-dark);\n        --color-secondary-weak: var(--accent-1) !important;\n        --color-secondary-background: var(--bg) !important;\n        --color-secondary-background-hover: var(--bg-light) !important;\n        --color-secondary-background-selected: var(--bg-light) !important;\n        --shreddit-content-background: transparent !important;\n\n        --button-border-color: var(--yellow);\n        --button-border-color-activated: transparent !important;\n        --button-color-background-activated: var(--bg-light) !important;\n        --button-color-text-activated: var(--accent-1) !important;\n        --button-color-overlay: var(--yellow) !important;\n        --button-border-color-hover: transparent !important;\n        --button-color-background-hover: var(--bg-light) !important;\n        --button-color-text: transparent !important;\n\n        --color-button-secondary-text: var(--fg) !important;\n        --color-button-secondary-text-activated: var(--fg) !important;\n        --color-button-secondary-text-disabled: var(--fg) !important;\n        --color-button-secondary-border: transparent !important;\n        --color-button-secondary-background: var(--bg) !important;\n        --color-button-secondary-background-focus: var(--yellow) !important;\n        --color-button-secondary-background-hover: var(--bg-lighter) !important;\n        --color-button-secondary-background-activated: var(--yellow) !important;\n        --color-button-secondary-background-disabled: var(--yellow) !important;\n\n        --color-action-upvote: var(--green);\n        --color-action-downvote: var(--red);\n        --color-media-background: var(--bg-light);\n        --color-media-onbackground: var(--accent-1);\n        --color-media-onbackground-disabled: var(--bg-lighter);\n\n        --newCommunityTheme-bodyText: var(--fg);\n        --newCommunityTheme-metaText: var(--orange);\n        --newCommunityTheme-button: var(--fg);\n        --newCommunityTheme-body: var(--bg);\n        --newRedditTheme-actionIcon: var(--fg);\n        --newCommunityTheme-line: transparent;\n        --newRedditTheme-line: transparent;\n        --newRedditTheme-linkText: var(--accent-1);\n        --newCommunityTheme-navIconFaded10: var(--orange);\n        --newCommunityTheme-active: var(--orange);\n        --newCommunityTheme-field: var(--bg-darker);\n        --newRedditTheme-button: var(--accent-1);\n        --newCommunityTheme-actionIcon: var(--accent-1);\n        --newCommunityTheme-bodyTextAlpha20: transparent;\n        --newRedditTheme-post: var(--bg);\n        --newRedditTheme-body: var(--bg);\n        --newRedditTheme-field: var(--bg-dark);\n        --newCommunityTheme-navIcon: var(--fg);\n        --newRedditTheme-actionIconAlpha50: var(--orange);\n        --newRedditTheme-buttonAlpha05: var(--bg-light);\n        --newRedditTheme-bodyText: var(--fg);\n        --newCommunityTheme-buttonAlpha50: var(--bg-lighter);\n        --pseudo-before-background: var(--bg-dark) !important;\n        --newRedditTheme-metaText: var(--fg);\n        --newRedditTheme-navIconFaded10: var(--bg);\n\n        --newCommunityTheme-postLine: transparent;\n        --newRedditTheme-widgetColors-sidebarWidgetBackgroundColor: var(--bg);\n        --newCommunityTheme-widgetColors-sidebarWidgetHeaderColor: var(--orange);\n        --newRedditTheme-widgetColors-sidebarWidgetBorderColor: transparent;\n        --post-icon-color: var(--orange);\n        --newCommunityTheme-postIcon: var(--accent-1);\n        --posttitletextcolor: var(--fg);\n\n        color: var(--fg);\n\n    }\n\n    header>:last-child {\n        background-color: var(--bg-dark);\n    }\n\n    nav,\n    #left-sidebar {\n        background-color: var(--bg-dark);\n    }\n\n    .bg-neutral-background {\n        background-color: var(--bg-dark);\n    }\n\n    svg {\n        fill: var(--fg);\n    }\n\n    .theme-beta,\n    ._24UNt1hkbrZxLzs5vkvuDh,\n    ._1VP69d9lk-Wk9zokOaylL {\n        background-color: var(--bg) !important;\n    }\n\n    ._2FKpII1jz0h6xCAw1kQAvS {\n        background-color: var(--green) !important;\n    }\n\n    ._1poyrkZ7g36PawDueRza-J,\n    ._11R7M_VOgKO1RJyRSRErT3,\n    ._1Qs6zz6oqdrQbR7yE_ntfY {\n        background-color: var(--bg) !important;\n    }\n\n    ._3AStxql1mQsrZuUIFP9xSg *,\n    .nU4Je7n-eSXStTBAPMYt8 * {\n        color: var(--accent-1) !important;\n    }\n\n}",
+    "usercssData": {
+      "name": "Dracula for Reddit",
+      "namespace": "github.com/druxorey/stylus-themes",
+      "version": "1.2.1",
+      "description": "Are you tired of the same boring colors on Reddit? Then try this modern color style based on the Dracula theme",
+      "author": "Druxorey",
+      "license": "GNU General Public License v3.0"
+    },
+    "author": "Druxorey",
+    "description": "Are you tired of the same boring colors on Reddit? Then try this modern color style based on the Dracula theme",
+    "name": "Dracula for Reddit",
+    "updateUrl": "https://userstyles.world/api/style/10484.user.css",
+    "originalDigest": "f9001073fb001bd405d045c1cbab99b8d81dff55",
+    "_id": "d2fefdb3-b1e8-494d-8a0e-45fd0fa035d5",
+    "_rev": 1736725239117,
+    "id": 1,
+    "url": "https://userstyles.world/style/10484",
+    "installationUrl": "https://userstyles.world/style/10484",
+    "updateDate": 1736725239117
+  },
+  {
+    "enabled": true,
+    "installDate": 1736543821632,
+    "sections": [
+      {
+        "code": ""
+      }
+    ],
+    "sourceCode": "/* ==UserStyle==\n@name             Dracula for Youtube\n@namespace        github.com/druxorey/dracula-for-stylus\n@version          1.1.1\n@description      Are you tired of the same boring colors on Youtube? Then try this modern color style based on the Dracula theme\n@author           Druxorey\n@license          GNU General Public License v3.0\n@preprocessor     less\n@var select accent-color \"Accent Color\" {\n\t\"Red\": \"red\",\n\t\"Orange\": \"orange\",\n\t\"Yellow\": \"yellow\",\n\t\"Green\": \"green\",\n\t\"Blue\": \"blue\",\n\t\"Cyan\": \"cyan\",\n\t\"Purple\": \"purple\",\n\t\"Pink\": \"pink\",\n}\n\n@var checkbox media-bar \"Enable black bars\" 0\n==/UserStyle== */\n\n@-moz-document url-prefix(\"https://www.youtube.com/\") {\n\n\t:root {\n\t\t--color-comment: #6272A4;\n\n\t\t--color-red-1: #FF6E6E;\n\t\t--color-red-2: #FF5555;\n\t\t--color-red-3: #E63C3C;\n\t\t--color-orange-1: #FFD185;\n\t\t--color-orange-2: #FFB86C;\n\t\t--color-orange-3: #E69F53;\n\t\t--color-yellow-1: #FFFFA5;\n\t\t--color-yellow-2: #F1FA8C;\n\t\t--color-yellow-3: #D8E173;\n\t\t--color-green-1: #69FF94;\n\t\t--color-green-2: #50FA7B;\n\t\t--color-green-3: #37EB62;\n\t\t--color-cyan-1: #A4FFFF;\n\t\t--color-cyan-2: #8BE9FD;\n\t\t--color-cyan-3: #72D0E4;\n\t\t--color-blue-1: #6DCCFF;\n\t\t--color-blue-2: #54B3FF;\n\t\t--color-blue-3: #3B9AE6;\n\t\t--color-purple-1: #D6ACFF;\n\t\t--color-purple-2: #BD93F9;\n\t\t--color-purple-3: #A47AE0;\n\t\t--color-pink-1: #FF92DF;\n\t\t--color-pink-2: #FF79C6;\n\t\t--color-pink-3: #E660AD;\n\n\t\t--color-accent-1: e(\"var(--color-@{accent-color}-1)\");\n\t\t--color-accent-2: e(\"var(--color-@{accent-color}-2)\");\n\t\t--color-accent-3: e(\"var(--color-@{accent-color}-3)\");\n\t}\n\n\t:root:not([dark]) {\n\t\t--color-background-5: #040B0F;\n\t\t--color-background-4: #040B0F;\n\t\t--color-background-3: #040B0F;\n\t\t--color-background-2: #D0D2DC;\n\t\t--color-background-1: #C4C7D4;\n\n\t\t--color-foreground-1: #44475A;\n\t\t--color-foreground-2: #353747;\n\t\t--color-foreground-3: #282A36;\n\n\t\t--color-shadow-1: #DCDDE5;\n\t\t--color-shadow-2: #C4C7D4;\n\t\t--color-shadow-3: #B2B5C2;\n\n\t\tbackground: var(--color-background-4) !important;\n\t}\n\n\t:root[dark] {\n\t\t--color-background-1: #131519;\n\t\t--color-background-2: #131519;\n\t\t--color-background-3: #131519;\n\t\t--color-background-4: #131519;\n\t\t--color-background-5: #131519;\n\n\t\t--color-foreground-1: #F8F8F2;\n\t\t--color-foreground-2: #D9DADF;\n\t\t--color-foreground-3: #B9BBCB;\n\n\t\t--color-shadow-1: #353747;\n\t\t--color-shadow-2: #21222C;\n\t\t--color-shadow-3: #1A1C24;\n\n\t\tbackground: var(--color-background-4) !important;\n\t}\n\n\t[fill=\"#8BE9FD\"],\n\t[fill=\"#F00\"],\n\t[fill=\"#FF0000\"],\n\t[fill=\"#f03\"],\n\t[fill=\"#FF0033\"] {\n\t\tfill: var(--color-accent-2) !important;\n\t}\n\n\t&,\n\t[dark],\n\t[system-icons],\n\t[darker-dark-theme],\n\t&[dark],\n\t&[system-icons],\n\t&[darker-dark-theme] {\n\t\t--yt-spec-raised-background: var(--color-background-3);\n\t\t--yt-spec-general-background-a: var(--color-background-4);\n\t\t--yt-spec-additive-background: var(--color-background-2);\n\t\t--yt-spec-badge-chip-background: var(--color-background-3);\n\t\t--yt-spec-base-background: var(--color-background-4);\n\t\t--yt-spec-brand-background-primary: var(--color-background-4);\n\t\t--yt-spec-menu-background: var(--color-background-3);\n\t\t--yt-spec-text-secondary: var(--color-accent-2);\n\t\t--yt-spec-text-primary: var(--color-foreground-1);\n\t\t--yt-spec-icon-active-other: var(--color-foreground-1);\n\t\t--yt-spec-wordmark-text: var(--color-foreground-1);\n\t\t--yt-spec-button-chip-background-hover: var(--color-accent-2);\n\t}\n\n\t.ytSuggestionComponentRemoveLinkDark {\n\t\tcolor: var(--color-accent-2);\n\t}\n\t\n\t.ytp-progress-list {\n\t\tbackground: var(--color-background-2);\n\t}\n\t\n\t.ytp-load-progress {\n\t\tbackground: var(--color-foreground-3);\n\t}\n\t\n\t.ytSearchboxComponentInputBoxDark,\n\t.ytSearchboxComponentSearchButtonDark {\n\t\tbackground-color: var(--color-background-3);\n\t\tcolor: var(--color-foreground-1);\n\t\tborder-color: var(--color-background-3);\n\t}\n\t\n\t.ytSearchboxComponentSuggestionsContainer,\n\t.ytSearchboxComponentSuggestionsContainerDark {\n\t    background: var(--yt-spec-raised-background) !important;\n\t    border-color: var(--yt-spec-raised-background) !important;\n\t}\n\n\t.ytSearchboxComponentInputBoxDark.ytSearchboxComponentInputBoxHasFocus {\n\t\tborder-color: var(--color-accent-3);\n\t}\n\n\t.yt-spec-icon-badge-shape--type-notification .yt-spec-icon-badge-shape__badge {\n\t\tbackground-color: var(--color-accent-2);\n\t}\n\n\t.yt-core-attributed-string--link-inherit-color .yt-core-attributed-string__link--call-to-action-color {\n\t\tcolor: var(--color-accent-2);\n\t}\n\n\t.yt-content-metadata-view-model-wiz--medium-text .yt-content-metadata-view-model-wiz__metadata-text {\n\t\tcolor: var(--color-accent-2);\n\t}\n\n\t.yt-spec-button-shape-next--call-to-action.yt-spec-button-shape-next--text {\n\t\tcolor: var(--color-comment);\n\t}\n\n\t#content.ytd-rich-item-renderer ytd-post-renderer.ytd-rich-item-renderer,\n\t#content.ytd-rich-item-renderer ytd-shared-post-renderer.ytd-rich-item-renderer,\n\t#content.ytd-rich-item-renderer ytd-mini-game-card-view-model.ytd-rich-item-renderer {\n\t\tbackground-color: var(--color-background-2);\n\t\tborder: none;\n\t}\n\n\t.html5-video-player,\n\t.ytp-contextmenu {\n\t\tbackground-color: if(@media-bar =1, #000, var(--color-background-4));\n\t}\n\n\t.yt-spec-icon-badge-shape--style-overlay .yt-spec-icon-badge-shape__icon {\n\t\tcolor: var(--color-foreground-1);\n\t}\n\n\t.yt-page-navigation-progress {\n\t\tbackground: var(--color-accent-2) !important;\n\t}\n\n\tytd-searchbox[has-focus] #container.ytd-searchbox {\n\t\tborder-color: var(--color-background-1);\n\t}\n\n\t.yt-spec-button-shape-next--mono {\n\t\t&.yt-spec-button-shape-next--tonal {\n\t\t\tbackground-color: var(--color-background-2);\n\t\t\tcolor: var(--color-foreground-1);\n\n\t\t\t[fill=\"rgb(3,3,3)\"],\n\t\t\t[fill=\"rgb(0,0,0)\"],\n\t\t\t[fill=\"rgb(255,255,255)\"] {\n\t\t\t\tfill: var(--color-pink-2) !important;\n\t\t\t}\n\n\t\t\t[stroke=\"rgb(0,0,0)\"],\n\t\t\t[stroke=\"rgb(255,255,255)\"] {\n\t\t\t\tstroke: #00ff00 !important;\n\t\t\t}\n\n\t\t\t/* Accent for filled-in thumbs up (like button) */\n\t\t\t[animated-icon-type=\"LIKE\"] {\n\t\t\t\tg path[fill] {\n\t\t\t\t\tfill: var(--color-accent-2) !important;\n\n\t\t\t\t\t+[stroke] {\n\t\t\t\t\t\tstroke: #00ff00 !important;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\n\t\t\t&:hover {\n\t\t\t\tbackground-color: var(--color-background-1);\n\t\t\t}\n\t\t}\n\n\t\t&.yt-spec-button-shape-next--outline {\n            background: var(--color-background-2);\n\t\t\tcolor: var(--color-foreground-1);\n\t\t\tborder-color: var(--color-background-2);\n\n\t\t\t&:hover {\n\t\t\t\tbackground-color: var(--color-background-1);\n\t\t\t}\n\t\t}\n\n\t\t&.yt-spec-button-shape-next--text {\n\t\t\tcolor: var(--color-foreground-3);\n\n\t\t\t/* Accent for filled-in thumbs up (like button) */\n\t\t\tpath[d=\"M3,11h3v10H3V11z M18.77,11h-4.23l1.52-4.94C16.38,5.03,15.54,4,14.38,4c-0.58,0-1.14,0.24-1.52,0.65L7,11v10h10.43 c1.06,0,1.98-0.67,2.19-1.61l1.34-6C21.23,12.15,20.18,11,18.77,11z\"] {\n\t\t\t\tfill: #00ff00;\n\t\t\t}\n\n\t\t\t&:hover {\n\t\t\t\tbackground-color: var(--color-background-2);\n\t\t\t}\n\t\t}\n\n\t\t&.yt-spec-button-shape-next--filled {\n\t\t\tbackground-color: var(--color-accent-2);\n\t\t\tcolor: var(--color-foreground-1);\n\n\t\t\t&:hover {\n\t\t\t\tbackground-color: var(--color-accent-3);\n\t\t\t}\n\t\t}\n\t}\n\n\tytd-playlist-panel-video-renderer[can-reorder]:hover,\n\tytd-playlist-panel-video-renderer[can-reorder][menu-opened],\n\tytd-playlist-panel-video-renderer[can-reorder].dragging {\n\t\tbox-shadow: 0 2px 8px var(--color-shadow-2);\n\t}\n\n\t.ytp-swatch-background-color,\n\t.ytp-play-progress {\n\t\tbackground: var(--color-accent-2) !important;\n\t}\n\t\n\t.yt_to_text_container {\n\t\tbackground: var(--color-background-2);\n\t\tcolor: var(--color-foreground-1);\n\t}\n\n\t.yt_to_text_default_btn {\n\t\tbackground: var(--color-background-1);\t\t\n\t\tcolor: var(--color-foreground-1);\n\t}\n\n\t.yt_to_text_default_btn.selected {\n\t\tbackground: var(--color-accent-2);\n\t\tcolor: var(--color-foreground-1);\n\t}\n\n\t.yt_to_text_footer_contact-us {\n\t\tspan {\n\t\t\tcolor: var(--color-accent-2);\n\t\t}\n\t}\n\n\t.yt_to_text_transcript_text_timestamp {\n\t\tcolor: var(--color-accent-2);\n\t}\n\n\t.yt-spec-button-shape-next--overlay.yt-spec-button-shape-next--tonal,\n\t.yt-spec-button-shape-next--overlay.yt-spec-button-shape-next--text {\n\t\tbackground: var(--color-background-3);\n\t}\n\n\t.yt-spec-button-shape-next--overlay.yt-spec-button-shape-next--tonal:hover,\n\t.yt-spec-button-shape-next--overlay.yt-spec-button-shape-next--text:hover {\n\t\tbackground: var(--color-background-1);\n\t}\n\t\n\t#yt_to_text_footer_pro_transcript,\n\t#yt_to_text_footer_summary{\n\t\tbackground: var(--color-accent-2);\n\t\tcolor: var(--color-foreground-1);\n\t}\n\t\n\t#yt_to_text_visibility_icon path {\n\t\tstroke: var(--color-accent-2);\n\t}\n\t\n\t#yt_to_text_profile path {\n\t\tstroke: var(--color-accent-2);\n\t\tstroke-width: 0.8;\n\t}\n}",
+    "usercssData": {
+      "name": "Dracula for Youtube",
+      "namespace": "github.com/druxorey/dracula-for-stylus",
+      "version": "1.1.1",
+      "description": "Are you tired of the same boring colors on Youtube? Then try this modern color style based on the Dracula theme",
+      "author": "Druxorey",
+      "license": "GNU General Public License v3.0",
+      "preprocessor": "less",
+      "vars": {
+        "accent-color": {
+          "type": "select",
+          "label": "Accent Color",
+          "name": "accent-color",
+          "value": null,
+          "default": "Red",
+          "options": [
+            {
+              "name": "Red",
+              "label": "Red",
+              "value": "red"
+            },
+            {
+              "name": "Orange",
+              "label": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Yellow",
+              "label": "Yellow",
+              "value": "yellow"
+            },
+            {
+              "name": "Green",
+              "label": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Blue",
+              "label": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Cyan",
+              "label": "Cyan",
+              "value": "cyan"
+            },
+            {
+              "name": "Purple",
+              "label": "Purple",
+              "value": "purple"
+            },
+            {
+              "name": "Pink",
+              "label": "Pink",
+              "value": "pink"
+            }
+          ]
+        },
+        "media-bar": {
+          "type": "checkbox",
+          "label": "Enable black bars",
+          "name": "media-bar",
+          "value": null,
+          "default": "0",
+          "options": null
+        }
+      }
+    },
+    "author": "Druxorey",
+    "description": "Are you tired of the same boring colors on Youtube? Then try this modern color style based on the Dracula theme",
+    "name": "Dracula for Youtube",
+    "updateUrl": "https://userstyles.world/api/style/10486.user.css",
+    "originalDigest": "6c8cc835ec2bdb897913b621210321ca7c54b0a8",
+    "_id": "fec09325-9fd1-441a-9b5b-7e0bad50bbb3",
+    "_rev": 1736725304437,
+    "id": 2,
+    "url": "https://userstyles.world/style/10486",
+    "installationUrl": "https://userstyles.world/style/10486",
+    "updateDate": 1736725304437
+  },
+  {
+    "enabled": true,
+    "installDate": 1736543833793,
+    "sections": [
+      {
+        "code": ""
+      }
+    ],
+    "sourceCode": "/* ==UserStyle==\n@name             Dracula for GitHub\n@namespace        github.com/druxorey/dracula-for-stylus\n@version          1.3.6\n@description      Are you tired of the same boring colors on GitHub? Then try this modern color style based on the Dracula theme\n@author           Druxorey\n@license          GNU General Public License v3.0\n@preprocessor     less\n@var select dracula-style \"Style\" {\n  \"Dark\": \"dark\",\n  \"Light\": \"light\",\n}\n@var select accent-color \"Accent Color\" {\n\t\"Red\": \"#FF5555\",\n\t\"Orange\": \"#FFB86C\",\n\t\"Yellow\": \"#F1FA8C\",\n\t\"Green\": \"#50FA7B\",\n\t\"Blue\": \"#54B3FF\",\n\t\"Cyan\": \"#8BE9FD\",\n\t\"Purple\": \"#BD93F9\",\n\t\"Pink\": \"#FF79C6\",\n}\n==/UserStyle== */\n\n@-moz-document domain(\"github.com\") {\n    \n    :root {\n        --color-dark-background-1: #040B0F;\n\t\t--color-dark-background-2: #040B0F;\n\t\t--color-dark-background-3: #040B0F;\n        --color-dark-background-4: #040B0F;\n\t\t--color-dark-background-5: #040B0F;\n        --color-dark-border: #040B0F;\n\n\t\t--color-dark-foreground-1: #F8F8F2;\n\t\t--color-dark-foreground-2: #e3e3e2;\n\t\t--color-dark-foreground-3: #C6C7CC;\n\n\t\t--color-light-background-3: #F3F4F6;\n\t\t--color-light-background-4: #E8E8EE;\n\t\t--color-light-background-2: #DCDDE5;\n\t\t--color-light-background-1: #D0D2DC;\n\t\t--color-light-background-5: #C4C7D4;\n        --color-light-border: #DCDDE5;\n        \n\t\t--color-light-foreground-3: #44475A;\n\t\t--color-light-foreground-2: #282A36;\n\t\t--color-light-foreground-1: #21222C;\n\n\t\t--color-comment: #6272A4;\n\n\t\t--color-red-1: #FF6E6E;\n\t\t--color-red-2: #FF5555;\n\t\t--color-red-3: #E63C3C;\n\t\t--color-orange-1: #FFD185;\n\t\t--color-orange-2: #FFB86C;\n\t\t--color-orange-3: #E69F53;\n\t\t--color-yellow-1: #FFFFA5;\n\t\t--color-yellow-2: #F1FA8C;\n\t\t--color-yellow-3: #D8E173;\n\t\t--color-green-1: #69FF94;\n\t\t--color-green-2: #50FA7B;\n\t\t--color-green-3: #37EB62;\n\t\t--color-cyan-1: #A4FFFF;\n\t\t--color-cyan-2: #8BE9FD;\n\t\t--color-cyan-3: #72D0E4;\n\t\t--color-blue-1: #6DCCFF;\n\t\t--color-blue-2: #54B3FF;\n\t\t--color-blue-3: #3B9AE6;\n\t\t--color-purple-1: #D6ACFF;\n\t\t--color-purple-2: #BD93F9;\n\t\t--color-purple-3: #A47AE0;\n\t\t--color-pink-1: #FF92DF;\n\t\t--color-pink-2: #FF79C6;\n\t\t--color-pink-3: #E660AD;\n\n\t\t--color-accent: @accent-color;\n\t}\n\n\thtml {background-color: e(\"var(--color-@{dracula-style}-background-3)\") !important;}\n\n\tbody {\n\t\t--buttonCounter-default-bgColor-rest: e(\"var(--color-@{dracula-style}-background-3)\");\n\n\t\t--button-danger-bgColor-rest: e(\"var(--color-@{dracula-style}-background-4)\");\n\t\t--button-default-bgColor-rest: e(\"var(--color-@{dracula-style}-background-4)\");\n\t\t--button-default-borderColor-disabled: transparent;\n\t\t--button-default-borderColor-rest: transparent;\n\t\t--button-default-bgColor-disabled: e(\"var(--color-@{dracula-style}-background-4)\");\n\t\t--button-default-bgColor-hover: e(\"var(--color-@{dracula-style}-background-2)\");\n\t\t--button-default-borderColor-hover: transparent;\n\t\t--button-default-bgColor-active: e(\"var(--color-@{dracula-style}-background-2)\");\n\t\t--button-default-borderColor-active: transparent;\n\t\t--button-default-fgColor-rest: e(\"var(--color-@{dracula-style}-foreground-1)\");\n\t\t--button-primary-fgColor-disabled: e(\"var(--color-@{dracula-style}-foreground-3)\");\n\t\t--button-star-iconColor: var(--color-yellow-2);\n\n\t\t--button-primary-bgColor-rest: var(--color-accent);\n\t\t--button-primary-bgColor-hover: var(--color-accent);\n\t\t--button-primary-bgColor-active: var(--color-accent);\n\t\t--button-primary-bgColor-disabled: var(--color-comment);\n\t\t--button-primary-borderColor-disabled: var(--color-comment);\n\n\t\t--bgColor-accent-muted: e(\"var(--color-@{dracula-style}-background-2)\");\n\t\t--bgColor-attention-muted: var(--color-accent);\n\t\t--bgColor-default: e(\"var(--color-@{dracula-style}-background-3)\");\n\t\t--bgColor-inset: e(\"var(--color-@{dracula-style}-background-4)\");\n\t\t--bgColor-muted: e(\"var(--color-@{dracula-style}-background-4)\");\n\t\t--bgColor-neutral-muted: e(\"var(--color-@{dracula-style}-background-2)\");\n\t\t--bgColor-emphasis: e(\"var(--color-@{dracula-style}-background-4)\") !important;\n\t\t--bgColor-accent-emphasis: var(--color-accent);\n\n\t\t--overlay-bgColor: e(\"var(--color-@{dracula-style}-background-3)\");\n\n\t\t--fgColor-default: e(\"var(--color-@{dracula-style}-foreground-1)\");\n\t\t--fgColor-onEmphasis: e(\"var(--color-@{dracula-style}-foreground-1)\");\n\t\t--fgColor-disabled: e(\"var(--color-@{dracula-style}-background-2)\");\n\t\t--fgColor-muted: e(\"var(--color-@{dracula-style}-foreground-2)\");\n\t\t--fgColor-danger: var(--color-red-2);\n\t\t--fgColor-attention: var(--color-orange-2);\n\t\t--fgColor-success: var(--color-green-2);\n\t\t--fgColor-accent: var(--color-accent);\n\t\t--fgColor-link: var(--color-accent);\n\n\t\t--focus-outlineColor: var(--color-accent);\n\n\t\t--border: e(\"var(--color-@{dracula-style}-background-2)\");\n\t\t--borderColor-accent-emphasis: var(--color-accent);\n\t\t--borderColor-default: e(\"var(--color-@{dracula-style}-border)\");\n\t\t--borderColor-muted: e(\"var(--color-@{dracula-style}-background-2)\");\n\t\t--borderColor-neutral-muted: e(\"var(--color-@{dracula-style}-background-2)\");\n\t\t--borderColor-danger-emphasis: var(--color-red-2);\n\t\t--borderColor-attention-emphasis: var(--color-orange-2);\n\t\t--borderColor-attention-muted: transparent;\n\t\t--borderColor-accent-muted:transparent;\n\n\t\t--controlKnob-bgColor-rest: e(\"var(--color-@{dracula-style}-background-2)\");\n\t\t--controlKnob-borderColor-rest: transparent;\n\t\t--controlTrack-bgColor-rest: e(\"var(--color-@{dracula-style}-background-4)\");\n\t\t--controlTrack-bgColor-active: e(\"var(--color-@{dracula-style}-background-2)\");\n\t\t--controlTrack-bgColor-hover: var(--color-accent);\n\t\t--control-borderColor-rest: e(\"var(--color-@{dracula-style}-background-4)\");\n\t\t--control-transparent-bgColor-active: var(--color-accent);\n\t\t--control-transparent-bgColor-hover: e(\"var(--color-@{dracula-style}-background-2)\");\n\t\t--control-transparent-bgColor-selected: e(\"var(--color-@{dracula-style}-background-2)\");\n\n\t\t--color-calendar-graph-day-bg: e(\"var(--color-@{dracula-style}-background-4)\");\n\t\t--color-calendar-graph-day-L1-bg: fade(@accent-color, 25%);\n\t\t--color-calendar-graph-day-L2-bg: fade(@accent-color, 50%);\n\t\t--color-calendar-graph-day-L3-bg: fade(@accent-color, 75%);\n\t\t--color-calendar-graph-day-L4-bg: fade(@accent-color, 100%);\n\n\t\t--color-user-mention-fg: e(\"var(--color-@{dracula-style}-foreground-1)\");\n\t\t--color-user-mention-bg: var(--color-accent);\n\t\t--page-header-bgColor: e(\"var(--color-@{dracula-style}-background-4)\");\n\n\t\t--underlineNav-borderColor-active: var(--color-accent);\n\n\t\t--menu-bgColor-active: e(\"var(--color-@{dracula-style}-background-2)\");\n\t}\n\n\t.TextInput-wrapper, .react-directory-row, .kHyYUy {\n\t\tbackground-color: e(\"var(--color-@{dracula-style}-background-4)\");\n\t\tbox-shadow: none;\n\t}\n\n\t.pinned-item-list-item-content {\n\t\tbackground: e(\"var(--color-@{dracula-style}-background-4)\");\n\t\tpadding: 1rem;\n\t\tborder-radius: 1rem;\n\t\tbox-shadow: 0rem 0rem 1rem e(\"var(--color-@{dracula-style}-shadow-2)\");\n\t}\n\n\t.kHyYUy:hover, .AppHeader-search {\n\t\tbackground-color: e(\"var(--color-@{dracula-style}-background-4)\");\n\t}\n\n\t.UnderlineNav {\n\t\tbox-shadow: none;\n\t}\n\n\t.form-control {\n\t\tbackground: e(\"var(--color-@{dracula-style}-background-4)\");\n\t\tborder: none;\n\t}\n\n\t.iXWA-dl,.AppHeader {\n\t\tbox-shadow: 0rem 0rem 1rem e(\"var(--color-@{dracula-style}-shadow-2)\");\n\t\tborder:none;\n\t}\n\n\t.p-3 {\n\t\tpadding: 0.25rem !important;\n\t}\n\t\n\t:root, [data-color-mode=light][data-light-theme*=light], [data-color-mode=dark][data-dark-theme*=light] {\n\t\tbackground: e(\"var(--color-@{dracula-style}-background-4)\");\n\t}\n}",
+    "usercssData": {
+      "name": "Dracula for GitHub",
+      "namespace": "github.com/druxorey/dracula-for-stylus",
+      "version": "1.3.6",
+      "description": "Are you tired of the same boring colors on GitHub? Then try this modern color style based on the Dracula theme",
+      "author": "Druxorey",
+      "license": "GNU General Public License v3.0",
+      "preprocessor": "less",
+      "vars": {
+        "dracula-style": {
+          "type": "select",
+          "label": "Style",
+          "name": "dracula-style",
+          "value": null,
+          "default": "Dark",
+          "options": [
+            {
+              "name": "Dark",
+              "label": "Dark",
+              "value": "dark"
+            },
+            {
+              "name": "Light",
+              "label": "Light",
+              "value": "light"
+            }
+          ]
+        },
+        "accent-color": {
+          "type": "select",
+          "label": "Accent Color",
+          "name": "accent-color",
+          "value": null,
+          "default": "Red",
+          "options": [
+            {
+              "name": "Red",
+              "label": "Red",
+              "value": "#FF5555"
+            },
+            {
+              "name": "Orange",
+              "label": "Orange",
+              "value": "#FFB86C"
+            },
+            {
+              "name": "Yellow",
+              "label": "Yellow",
+              "value": "#F1FA8C"
+            },
+            {
+              "name": "Green",
+              "label": "Green",
+              "value": "#50FA7B"
+            },
+            {
+              "name": "Blue",
+              "label": "Blue",
+              "value": "#54B3FF"
+            },
+            {
+              "name": "Cyan",
+              "label": "Cyan",
+              "value": "#8BE9FD"
+            },
+            {
+              "name": "Purple",
+              "label": "Purple",
+              "value": "#BD93F9"
+            },
+            {
+              "name": "Pink",
+              "label": "Pink",
+              "value": "#FF79C6"
+            }
+          ]
+        }
+      }
+    },
+    "author": "Druxorey",
+    "description": "Are you tired of the same boring colors on GitHub? Then try this modern color style based on the Dracula theme",
+    "name": "Dracula for GitHub",
+    "updateUrl": "https://userstyles.world/api/style/11923.user.css",
+    "originalDigest": "d3ec65f977d0d2fc76af14a1b3bdeaff9399e1cf",
+    "_id": "c9e9539d-15e7-43ee-bf7a-d431254403cb",
+    "_rev": 1736725259046,
+    "id": 3,
+    "url": "https://userstyles.world/style/11923",
+    "installationUrl": "https://userstyles.world/style/11923",
+    "updateDate": 1736725259046
+  },
+  {
+    "enabled": true,
+    "installDate": 1736543887985,
+    "sections": [
+      {
+        "code": ""
+      }
+    ],
+    "sourceCode": "/* ==UserStyle==\n@name             Dracula for Brave\n@namespace        github.com/druxorey/dracula-for-stylus\n@version          1.1.4\n@description      Are you tired of the same boring colors on Brave? Then try this modern color style based on the Dracula theme\n@author           Druxorey\n@license          GNU General Public License v3.0\n@preprocessor     less\n@var select accent-color \"Accent Color\" {\n\t\"Red\": \"red\",\n\t\"Orange\": \"orange\",\n\t\"Yellow\": \"yellow\",\n\t\"Green\": \"green\",\n\t\"Blue\": \"blue\",\n\t\"Cyan\": \"cyan\",\n\t\"Purple\": \"purple\",\n\t\"Pink\": \"pink\"\n}\n==/UserStyle== */\n\n@-moz-document domain(\"search.brave.com\") {\n\n\t:root {\n\t\t--color-comment: #6272A4;\n\n\t\t--color-red-1: #FF6E6E;\n\t\t--color-red-2: #FF5555;\n\t\t--color-red-3: #E63C3C;\n\t\t--color-orange-1: #FFD185;\n\t\t--color-orange-2: #FFB86C;\n\t\t--color-orange-3: #E69F53;\n\t\t--color-yellow-1: #FFFFA5;\n\t\t--color-yellow-2: #F1FA8C;\n\t\t--color-yellow-3: #D8E173;\n\t\t--color-green-1: #69FF94;\n\t\t--color-green-2: #50FA7B;\n\t\t--color-green-3: #37EB62;\n\t\t--color-cyan-1: #A4FFFF;\n\t\t--color-cyan-2: #8BE9FD;\n\t\t--color-cyan-3: #72D0E4;\n\t\t--color-blue-1: #6DCCFF;\n\t\t--color-blue-2: #54B3FF;\n\t\t--color-blue-3: #3B9AE6;\n\t\t--color-purple-1: #D6ACFF;\n\t\t--color-purple-2: #BD93F9;\n\t\t--color-purple-3: #A47AE0;\n\t\t--color-pink-1: #FF92DF;\n\t\t--color-pink-2: #FF79C6;\n\t\t--color-pink-3: #E660AD;\n\n\t\t--color-accent-1: e(\"var(--color-@{accent-color}-1)\");\n\t\t--color-accent-2: e(\"var(--color-@{accent-color}-2)\");\n\t\t--color-accent-3: e(\"var(--color-@{accent-color}-3)\");\n\t}\n\n\t:root:not(dark) {\n\t\t--color-background-5: #F3F4F6;\n\t\t--color-background-4: #E8E8EE;\n\t\t--color-background-3: #DCDDE5;\n\t\t--color-background-2: #D0D2DC;\n\t\t--color-background-1: #C4C7D4;\n\n\t\t--color-foreground-1: #44475A;\n\t\t--color-foreground-2: #353747;\n\t\t--color-foreground-3: #282A36;\n\n\t\t--color-shadow-1: #DCDDE5;\n\t\t--color-shadow-2: #C4C7D4;\n\t\t--color-shadow-3: #B2B5C2;\n\n\t\tbackground: var(--color-background-4) !important;\n\t}\n\n\t:root.dark {\n\t\t--color-background-1: #040B0F;\n\t\t--color-background-2: #040B0F;\n\t\t--color-background-3: #040B0F;\n\t\t--color-background-4: #040B0F;\n\t\t--color-background-5: #040B0F;\n\n\t\t--color-foreground-1: #F8F8F2;\n\t\t--color-foreground-2: #D9DADF;\n\t\t--color-foreground-3: #B9BBCB;\n\n\t\t--color-shadow-1: #353747;\n\t\t--color-shadow-2: #21222C;\n\t\t--color-shadow-3: #1A1C24;\n\n\t\tbackground: var(--color-background-4) !important;\n\t}\n\n\tbody {\n\t\t--color-page-background: var(--color-background-4);\n\t\t--color-serp-bar-bg: var(--color-background-5);\n\t\t--color-serp-breadcrumbs: var(--color-background-3);;\n\t\t--color-serp-container-: var(--color-background-4);\n\t\t--color-serp-container-interactive: var(--color-background-2);\n\t\t--color-serp-divider-subtle-container: var(--color-background-2);\n\t\t--color-serp-header-background: var(--color-background-4);\n\t\t--color-serp-highlight-background: var(--color-background-2);\n        --color-serp-settings-background: var(--color-background-3);\n\t\t--color-serp-snippet-background: var(--color-background-5);\n        --color-container-highlight: var(--color-background-3);\n\n\t\t--color-text-primary: var(--color-foreground-1);\n\t\t--color-text-secondary: var(--color-foreground-1);\n\t\t--color-text-tertiary: var(--color-foreground-2);\n\t\t--color-text-interactive: var(--color-accent);\n\n\t\t--color-link-default: var(--color-accent-2);\n\t\t--color-link-visited: var(--color-accent-2);\n\n\t\t--color-icon-default: var(--color-accent-2);\n\t\t--color-icon-disabled: var(--color-accent-3);\n\n        --color-tabs-search-text-default: var(--color-accent-2);\n\n\t\t--color-container-background: var(--color-background-5);\n\t\t--color-divider-subtle: var(--color-background-2);\n\n        --color-neutral-5: var(--color-background-5);\n        --color-neutral-10: var(--color-background-3);\n        --color-neutral-20: var(--color-background-5);\n        \n        --color-schemes-primary: var(--color-accent-2);\n        --color-button-background: var(--color-accent-2);\n\n        --elevation-05: 0px 8px 36px -2px var(--color-background-5), 0px 1px 0px 0px var(--elevation-primary);\n        --elevation-01: 0px 1px 4px 0px var(--color-background-5), 0px 1px 0px 0px var(--elevation-primary);\n\t}\n    \n    .icon {\n        fill: var(--color-accent-2);\n    }\n\n    .snippet.svelte-n9nog2, \n\t.snippet.no-padding.svelte-n9nog2 {\n        padding: 1rem;\n        margin: 0.5rem 0rem 0.5rem 0rem;\n        border-radius: 0.75rem;\n    }\n\n    .search-elsewhere-wrapper.svelte-1jhoinl{\n        display: none;\n    }\n\n\t.snippet.svelte-qm0fz7 {\n\t\ttransition: 0.25s ease;\n\t}\n    \n\t.snippet.svelte-qm0fz7:hover {\n\t\ttext-shadow: 0 0 0.005rem var(--color-foreground-1);\n\t\ttransition: 0.25s ease;\n\t}\n    \n\t.llm-output, .svelte-43tr6t {\n\t\tcolor: var(--color-foreground-1);\n\t}\n\n    #searchform-actions.svelte-7tdohb.svelte-7tdohb:before {\n        background:none;\n    }\n\n    .tab-item.active.svelte-1bd2u3s a.svelte-1bd2u3s .icon,\n\t#submit-button.svelte-16mxc77 .icon {\n        fill: var(--color-accent-2);\n    }\n    \n    .tab-item.active.svelte-1bd2u3s a.svelte-1bd2u3s:after {\n        background: var(--color-accent-2);\n    }\n\n\t:root.dark, :root.light {\n        #searchform-actions.svelte-16mxc77.svelte-16mxc77:before {\n            background: none;\n    \t}\n        \n\t\t.llm-output {\n\t\t\t--highlight-color: var(--color-accent-2);\n\t\t}\n        \n\t\t.bottom-fade.svelte-h9rkzz {\n\t\t\tbackground: linear-gradient(0deg, var(--color-background-5) var(--offset, 1rem),rgba(255,255,255,0))\n\t\t}\n        \n\t\t.button.type--footer-prominent.svelte-19i47us.svelte-19i47us:not(:disabled):not([disabled=true]):hover,\n\t\t.button.type--footer-prominent:not(:disabled):not([disabled=true]).active.svelte-19i47us.svelte-19i47us {\n\t\t\tbackground: var(--color-background-5);\n\t\t}\n\t}\n}",
+    "usercssData": {
+      "name": "Dracula for Brave",
+      "namespace": "github.com/druxorey/dracula-for-stylus",
+      "version": "1.1.4",
+      "description": "Are you tired of the same boring colors on Brave? Then try this modern color style based on the Dracula theme",
+      "author": "Druxorey",
+      "license": "GNU General Public License v3.0",
+      "preprocessor": "less",
+      "vars": {
+        "accent-color": {
+          "type": "select",
+          "label": "Accent Color",
+          "name": "accent-color",
+          "value": null,
+          "default": "Red",
+          "options": [
+            {
+              "name": "Red",
+              "label": "Red",
+              "value": "red"
+            },
+            {
+              "name": "Orange",
+              "label": "Orange",
+              "value": "orange"
+            },
+            {
+              "name": "Yellow",
+              "label": "Yellow",
+              "value": "yellow"
+            },
+            {
+              "name": "Green",
+              "label": "Green",
+              "value": "green"
+            },
+            {
+              "name": "Blue",
+              "label": "Blue",
+              "value": "blue"
+            },
+            {
+              "name": "Cyan",
+              "label": "Cyan",
+              "value": "cyan"
+            },
+            {
+              "name": "Purple",
+              "label": "Purple",
+              "value": "purple"
+            },
+            {
+              "name": "Pink",
+              "label": "Pink",
+              "value": "pink"
+            }
+          ]
+        }
+      }
+    },
+    "author": "Druxorey",
+    "description": "Are you tired of the same boring colors on Brave? Then try this modern color style based on the Dracula theme",
+    "name": "Dracula for Brave",
+    "updateUrl": "https://userstyles.world/api/style/17764.user.css",
+    "originalDigest": "92a8ec04a468c6abb0726d7b198fcc93cb84f768",
+    "_id": "7dc0d986-a0a0-4c94-aa99-817ba5eabb69",
+    "_rev": 1736725325182,
+    "id": 4,
+    "url": "https://userstyles.world/style/17764",
+    "installationUrl": "https://userstyles.world/style/17764",
+    "updateDate": 1736725325182
+  },
+  {
+    "enabled": true,
+    "installDate": 1736725392587,
+    "sections": [
+      {
+        "code": ""
+      }
+    ],
+    "sourceCode": "/* ==UserStyle==\n@name         Google-Dracula\n@version      20250103.01.05\n@namespace    https://userstyles.world/user/DokaDev\n@description  This is a theme that applies the Dracula color scheme to the Google main and search pages.\n@author       DokaDev\n@license      MIT\n==/UserStyle== */\n\n@-moz-document regexp(\"https?:\\\\/\\\\/www\\\\.google(\\\\.[a-z]{2,3}){1,2}\\\\/search\\\\?.*\") {\n/* global */\nspan {\n    color: #b0b4ca;\n}\n\n/* ------------------------------------------------------- */\n/* link */\nspan.cHaqb,\n.DKV0Md {\n    color: #8fbdfc;\n}\n\n/* ------------------------------------------------------- */\n/* GNB */\n[selected].YmvwI {\n    color: #50FA7B;\n    font-weight: bold;\n    border-bottom: 3px solid #50FA7B;\n}\n.sBbkle {\n    border-bottom: 1px solid #6272A4;\n}\n\n/* more button*/\n/* .Ap1Qsc > a .YmvwI, .CCQQAA > a .YmvwI {\n    color: #b0b4ca !important;\n    transition: color 0.3s ease !important;\n}\n.Ap1Qsc > a .YmvwI:hover, .CCQQAA > a .YmvwI:hover {\n    color: #6272A4 !important;\n} */\n.crJ18e > div > div > a > .YmvwI {\n    color: #b0b4ca !important;\n    transition: color 0.3s ease !important;\n}\n.crJ18e > div > div > a > .YmvwI:hover {\n    color: #6272A4 !important;\n}\n\n.Lu57id span {\n    /*     color: #b0b4ca; */\n    /*     transition: color 0.3s ease; */\n}\n\n.LtmTod > div > .T3FoJb {\n    transition: background 0.3s ease !important;\n}\n.LtmTod > div > .T3FoJb:hover {\n    background: #6272A4 !important;\n    /*     transition: background 0.3s ease; */\n}\n\ndiv.fKmH1e {\n    background: #282A36;\n}\n\n/* right icons */\n.gb_E {\n    fill: #ffffff;\n}\n.gb_Xa {\n    border: 1px solid rgba(0, 0, 0, 0);\n    transition: border 0.5s ease;\n}\n.gb_Xa:hover {\n    /*     border: 1px solid #FF79C6; */\n}\n\n/* ------------------------------------------------------- */\n/* backgrounds */\nbody {\n    background: #040B0F !important;\n}\n#main {\n    background: #040B0F !important;\n}\n\n.sfbg {\n    background: #040B0F !important;\n}\ndiv#appbar.appbar {\n    background: #040B0F !important;\n}\n.Lu57id {\n    background: #040B0F !important;\n}\n\n#slim_appbar.WE0UJf {\n    background: #040B0F !important;\n}\n\n#fsl {\n    background: #040B0F !important;\n}\ndiv.srKDX {\n    background: #040B0F !important;\n}\ndiv.NEw0P.WfvaCf {\n    background: #040B0F !important;\n}\ndiv.SHW0Qe {\n    background: #040B0F !important;\n}\ndiv.pKv8Zb.fm06If {\n    background: #040B0F !important;\n}\n\n.BYM4Nd.AO0e0 {\n    background: #040B0F !important;\n}\n\ntd.cIkxbf {\n    background: #040B0F !important;\n}\n.mslg.c9EJob.gPdgJc {\n    background: #040B0F !important;\n}\n.mslg.gPdgJc {\n    background: #040B0F !important;\n}\n\ntd div.usJj9c {\n    background: #040B0F !important;\n    transition: all 0.2s ease !important;\n}\ntd div.usJj9c:hover {\n/*     background: #44475A !important; */\n}\n\n.AO0e0 {\n    background: #040B0F !important;\n}\n\n.rNSxBe {\n    background: #040B0F !important;\n}\n\n/* arrow button */\nspan.DYjfCf,\ndiv.p8Jhnd,\n.s3IB3,\n.niO4u {\n    background: #44475A !important;\n}\n\n/* about */\ndiv.Kcn6oc.adDDi {\n    background: #040B0F !important;\n}\ndiv.U48fD {\n    background: #040B0F !important;\n}\ndiv.Ww4FFb {\n    background: #040B0F !important;\n}\n.DfMusf {\n    /* card */\n    border-radius: 16px !important;\n    background: #040B0F !important;\n}\n.V3FYCf {\n    background: #040B0F !important;\n}\n.KTBKoe {\n    /*     background: #44475A;\n    height: 37px;\n    border-bottom: 1px solid #6272A4; */\n    color: #b0b4ca !important;\n}\n.RDmXvc {\n    background-image: linear-gradient(transparent 0px, #282A36 55px)\n}\n.in7vHe {\n    background: #44475A;\n}\n.zNsLfb.Jzkafd {\n    background: #040B0F !important;\n}\n\ndiv.CybWFf,\n.DWsAYc {\n    /* more button */\n    background: rgba(68, 71, 90, 0.8);\n    box-shadow: 1px 1px 8px 2px #171717;\n}\n.suSUf {\n    background: RGB(68, 71, 90);\n}\n.GLcBOb .pZvJc {\n    background-color: #282A36;\n}\n/* .Ap1Qsc {\n    background: #282A36 !important;\n} */\n/* div.ZDHp {\n    background: #44475A !important;\n} */\nli.AB2Fdd.o6OF0.DJbVFb {\n    background: #040B0F !important;\n}\ndiv.ZFiwCf {\n    background: #44475A !important;\n}\n.xDKLO div.Ww4FFb.vt6azd {\n    background: #44475A !important;\n}\n\n.I6TXqe {\n    background: #44475A !important;\n}\n\n/* div.Ww4FFb.vt6azd {\n    background: #44475A !important;\n} */\na.ZpEhbb.BWikKb {\n    background: #FF79C6;\n    border: none;\n    color: #F8F8F2 !important;\n}\n.xDKLO div.S8ee5.CwbYXd.wHYlTd {\n    /* more experiences */\n    background: #6272A4 !important;\n}\n\n.ab_button {\n    background: #6272A4 !important;\n    color: #F8F8F2 !important;\n    border-radius: 5px;\n\n    transition: background-color 0.3s ease;\n}\n.ab_button span {\n    color: #F8F8F2 !important;\n}\n.uais2d {\n    background: #44475A !important;\n}\n.ZkkK1e {\n    background: #44475A !important;\n}\n\n.lr_container { /* dictionary */\n    background: #040B0F !important;\n}\n.MR2UAc {\n    background: #44475A !important;\n}\n.zrlv1d {\n    background: #040B0F !important;\n}\nli.AB2Fdd {\n    background: #6272A4 !important;\n}\n\n/* .g9WsWb {\n    background: #44475A !important;\n} */\n.oSioSc .m1hag { /* translate */\n    background: #44475A !important;\n}\n.qkizKf span { /* translate-popup */\n    color: #040B0F;\n}\ndiv.zaokob {\n    background: #282A36 !important;\n    border: 1px solid #FF79C6 !important;\n}\ninput.tw-lp-search {\n    border: 1px solid #6272A4 !important;\n}\n.ifM9O {\n    background: #040B0F !important;\n}\n.w43QB {\n    background: #040B0F !important;\n}\n\n/* fin market summary */\n/* overview / compare button */\n.Maj6Tc {\n    border: 2px solid rgba(255, 184, 108, 0.5);\n}\nspan.REySof.T9jMmf {\n    background: #44475f;\n    transition: background 0.3s ease;\n}\nspan.REySof.T9jMmf:hover {\n    background: #6272A4;\n}\n\ndiv.knowledge-finance-wholepage-chart__hover-card {\n    /* floating box */\n    background: #44475A;\n    box-shadow: 1px 1px 8px 2px #171717;\n}\n\nspan.wh9d9d {\n    /* text h */\n    background: #040B0F !important;\n}\n\ndiv.yvg0ob span {\n    background: #040B0F !important;\n}\n\n.uch-xa-tl {\n    /* text v */\n    background: #040B0F !important;\n}\n\nspan.fw-price-dn {\n    /* price change chard background */\n    background: #BD93F9 !important;\n}\n.z1asCe svg {\n    /* icon */\n    fill: #ffffff;\n}\n.jBBUv span {\n    color: #ffffff;\n}\n\n.S7JRS {\n    background: #040B0F;\n    transition: background 0.3s ease\n}\n.S7JRS:hover {\n    background: #6272A4;\n}\n\n\n.kuydt {\n    background: #040B0F;\n}\n.iHM8f {\n    background: #040B0F !important;\n}\n\n.uMdZh.tIxNaf.alUjuf {\n    background: #040B0F !important;\n}\n.uMdZh.tIxNaf.alUjuf:hover {\n    background: #44475A !important;\n}\n\ndiv.KWnk8d {\n/*     background:#BD93F9 !important; */\n    border: 1px solid #6272A4;\n}\n\ndiv.KWnk8d input, div.KWnk8d div {\n    background: #44475A;\n}\n\n/* div.egcvbb input, div.egcvbb div { */\ndiv.wLNyTe div {\n    background: #44475A !important;\n}\n\n\n/* reviews */\n.uVGhGc { /* blank */\n    background: #6272A4 !important;\n}\n.l2gNXd {\n    background: #FF79C6 !important;\n}\n\n/* modal box */\n.sfvOwf {\n    background: #44475A !important;\n}\n \n\n\n/* compare search */\n.EEmK6c {\n    background-color: #44475A;\n}\ninput.KIdUu {\n    background: #44475A;\n    color: #F8F8F2;\n}\ninput.KIdUu::placeholder {\n    color: #b0b4ca;\n}\n\n/* image search page */\ndiv.wIjY0d.jFk0f {\n    background: #040B0F !important;\n}\n.H8Rx8c {\n    /* items */\n    background: #44475A !important;\n}\ndiv.GKS7s {\n    /* suggestions */\n    background: #44475A !important;\n}\n.vezEod {\n    /* gradient */\n    background: linear-gradient(to right, transparent 0%, #282A36 60%, #282A36) !important;\n}\nsBbkle {\n    background: linear-gradient(to left, transparent 0%, #282A36 60%, #282A36) !important;\n}\n\n.zp6Lyf.FpfXM {\n    background: #040B0F !important;\n}\n\n\n.x5f7Bc {\n    /* buttons */\n    fill: #ffffff;\n}\n\n\n/* image-related searches */\n.BA0zte {\n    background: #44475A;\n}\n\ndiv.ntcwRe {\n    background: #44475A;\n}\n.yLRPV > svg {\n    fill: #ffffff;\n}\n\n\n/* shopping page */\ndiv.i0X6df {\n    background: #44475A;\n}\ndiv.sh-dr__g {\n    background: #44475A;\n}\ndiv.sh-dr__g.zehhyb {\n    /* exception */\n    background: #040B0F;\n}\n/* .baeIxf::placeholder {\n    background: #44475A !important;\n} */\nspan.yLkPM span {\n    /* min low */\n    background: #44475A;\n}\n\ndiv.vkYnff {\n    /* sort by : --- */\n    color: #b0b4ca !important;\n}\n\n\n/* videos page */\ndiv.ITZIwc.p4wth {\n    color: #b0b4ca !important;\n}\n\n/* ------------------------------------------------------- */\n/* Age Block */\n.NEw0P {\n    /* corner back */\n    background: #040B0F;\n}\n\n.Qc895c {\n    /* block 1 */\n    background: #44475A !important;\n}\n.hjFrpb.PZPZlf {\n    background: #44475A !important;\n}\n\n\n/* search result */\n.N54PNb,\n.HG5ZQb {\n    background: #040B0F;\n}\n/* side card */\ndiv.KcXNxb {\n    background: #040B0F;\n}\ndiv.W0urI {\n    background: #44475A;\n}\n\n.zf84ud.THG0oc.wdQNof,\n.ZYHQ7e.kLhEKe.vRDmnf.wHYlTd {\n    background: #44475A;\n}\n/* ------------------------------------------------------- */\n/* text */\ncite.qLRx3b.tjvcx.GvPZzd.cHaqb {\n    color: #b0b4ca !important;\n}\nspan.VuuXrf {\n    color: #b0b4ca !important;\n}\nspan.ylgVCe.ob9lvb {\n    color: #b0b4ca !important;\n}\na {\n    color: #8da8fb !important;\n}\n.hgKElc b {\n    color: #8BE9FD !important;\n    /*     background-color: #44475A !important; */\n}\n.zz3gNc {\n    color: #b0b4ca !important;\n}\ndiv.VwiC3b.yXK7lf.p4wth.r025kc.hJNv6b.Hdw6tb {\n    color: #b0b4ca !important;\n}\n\na:visited {\n    color: #697ec0 !important;\n}\nspan.yi40Hd.YrbPuc {\n    color: #46af43 !important;\n    font-weight: bold !important;\n}\nspan.ChPluf.YrbPuc {\n    color: #b0b4ca !important;\n}\ndiv.VwiC3b.fS1kJf.p4wth.r025kc.hJNv6b {\n    color: #b0b4ca !important;\n}\nspan.LrzXr.kno-fv.wHYlTd.z8gr9e {\n    color: #b0b4ca !important;\n}\n\n/* ------------------------------------------------------- */\n/* images - View more images button  */\n.ZFiwCf {\n    background: #44475A;\n}\n\n/* ------------------------------------------------------- */\n/* videos - View more */\ndiv.S8ee5.CwbYXd.wHYlTd {\n    background: #44475A;\n}\n\n/* ------------------------------------------------------- */\n/*\n    suggestions\n*/\n.vIifob {\n    background: #44475A;\n}\n\n/* ------------------------------------------------------- */\n/* Page Navigator */\n/* activated */\ntd.YyVfkd.NKTSme {\n    color: #f5509c;\n    font-weight: bold;\n}\n/* td.NKTSme a {\n    color: #b0b4ca;\n}\n */\n/* ------------------------------------------------------- */\n/* footer */\n#fbar.f6F9Be.TrMVnc,\n.f6F9Be {\n    /*     background: #18191e; */\n    background: #040B0F;\n    /*     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); */\n    border-top: 1px solid #6272A4;\n}\n/* help sendfeedback privacy terms */\n/* .wHYlTd { */\na#dk2qOd.Fx4vi.wHYlTd {\n    background: #040B0F;\n}\na.Fx4vi.wHYlTd.ZYHQ7e {\n    background: #040B0F;\n}\ndiv.VtPCGb {\n    color: #f5509c;\n    font-weight: bold;\n}\n\nspan.Q8LRLc {\n    /* country */\n    color: #BD93F9 !important;\n}\n\n\n\n\n/* ------------------------------------------------------- */\n/* .PJI6ge {\n    \n} */\nspan.mgAbYb.OSrXXb.RES9jf.IFnjPb {\n    color: #ffffff;\n    /* 기본 글자 색 */\n    transition: color 0.5s ease;\n    /* 색상 전환 애니메이션 */\n}\nspan.mgAbYb.OSrXXb.RES9jf.IFnjPb:hover {\n    color: #BD93F9;\n}\n\n/* ------------------------------------------------------- */\n/* search box */\n.RNNXgb {\n    background-color: #44475A !important;\n    border: 2px solid #6272A4 !important;\n\n    transition: width 0.3s ease;\n}\n\ndiv.erkvQe {\n    /*     background-color: #44475A !important; */\n    background-color: rgba(68, 71, 90, 0.4) !important;\n\n    /*     border: 2px solid #6272A4 !important; */\n}\ndiv.aajZCb {\n    /*     background-color: #44475A !important; */\n    background-color: rgba(68, 71, 90, 0.88) !important;\n    /*     border-right: 2px solid #6272A4 !important; */\n}\n\nli.sbhl {\n    background: #6272A4;\n    /*     transition: background 0.2s ease-in-out; */\n}\nli.sbct.PZPZlf.yMAEcf {\n    background: #040B0F;\n    border: 1px solid #FF79C6;\n}\n\n\n/* ------------------------------------------------------- */\n/* split */\n/* h */\n.iRPzcb {\n    /* left side */\n    border-bottom: 1px solid #44475A;\n}\n#rhs .u7yw9 .cLjAic {\n    /* right side */\n    border-bottom: 1px solid #44475A;\n}\n\nhr.Bi9oQd {\n    /* show more images bar */\n    background: #44475A;\n}\n.akqY6 {\n    /* feedback */\n    background: #44475A;\n}\n/* v */\n#rhs .u7yw9 {\n    border-left: 1px solid #44475A;\n}\n.sHEJob {\n    border-top: 1px solid #44475A;\n}\n.JJZKK.Wui1sd {\n    border-right: 1px solid #44475A;\n}\n.WxVj2b {\n    background: #44475A;\n}\n.KLEmSd,\n.XPA7rb {\n    border-bottom: 1px solid #44475A;\n}\n.rhHIGd {\n    background-color: #44475A;\n}\n.Hwkikb.WY0eLb {\n    border-left: 1px solid #44475A;\n}\n.GCSyeb {\n    background: #44475A;\n}\n.webanswers-webanswers_table__webanswers-table tr {\n    border-bottom: 1px solid #44475A;\n}\n.Esev1b {\n    border-bottom: 1px solid #6272A4;\n}\n\n#swml {\n    /* footer #1 */\n    border-left: 1px solid #44475A;\n}\n.b2hzT {\n    /* footer #2 */\n    border-bottom: 1px solid #44475A;\n}\n\n/* tickets */\na.ZpEhbb.ygsxke {\n    color: #F8F8F2 !important;\n    background: #BD93F9 !important;\n    border: none;\n}\n.zhZ3gf {\n    /*     background: #000000; */\n}\n.ggc73c {\n    background: #44475A !important;\n    border: 1px solid #6272A4;\n    transition: background 0.3s ease;\n}\n.ggc73c:hover {\n    background: #6272A4 !important;\n}\n.ZFr60d.CeoRYc {\n    background: #040B0F !important;\n    ;\n}\n}\n\n@-moz-document regexp(\"https?://www\\\\.google(\\\\.com?)?(\\\\.[a-z][a-z])?/(|\\\\?gws_rd.*|\\\\?gfe_rd.*|webhp\\\\?.*)\") {\n/* background */\n/* body */\n.L3eUgb {\n    background: #040B0F;\n}\n\n/* header */\n.gb_Ea {\n    background: #040B0F !important;\n}\n\n/* logo */\n/* .lnXdpd {\n    display: none;\n} */\n.k1zIA.rSk4se {\n    /*     background-image: url(https://draculatheme.com/images/hero/dracula-icon.svg) !important; */\n    background-position: center center !important;\n    background-repeat: no-repeat !important;\n    display: block;\n}\n\n\n/* footer */\n.c93Gbe {\n    background: #282A36 !important;\n    /*     border-top: 1px solid #6272A4 !important; */\n}\n\n.uU7dJb {\n    color: #BD93F9 !important;\n    border-bottom: 1px solid #6272A4 !important;\n}\n\n/* button under search bar */\n.lJ9FBc input[type=\"submit\"],\n.gbqfba {\n    background: #44475A !important;\n    transition: border 0.3s ease;\n}\n.lJ9FBc input[type=\"submit\"]:hover {\n    border: 1px solid #6272A4;\n}\n\n/* search box */\n.RNNXgb,\n.sbibod {\n    border: 2px solid #6272A4 !important;\n    background-color: #44475A !important;\n}\n\n.QCzoEc svg {\n    fill: #ffffff;\n}\n\ndiv.aajZCb {\n    background-color: #44475A !important;\n    /*     border-right: 2px solid #6272A4 !important; */\n}\n\nli.sbhl {\n    background: #6272A4;\n}\n\n/* Google offered in: Lang */\n#SIvCob a {\n    color: #FF79C6 !important;\n}\n\ninput.RNmpXc {\n    /*     background: #ff0000; */\n}\n}",
+    "usercssData": {
+      "name": "Google-Dracula",
+      "version": "20250103.01.05",
+      "namespace": "https://userstyles.world/user/DokaDev",
+      "description": "This is a theme that applies the Dracula color scheme to the Google main and search pages.",
+      "author": "DokaDev",
+      "license": "MIT"
+    },
+    "author": "DokaDev",
+    "description": "This is a theme that applies the Dracula color scheme to the Google main and search pages.",
+    "name": "Google-Dracula",
+    "updateUrl": "https://userstyles.world/api/style/19469.user.css",
+    "originalDigest": "16926ecb58dd4bc59743b59a2fe7cdac4ab87667",
+    "_id": "474c0526-b3be-4de0-9889-7a66c3bcc3a4",
+    "_rev": 1736725606830,
+    "id": 5,
+    "updateDate": 1736725606830,
+    "url": "https://userstyles.world/style/19469",
+    "installationUrl": "https://userstyles.world/style/19469"
+  }
+]
