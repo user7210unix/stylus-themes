@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>~</title>
+    <style>
+        @font-face {
+            font-family: 'Iosevka Nerd Font';
+            src: url('fonts/IosevkaNerdFont-Bold.ttf') format('truetype');
+    }
+
+        body {
+            background-color: #151d26;
+            color: #e6f3fa;
+            font-family: 'Iosevka Nerd Font', monospace;
+            font-size: 17px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .search-bar {
+            background: none;
+            border: 0px solid #e6f3fa;
+            color: #e6f3fa;
+            text-align: center;
+            font-family: 'Iosevka Nerd Font', monospace;
+            font-size: 16px;
+            padding: 8px;
+            width: 300px;
+            outline: none;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .links a {
+            color: #e6f3fa;
+            text-decoration: none;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form action="https://searx.stream/" method="GET">
+            <input type="text" name="q" class="search-bar" placeholder="Search">
+        </form>
+        <div class="links">
+            <a href="https://boards.4chan.org/g/">/g/</a>
+            <a href="https://boards.4chan.org/pol/">/pol/</a>
+            <a href="https://boards.4chan.org/b/">/b/</a>
+            <a href="https://redlib.freedit.eu/r/unixporn">r/unix</a>
+        </div>
+    </div>
+</body>
+</html>
