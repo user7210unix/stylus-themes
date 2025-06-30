@@ -1,0 +1,425 @@
+/* ==UserStyle==
+@name           4chan Tomorrow Night Theme
+@namespace      https://github.com/user7210unix
+@homepageURL    https://github.com/user7210unix
+@author         user7210unix
+@description    Modern Tomorrow Night theme for 4chan with enhanced typography, shadows, and UI for 4chan X and OneeChan
+@version        4.1
+@preprocessor   stylus
+==/UserStyle== */
+
+/* Tomorrow Night Colorscheme */
+:root {
+    --bg: #1d1f21; /* Background */
+    --alt-bg: #2d2d2d; /* Secondary background */
+    --post-bg: #252526; /* Post background */
+    --neutral-bg: #3c3f41; /* Neutral UI elements */
+    --header-bg: #2d2d2d; /* Header background */
+    --main-text: #c5c8c6; /* Primary text */
+    --secondary-text: #969896; /* Secondary text */
+    --third-text: #707880; /* Muted text */
+    --highlight: #81a2be; /* Blue highlight for links/hover */
+    --greentext: #b5bd68; /* Green for quotes */
+    --accent-border: #373b41; /* Border color */
+    --shadow: rgba(0, 0, 0, 0.3); /* Shadow color */
+}
+
+/* Font Import */
+@font-face {
+    font-family: 'Panton';
+    src: url('https://raw.githubusercontent.com/LearnixOS/learnixos.github.io/main/assets/fonts/panton.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Global Reset and Base Styles */
+*, *:before, *:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    color: var(--main-text);
+    background: var(--bg);
+    font-family: 'Panton', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Header Bar */
+#header-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    background: var(--header-bg);
+    height: 50px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 3px 8px var(--shadow);
+    border-bottom: 1px solid var(--accent-border);
+    transition: background 0.3s ease;
+}
+
+span.boardList {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--third-text);
+}
+
+#board-list {
+    max-width: 80%;
+    margin: 0 auto;
+    display: flex;
+    gap: 10px;
+}
+
+#board-list a {
+    text-decoration: none;
+    color: var(--third-text);
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+#board-list a:hover {
+    color: var(--highlight);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Settings Buttons for OneeChan and 4chan X */
+.settings-link, #watcher-link, span.menu-button, #shortcut-gallery {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    margin: 0 4px;
+    background: var(--neutral-bg);
+    border: 1px solid var(--accent-border);
+    border-radius: 6px;
+    color: var(--main-text);
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.settings-link:hover, #watcher-link:hover, span.menu-button:hover {
+    background: var(--highlight);
+    color: var(--bg);
+    box-shadow: 0 2px 6px var(--shadow);
+}
+
+.settings-link.fa-wrench:before {
+    content: "Options";
+    font-family: 'Panton', sans-serif;
+}
+
+/* Hide Anonymous Name */
+div.postInfo span.nameBlock span.name:not(.postuid) {
+    display: none;
+}
+
+/* Board List */
+.desktop-style div.boardlist:nth-child(1) {
+    background: var(--header-bg);
+    padding: 12px;
+    color: var(--main-text);
+    font-size: 14px;
+    border-bottom: 1px solid var(--accent-border);
+}
+
+/* Catalog Grids */
+.thread.grid-li {
+    background: var(--post-bg);
+    border: 1px solid var(--accent-border);
+    border-radius: 12px;
+    padding: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.thread.grid-li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px var(--shadow);
+}
+
+.theme-catalog div.thread {
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Posting Form */
+form table tr th {
+    background: var(--neutral-bg);
+    color: var(--main-text);
+    border: 1px solid var(--accent-border);
+    padding: 12px;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+textarea, input:not([type="file"]):not([type="checkbox"]), [type="submit"], select {
+    background: var(--neutral-bg);
+    color: var(--main-text);
+    border: 1px solid var(--accent-border);
+    border-radius: 8px;
+    padding: 10px;
+    font-family: 'Panton', sans-serif;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+textarea:focus, input:not([type="file"]):not([type="checkbox"]):focus, [type="submit"]:hover {
+    border-color: var(--highlight);
+    box-shadow: 0 0 10px rgba(129, 162, 190, 0.4);
+    outline: none;
+}
+
+/* Greentext */
+span.quote {
+    color: var(--greentext);
+    font-weight: 500;
+}
+
+/* Post Styling */
+div.reply, .opContainer {
+    background: var(--post-bg);
+    border: 1px solid var(--accent-border);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 12px 0;
+    box-shadow: 0 3px 10px var(--shadow);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+div.reply:hover, .opContainer:hover {
+    box-shadow: 0 6px 16px var(--shadow);
+    transform: translateY(-2px);
+}
+
+div.opContainer {
+    min-height: 200px;
+    width: 98%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Post Header */
+p.intro {
+    background: var(--neutral-bg);
+    border: 1px solid var(--accent-border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--secondary-text);
+}
+
+/* Thread Container */
+div.thread {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+/* QR Form (Sticky) */
+#qr {
+    position: fixed;
+    background: var(--header-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px var(--shadow);
+    padding: 14px;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+#qr form {
+    background: var(--post-bg);
+    border: 1px solid var(--accent-border);
+    border-radius: 8px;
+    padding: 12px;
+}
+
+#qr .field, .field {
+    background: var(--neutral-bg);
+    border: 1px solid var(--accent-border);
+    color: var(--main-text);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* Image Styling */
+img {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--shadow);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+img:hover {
+    opacity: 0.95;
+    transform: scale(1.03);
+}
+
+a.fileThumb, div.post div.file .fileThumb img {
+    float: right;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+/* Backlinks */
+.backlink {
+    font-size: 13px;
+    color: var(--secondary-text);
+    text-decoration: none;
+    margin-right: 8px;
+    transition: color 0.2s ease;
+}
+
+.backlink:hover {
+    color: var(--highlight);
+}
+
+.backlink::after {
+    content: ' →';
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+}
+
+.backlink:hover::after {
+    opacity: 1;
+}
+
+/* Thread Watcher */
+#thread-watcher {
+    position: fixed;
+    left: -260px;
+    top: 60px;
+    width: 260px;
+    height: 85vh;
+    background: var(--post-bg);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 16px var(--shadow);
+    transition: left 0.3s ease;
+    z-index: 999;
+    overflow-y: auto;
+}
+
+#thread-watcher:hover {
+    left: 0;
+}
+
+#thread-watcher a {
+    color: var(--highlight);
+    text-decoration: none;
+}
+
+#thread-watcher a:hover {
+    color: var(--main-text);
+}
+
+/* Catalog Styling */
+.board {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.catalog-mode:root .board {
+    background: var(--alt-bg);
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 3px 10px var(--shadow);
+}
+
+.catalog-stats {
+    background: var(--neutral-bg);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--secondary-text);
+}
+
+.catalog-thread .subject {
+    background: var(--post-bg);
+    padding: 8px;
+    border-radius: 8px;
+    font-weight: 500;
+    color: var(--main-text);
+}
+
+.catalog-thread .comment {
+    background: var(--post-bg);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--secondary-text);
+}
+
+.catalog-post:hover {
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 6px 16px var(--shadow);
+    transform: translateY(-3px);
+}
+
+/* Hide Unnecessary Elements */
+#blotter, .globalMessage, #bannerCnt, .boardSubtitle,
+.bottomCtrl.desktop, #absbot.navLinksBot.desktop, .hats-enabled:root .catalog-small > .catalog-thread::after,
+.party-hat, #skellington, .navLinks.desktop, .navLinks.navLinksBot.desktop {
+    display: none !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #header-bar {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px;
+    }
+
+    span.boardList {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    #thread-watcher {
+        width: 80%;
+        left: -80%;
+    }
+
+    div.thread {
+        padding: 16px;
+        max-width: 100%;
+    }
+
+    .catalog-post-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    #header-bar {
+        padding: 8px;
+    }
+
+    .settings-link, #watcher-link, span.menu-button {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+
+    div.post, .opContainer {
+        padding: 12px;
+    }
+
+    #qr {
+        padding: 10px;
+    }
+}
