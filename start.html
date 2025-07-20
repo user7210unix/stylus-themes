@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>/start/</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        body {
+            background: #1C2526; /* Dark navy from Color Hunt */
+            color: #BEE7FF; /* Light pastel blue */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #A2D2FF; /* Pastel blue */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px #000;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .datetime {
+            font-size: 1rem;
+            color: #789e55; /* Greentext green */
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .search-bar form {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+        }
+
+        .search-bar input {
+            padding: 8px;
+            width: 100%;
+            max-width: 300px;
+            border: 2px solid #A2D2FF;
+            background: #2E3B3E; /* Slightly lighter navy */
+            color: #BEE7FF;
+            font-size: 0.9rem;
+            outline: none;
+            border-radius: 0;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar input:focus {
+            border-color: #789e55;
+        }
+
+        .search-bar button {
+            padding: 8px 16px;
+            border: 2px solid #A2D2FF;
+            border-left: none;
+            background: #2E3B3E;
+            color: #BEE7FF;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .search-bar button:hover {
+            background: #789e55;
+            color: #1C2526;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .category-btn {
+            padding: 10px 20px;
+            border: 2px solid #789e55;
+            background: #2E3B3E;
+            color: #BEE7FF;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-btn:hover {
+            background: #789e55;
+            color: #1C2526;
+            transform: scale(1.05);
+        }
+
+        .category-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .category-btn:hover::after {
+            left: 100%;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: #2E3B3E;
+            border: 3px solid #A2D2FF;
+            padding: 15px;
+            z-index: 1000;
+            width: 90%;
+            max-width: 350px;
+            animation: popupIn 0.3s ease-out forwards;
+        }
+
+        .popup h2 {
+            color: #A2D2FF;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .popup ul {
+            list-style: none;
+        }
+
+        .popup li {
+            margin: 8px 0;
+            color: #789e55; /* Greentext style */
+            font-size: 0.9rem;
+        }
+
+        .popup a {
+            color: #BEE7FF;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .popup a:hover {
+            color: #789e55;
+        }
+
+        .greentext::before {
+            content: '>';
+            color: #789e55;
+            margin-right: 5px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #A2D2FF;
+            color: #1C2526;
+            border: none;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            border-radius: 0;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(28, 37, 38, 0.8);
+            z-index: 999;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes popupIn {
+            from { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 600px) {
+            .title { font-size: 1.8rem; }
+            .datetime { font-size: 0.9rem; }
+            .search-bar input { max-width: 250px; font-size: 0.8rem; }
+            .search-bar button { padding: 8px 12px; font-size: 0.8rem; }
+            .category-btn { padding: 8px 16px; font-size: 0.8rem; }
+            .popup { max-width: 90%; padding: 10px; }
+            .popup h2 { font-size: 1rem; }
+            .popup li { font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <div class="container">
+        <h1 class="title">/start/</h1>
+        <div class="datetime" id="datetime"></div>
+        <div class="search-bar">
+            <form action="https://www.startpage.com/sp/search" method="get">
+                <input type="text" name="query" placeholder=">search the web">
+                <button type="submit">Go</button>
+            </form>
+        </div>
+        <div class="button-container">
+            <button class="category-btn" onclick="showPopup('chans')">/chans/</button>
+            <button class="category-btn" onclick="showPopup('social')">/social/</button>
+            <button class="category-btn" onclick="showPopup('media')">/media/</button>
+            <button class="category-btn" onclick="showPopup('utils')">/utils/</button>
+            <button class="category-btn" onclick="showPopup('misc')">/misc/</button>
+        </div>
+    </div>
+
+    <div class="popup" id="chans">
+        <button class="close-btn" onclick="closePopup()">×</button>
+        <h2>/chans/</h2>
+        <ul>
+            <li class="greentext"><a href="https://boards.4chan.org/g/" target="_blank">/g/ - Tech</a></li>
+            <li class="greentext"><a href="https://boards.4chan.org/pol/" target="_blank">/pol/ - Politics</a></li>
+            <li class="greentext"><a href="https://8kun.top/pol/" target="_blank">8kun /pol/</a></li>
+            <li class="greentext"><a href="https://zzzchan.xyz/" target="_blank">zzzchan</a></li>
+            <li class="greentext"><a href="https://qalerts.app/" target="_blank">QAlerts</a></li>
+        </ul>
+    </div>
+
+    <div class="popup" id="social">
+        <button class="close-btn" onclick="closePopup()">×</button>
+        <h2>/social/</h2>
+        <ul>
+            <li class="greentext"><a href="https://nitter.net/" target="_blank">Nitter</a></li>
+            <li class="greentext"><a href="https://www.reddit.com" target="_blank">Reddit</a></li>
+            <li class="greentext"><a href="https://x.com" target="_blank">X</a></li>
+            <li class="greentext"><a href="https://www.twitch.tv" target="_blank">Twitch</a></li>
+        </ul>
+    </div>
+
+    <div class="popup" id="media">
+        <button class="close-btn" onclick="closePopup()">×</button>
+        <h2>/media/</h2>
+        <ul>
+            <li class="greentext"><a href="https://invidious.io/" target="_blank">Invidious</a></li>
+            <li class="greentext"><a href="https://catbox.moe/" target="_blank">Catbox</a></li>
+            <li class="greentext"><a href="https://open.spotify.com" target="_blank">Spotify</a></li>
+            <li class="greentext"><a href="https://music.youtube.com" target="_blank">YT Music</a></li>
+        </ul>
+    </div>
+
+    <div class="popup" id="utils">
+        <button class="close-btn" onclick="closePopup()">×</button>
+        <h2>/utils/</h2>
+        <ul>
+            <li class="greentext"><a href="https://www.google.com/drive/" target="_blank">GDrive</a></li>
+            <li class="greentext"><a href="https://www.dropbox.com" target="_blank">Dropbox</a></li>
+            <li class="greentext"><a href="https://www.notion.so" target="_blank">Notion</a></li>
+            <li class="greentext"><a href="https://redlib.org/" target="_blank">Redlib</a></li>
+        </ul>
+    </div>
+
+    <div class="popup" id="misc">
+        <button class="close-btn" onclick="closePopup()">×</button>
+        <h2>/misc/</h2>
+        <ul>
+            <li class="greentext"><a href="https://www.wikipedia.org" target="_blank">Wikipedia</a></li>
+            <li class="greentext"><a href="https://news.ycombinator.com" target="_blank">Hacker News</a></li>
+            <li class="greentext"><a href="https://archive.org" target="_blank">Archive</a></li>
+            <li class="greentext"><a href="https://www.github.com" target="_blank">GitHub</a></li>
+        </ul>
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = {
+                weekday: 'short',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            document.getElementById('datetime').textContent = now.toLocaleString('en-US', options);
+        }
+
+        function showPopup(id) {
+            document.querySelectorAll('.popup').forEach(p => p.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.querySelectorAll('.popup').forEach(p => p.style.display = 'none');
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>
