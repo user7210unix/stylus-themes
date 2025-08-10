@@ -1,0 +1,192 @@
+@-moz-document domain("8kun.top") {
+/* ==UserStyle==
+@name         8kun Tomorrow Unixporn Theme
+@namespace    github.com/openstyles/stylus
+@version      1.1.0
+@description  A custom dark theme for 8kun.top inspired by 4chan's Tomorrow theme, with unixporn-style ricing for clean, modern look. Improved for minimalism: hides unnecessary headers, banners, ads, and footers.
+@author       Grok
+@preprocessor stylus
+==/UserStyle== */
+
+:root {
+        --bg: #1d1f21;
+        --bg-secondary: #1d1f21;
+        --text: #dadbdb;
+        --text-secondary: #969896;
+        --link: #81a2be;
+        --border: #4b4f5678;
+        --link-hover: #5f89ac;
+        --quote: #b5bd68;
+        --subject: #cc6666;
+        --name: #de935f;
+        --spoiler-bg: #282a2e;
+        --spoiler-text: #282a2e;
+        --spoiler-hover: #c5c8c6;
+        --accent: #8abeb7;
+        --warning: #cc6666;
+    }
+
+    * {
+        font-family: 'Terminus', monospace !important;
+        font-size: 19px !important;
+    }
+
+    body, html {
+        background: var(--bg) !important;
+        color: var(--text) !important;
+        margin: 0 !important;
+        padding: 10px !important;
+    }
+
+    a, a:visited {
+        color: var(--link) !important;
+        text-decoration: none !important;
+    }
+
+    a:hover {
+        color: var(--link-hover) !important;
+    }
+
+    .quote {
+        color: var(--quote) !important;
+    }
+
+    .subject {
+        color: var(--subject) !important;
+    }
+
+    .name {
+        color: var(--name) !important;
+    }
+
+    .spoiler {
+        background: var(--spoiler-bg) !important;
+        color: var(--spoiler-text) !important;
+    }
+
+    .spoiler:hover {
+        color: var(--spoiler-hover) !important;
+    }
+
+    .post, .reply, .op {
+        background: var(--bg-secondary) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 4px !important;
+        padding: 8px !important;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, .49) !important;
+        margin-bottom: 10px !important;
+    }
+
+    .intro {
+        margin-bottom: 5px !important;
+    }
+
+    .body {
+        line-height: 1.4 !important;
+    }
+
+    .files, .file {
+        margin-top: 5px !important;
+    }
+
+    .fileinfo {
+        color: var(--text-secondary) !important;
+    }
+
+    .thread {
+        margin-bottom: 20px !important;
+    }
+
+    .boardlist, .board-title, .board-subtitle {
+        background: var(--bg-secondary) !important;
+        border-bottom: 1px solid var(--border) !important;
+        padding: 5px !important;
+    }
+
+    .header, .banner {
+        background: var(--bg) !important;
+        color: var(--text) !important;
+    }
+
+    .postForm, form {
+        background: var(--bg-secondary) !important;
+        border: 1px solid var(--border) !important;
+        padding: 10px !important;
+        border-radius: 4px !important;
+    }
+
+    input, textarea {
+        background: var(--bg) !important;
+        color: var(--text) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 2px !important;
+    }
+
+    .rules {
+        color: var(--text-secondary) !important;
+    }
+
+    .error, .warning {
+        color: var(--warning) !important;
+    }
+
+    .success {
+        color: var(--quote) !important;
+    }
+
+    .omit {
+        color: var(--text-secondary) !important;
+    }
+
+    .backlink {
+        color: var(--link) !important;
+    }
+
+    .highlighted {
+        border-color: var(--accent) !important;
+    }
+
+    /* Hide unnecessary elements for cleaner look */
+    #blotter, .middlead, .abovePostForm, .danbo-slot,
+    .boardlist, /* Hides top and bottom navigation bars */
+    .header, /* Hides header bar */
+    .img_banner, /* Hides any banners */
+    .img.board_image,
+    footer, /* Hides footer, potentially including Substack promo */
+    a[href*="twitter.com"], a[href*="x.com"], /* Hides Twitter/X links */
+    a[href*="donate"], a[href*="shop.isitwetyet.com"], /* Targets donation links */
+    .blotter-msg, /* Additional blotter hiding for announcements/donations */
+    [href*="substack"], .substack /* Attempts to hide Substack-related elements */
+    {
+        display: none !important;
+    }
+
+    /* Unixporn touches: minimal borders, shadows, increased spacing for readability */
+    hr {
+        border: 0 !important;
+        border-top: 1px solid var(--border) !important;
+    }
+
+    table {
+        border-collapse: collapse !important;
+    }
+
+    td, th {
+        border: 1px solid var(--border) !important;
+        padding: 5px !important;
+    }
+
+    /* Additional improvements for minimalism and usability */
+    .thread {
+        padding: 10px !important;
+    }
+
+    .post {
+        margin: 15px 0 !important;
+    }
+
+    /* Hide voice recording if annoying */
+    .voice-recorder {
+        display: none !important;
+    }
+}
