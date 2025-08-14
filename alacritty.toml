@@ -1,0 +1,101 @@
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "V"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "C"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = "Key0"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Equals"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Minus"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\u001BF"
+key = "Right"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\u001BB"
+key = "Left"
+mods = "Control"
+
+[general]
+live_config_reload = true
+
+[colors.bright]
+black = "#7F8CAA"
+blue = "#33A1E0"
+cyan = "#80D8C3"
+green = "#7ADAA5"
+magenta = "#FEC5F6"
+red = "#FB4141"
+white = "#ffffff"
+yellow = "#EBCB8B"
+
+[colors.normal]
+black = "#7F8CAA"
+blue = "#33A1E0"
+cyan = "#80D8C3"
+green = "#7ADAA5"
+magenta = "#F564A9"
+red = "#FB4141"
+white = "#FEC5F6"
+yellow = "#FFF9AF"
+
+[colors.primary]
+background = "#2E3440"
+foreground = "#ffffff"
+
+[font]
+size = 13.0
+
+[font.bold]
+family = "JetBrainsMono Nerd Font"
+style = "Bold"
+
+[font.bold_italic]
+family = "JetBrainsMono Nerd Font"
+style = "Bold Italic"
+
+[font.italic]
+family = "JetBrainsMono Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "JetBrainsMono Nerd Font"
+style = "Regular"
+
+[font.offset]
+x = 0
+y = 0
+
+[scrolling]
+history = 10000
+multiplier = 10
+
+[selection]
+save_to_clipboard = true
+semantic_escape_chars = ''',│`|:"' ()[]{}<>'''
+
+[window.padding]
+x = 14
+y = 14
+
+[keyboard]
