@@ -1,0 +1,434 @@
+/* ==UserStyle==
+@name           4chan Classic Dark Theme (2004 Edition)
+@namespace      USO Archive
+@author         Anonymous
+@description    Old Web aesthetic. Compatible with 4chan X.
+@version        20040101
+@license        NONE
+@preprocessor   stylus
+==/UserStyle== */
+
+@-moz-document domain("4chan.org"), domain("boards.4chan.org"), domain("boards.4channel.org"), domain("4chan.org/frames") {
+   
+   /* === BASE - Pure black background === */
+   body {
+      background-color: #000000 !important;
+      color: #CCCCCC !important;
+      font-family: serif !important;
+      font-size: 12pt !important;
+      padding: 5px !important;
+      margin: 5px !important;
+   }
+
+   /* === HIDE ADS - Clean oldschool look === */
+   .adg-rects, ins.adsbygoogle, .blotter.desktop, .adl, .globvalMessage, .aboveMidAd, .boardBanner, .h2, .blotter-msgs,
+   .topad, .middlead, .botad, div[id^="google_ads"], .qr-link-container {
+      display: none !important;
+   }
+
+   /* === HEADER === */
+   .boardBanner {
+      background: #000000 !important;
+   }
+
+   .boardTitle {
+      background: #000000 !important;
+      color: #CCCCCC !important;
+      font-family: serif !important;
+      font-size: 24pt !important;
+      font-weight: normal !important;
+      text-align: center !important;
+      padding: 10px !important;
+   }
+
+   /* === NAVIGATION === */
+   .boardList, .nav, .navLinks, .navLinks.desktop {
+      background: #000000 !important;
+      color: #CCCCCC !important;
+      font-family: serif !important;
+      font-size: 9pt !important;
+      text-align: center !important;
+      padding: 5px !important;
+   }
+
+   /* === LINKS - Grey with underlines === */
+   a {
+      color: #CCCCCC !important;
+      font-family: serif !important;
+      text-decoration: underline !important;
+   }
+
+   a:visited {
+      color: #CCCCCC !important;
+   }
+
+   a:hover {
+      color: #FF0000 !important;
+   }
+
+   /* Quote links - ITALIC >>123456 */
+   .quotelink, a.quotelink {
+      color: #CCCCCC !important;
+      font-family: serif !important;
+      font-style: italic !important;
+      text-decoration: underline !important;
+   }
+
+   .quotelink:hover {
+      color: #FF0000 !important;
+   }
+
+   /* Backlinks - italic */
+   .backlink, a.backlink {
+      color: #CCCCCC !important;
+      font-style: italic !important;
+      text-decoration: underline !important;
+   }
+
+   /* Dead links */
+   .deadlink {
+      color: #666666 !important;
+      font-style: italic !important;
+      text-decoration: line-through !important;
+   }
+
+   /* === BUTTONS === */
+   a.button, .button, input[type="submit"], button {
+      background: #000 !important;
+      color: #000000 !important;
+      border: 1px solid #363636 !important;
+      font-family: serif !important;
+      font-weight: 800 !important;
+      padding: 3px 8px !important;
+      text-decoration: none !important;
+      cursor: pointer !important;
+   }
+
+   a.button:hover, .button:hover, input[type="submit"]:hover, button:hover {
+      background: #000 !important;
+   }
+
+   /* === DIVIDERS === */
+   hr {
+      border: 0 !important;
+      border-top: 1px solid #666666 !important;
+      margin: 10px 0 !important;
+   }
+
+   /* === FORMS === */
+   .postForm, #togglePostFormLink {
+      background: #000000 !important;
+      border: 1px solid #666666 !important;
+   }
+
+   input[type="text"], input[type="password"], textarea, select {
+      background: #000 !important;
+      color: #CCCCCC !important;
+      border: 1px solid #666666 !important;
+      font-family: serif !important;
+   }
+
+   /* === POSTS - NO BORDERS on replies === */
+   .post, .postContainer {
+      background: #000000 !important;
+      border: none !important;
+      font-family: serif !important;
+      margin: 5px 0 !important;
+   }
+
+   .reply {
+      background: #0e0e0e !important;
+      color: #CCCCCC !important;
+      border: none !important;
+      padding: 5px !important;
+      margin: 2px 0 !important;
+      font-family: serif !important;
+   }
+
+   /* OP posts - pure black */
+   .opContainer, .op {
+      background: #0e0e0e !important;
+      border: none !important;
+   }
+
+   .postMessage {
+      color: #CCCCCC !important;
+      font-family: serif !important;
+      line-height: 1.4 !important;
+   }
+
+   /* === HIGHLIGHTED POSTS - Light blue === */
+   .highlight, .post.highlight, .reply.highlight, 
+   .post:target, .reply:target {
+      background: #0e0e0e !important;
+      color: #e0e0e0 !important;
+      border: none !important;
+   }
+
+   .highlight a, .post.highlight a, .reply.highlight a,
+   .post:target a, .reply:target a {
+      color: #818181 !important;
+   }
+
+   .highlight .quote, .post.highlight .quote, .reply.highlight .quote,
+   .post:target .quote, .reply:target .quote {
+      color: #006600 !important;
+      font-style: italic !important;
+   }
+
+   /* === POST INFO === */
+   .postInfo {
+      color: #888888 !important;
+      font-family: serif !important;
+      font-size: 10pt !important;
+   }
+
+   .subject {
+      color: #ECBD00 !important;
+      font-weight: 800 !important;
+      font-family: serif !important;
+      font-size: 11pt !important;
+   }
+
+   .name {
+      color: #ECBD00 !important;
+      font-weight: 900 !important;
+      font-family: serif !important;
+      font-size: 11pt !important;
+   }
+
+   .postertrip {
+      color: #FF99FF !important;
+      font-family: serif !important;
+   }
+
+   .dateTime, .postNum {
+      color: #CCCCCC !important;
+      font-family: serif !important;
+   }
+
+   .postNum a {
+      color: #CCCCCC !important;
+   }
+
+   /* === GREENTEXT - Classic italic green === */
+   .quote {
+      color: #789922 !important;
+      font-family: serif !important;
+      font-style: italic !important;
+   }
+
+   /* === FILE INFO === */
+   .fileText {
+      color: #ECBD00 !important;
+      font-family: serif !important;
+      font-size: 9pt !important;
+   }
+
+   .fileText a {
+      color: #ECBD00 !important;
+      /*text-decoration: underline !important;*/
+   }
+
+   .fileThumb {
+      background: #000000 !important;
+      float: left !important;
+      margin: 5px 10px 5px 0 !important;
+   }
+
+   .fileThumb img {
+      border: none !important;
+   }
+
+   /* === SPOILERS === */
+   s, .spoiler {
+      background: #000000 !important;
+      color: #000000 !important;
+   }
+
+   s:hover, .spoiler:hover {
+      color: #CCCCCC !important;
+   }
+
+   /* === SUMMARY TEXT - italic === */
+   .summary, .abbr {
+      color: #777777 !important;
+      font-family: serif !important;
+      font-style: italic !important;
+   }
+
+   /* === 4CHAN X HEADER BAR === */
+   #header-bar, #header-bar.dialog {
+      background: #000 !important;
+      border: 1px solid #000 !important;
+      border-top: none !important;
+      font-family: sans-serif !important;
+      font-size: 8pt !important;
+      color: #CCCCCC !important;
+   }
+
+   #header-bar a {
+      color: #CCCCCC !important;
+      text-decoration: none !important;
+   }
+
+   #header-bar a:hover {
+      color: #FF0000 !important;
+   }
+
+   #board-list, #board-list a {
+      background: #000000 !important;
+      color: #CCCCCC !important;
+   }
+
+   #shortcuts, .shortcut {
+      color: #CCCCCC !important;
+   }
+
+   #thread-stats, #updater {
+      color: #CCCCCC !important;
+      font-family: sans-serif !important;
+   }
+
+   /* === 4CHAN X QUICK REPLY === */
+   #qr {
+      background: #1a1a1a !important;
+      border: 1px solid #666666 !important;
+   }
+
+   #qr .field {
+      background: #2a2a2a !important;
+      color: #CCCCCC !important;
+      border: 1px solid #666666 !important;
+      font-family: serif !important;
+   }
+
+   .qr-preview {
+      background: #242323 !important;
+      border: none !important;
+   }
+
+   /* === 4CHAN X DIALOGS === */
+   .dialog {
+      background: #1a1a1a !important;
+      border: 1px solid #232323 !important;
+      color: #CCCCCC !important;
+   }
+
+   /* === 4CHAN X WATCHER === */
+   .thread-watcher {
+      background: #000 !important;
+      border: 1px solid #000 !important;
+   }
+
+   
+   /* === BACKLINKS POPUP === */
+   .backlink-list {
+      background: #242323 !important;
+      border: 1px solid #666666 !important;
+      color: #CCCCCC !important;
+      font-style: italic !important;
+   }
+
+   /* === INLINE IMAGES === */
+   .full-image {
+      background: #000000 !important;
+   }
+
+   /* === PAGES === */
+   .pages {
+      background: #000000 !important;
+      color: #CCCCCC !important;
+      font-family: serif !important;
+      text-align: center !important;
+      padding: 10px !important;
+   }
+
+   .pages a {
+      color: #CCCCCC !important;
+   }
+
+   .pages strong {
+      color: #FF0000 !important;
+   }
+
+   /* === CATALOG === */
+   .catalog-small, .catalog-thread {
+      background: #1a1a1a !important;
+      border: 1px solid #666666 !important;
+   }
+
+   .teaser {
+      color: #CCCCCC !important;
+      font-family: serif !important;
+   }
+
+   /* === SCROLLBARS === */
+   ::-webkit-scrollbar {
+      background: #000 !important;
+      width: 16px !important;
+   }
+
+   ::-webkit-scrollbar-thumb {
+      background: #000 !important;
+      border: 1px solid #000 !important;
+   }
+
+   ::-webkit-scrollbar-thumb:hover {
+      background: #000 !important;
+   }
+
+   ::-webkit-scrollbar-track {
+      background: #000 !important;
+   }
+
+   /* === MISC === */
+   .desktop {
+      background: inherit !important;
+   }
+
+   .postMenuBtn, .menu-button {
+      color: #CCCCCC !important;
+   }
+
+   .inline {
+      background: #000 !important;
+      border: 1px solid #666666 !important;
+   }
+
+   pre, code, .prettyprint {
+      background: #1a1a1a !important;
+      color: #CCCCCC !important;
+      border: 1px solid #666666 !important;
+      font-family: monospace !important;
+      padding: 5px !important;
+   }
+
+   .useremail {
+      color: #663366 !important;
+   }
+
+   input[type="checkbox"] {
+      opacity: 0.7 !important;
+   }
+
+   input[type="checkbox"]:hover {
+      opacity: 1 !important;
+   }
+
+   /* === WARNINGS === */
+   .warning {
+      background: #4a2a2a !important;
+      color: #ffaaaa !important;
+      border: 1px solid #8a4a4a !important;
+   }
+
+   /* === FOOTER === */
+   .center, .footer {
+      background: #000000 !important;
+      color: #888888 !important;
+      font-family: serif !important;
+      font-size: 0pt !important;
+      text-align: center !important;
+   }
+}
