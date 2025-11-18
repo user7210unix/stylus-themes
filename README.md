@@ -12,5 +12,5 @@ Similar: https://www.color-hex.com/color/70c1b3
 
 <div style="text-align: center; margin-bottom: 50px;">
 
-  <img src="arch1.png" alt="Rice Setup Preview" width="800">
+  <img src="preview.png" alt="Rice Setup Preview" width="800">
 </div>  
