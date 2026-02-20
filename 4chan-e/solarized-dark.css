@@ -1,0 +1,233 @@
+:root.tomorrow {
+  /* Backgrounds — layered from your base outward */
+  --fc-bg:         #0e5463;   /* page / outer */
+  --fc-bg2:        #126070;   /* reply blocks */
+  --fc-bg3:        #0f5d6e;   /* OP block / hover rows */
+  --fc-border:     #52696e;   /* post borders — visible but soft */
+
+  /* Text */
+  --fc-text:       #fdffde;   /* main body — warm near-white */
+  --fc-text-dim:   #95b1bd;   /* timestamps, post#, file info */
+
+  /* Accents — all tuned for contrast on the new base */
+  --fc-green:      #6db568;   /* greentext — warm sage */
+  --fc-link:       #82b2d8;   /* links — soft sky blue */
+  --fc-link-you:   #e29a60;   /* (You) — warm amber */
+  --fc-subject:    #caca6e;   /* subject — warm yellow-green */
+  --fc-spoiler-bg: #26272c;
+  --fc-highlight:  rgba(226,154,96,0.08);
+}
+
+/* Daylight nudge — slightly brighter backgrounds when
+   the OS reports light mode, same accent colors */
+@media (prefers-color-scheme: light) {
+  :root.tomorrow {
+    --fc-bg:      #0e5463;
+    --fc-bg2:     #126070;
+    --fc-bg3:     #0f5d6e;
+    --fc-border:  #52696e;
+    --fc-text:    #fefff0;
+    --fc-text-dim:#95b1bd;
+  }
+}
+
+
+/* ── BODY ────────────────────────────────────────────────── */
+:root.tomorrow body {
+  font-family: Inter, system-ui, -apple-system, Helvetica, sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--fc-text);
+  background-color: var(--fc-bg);
+}
+
+
+/* ── BOARD TITLE ─────────────────────────────────────────── */
+:root.tomorrow div.boardTitle {
+  font-family: Inter, sans-serif !important;
+  font-weight: 400 !important;
+  text-shadow: 1px 1px 2px rgba(10,10,12,0.6);
+}
+
+
+/* ── THREAD SUBJECT ──────────────────────────────────────── */
+:root.tomorrow div.post div.postInfo span.subject {
+  font-weight: 600;
+  font-size: 18px;           /* was 16px → +2px */
+  color: var(--fc-subject) !important;
+  letter-spacing: 0.01em;
+}
+
+
+/* ── HIDE NAME BLOCK — collapse its space fully ────────────── */
+
+div.post div.postInfo span.nameBlock {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 0 !important;
+}
+
+:root.tomorrow div.post div.postInfo {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+:root.tomorrow div.post div.postMessage,
+:root.tomorrow .postMessage {
+  margin-left: 4px !important;
+  margin-top: 5px !important;
+}
+
+div.reply input { display: none; }
+
+
+/* ── POST META — de-emphasised ───────────────────────────── */
+:root.tomorrow div.post div.postInfo,
+:root.tomorrow .postNum,
+:root.tomorrow .dateTime,
+:root.tomorrow span.postNum a,
+:root.tomorrow .postNum a[title] {
+  color: var(--fc-text-dim) !important;
+  font-size: 13px !important;
+}
+
+
+/* ── GREENTEXT ───────────────────────────────────────────── */
+:root.tomorrow .postMessage .quote,
+:root.tomorrow .quote {
+  color: var(--fc-green) !important;
+  font-style: italic;
+}
+
+
+/* ── FILE INFO ───────────────────────────────────────────── */
+:root.tomorrow .fileText,
+:root.tomorrow .file-info,
+:root.tomorrow div.file .fileInfo,
+:root.tomorrow .postFile,
+:root.tomorrow .file > div {
+  font-size: 12px !important;   /* was 11px → +1px */
+  opacity: 0.45;
+  transition: opacity 0.2s ease;
+  margin-left: 4px !important;
+}
+:root.tomorrow .fileText:hover,
+:root.tomorrow .file-info:hover,
+:root.tomorrow div.file .fileInfo:hover,
+:root.tomorrow .postFile:hover,
+:root.tomorrow .file > div:hover {
+  opacity: 0.82;
+}
+
+
+/* ── (YOU) HIGHLIGHT ─────────────────────────────────────── */
+:root.tomorrow .post.highlight,
+:root.tomorrow .replyContainer.highlight {
+  background-color: var(--fc-highlight) !important;
+  border-left: 2px solid var(--fc-link-you) !important;
+  padding-left: 2px !important;
+}
+:root.tomorrow span.youmark,
+:root.tomorrow .backlink.you > a {
+  color: var(--fc-link-you) !important;
+  font-weight: 600;
+}
+
+
+/* ── LINKS ───────────────────────────────────────────────── */
+:root.tomorrow a.quotelink,
+:root.tomorrow .postMessage a {
+  color: var(--fc-link) !important;
+  text-decoration: none;
+}
+:root.tomorrow a.quotelink:hover,
+:root.tomorrow .postMessage a:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+:root.tomorrow a         { color: var(--fc-link); }
+:root.tomorrow a:visited { color: #6a8fae; }
+
+
+/* ── REPLY BLOCKS ────────────────────────────────────────── */
+:root.tomorrow .reply {
+  background-color: var(--fc-bg2) !important;
+  border-color: var(--fc-border) !important;
+}
+
+
+/* ── CATALOG ─────────────────────────────────────────────── */
+:root.tomorrow .catalog-stats {
+  font-size: 13px;           /* was 12px → +1px */
+  font-weight: 600;
+  color: var(--fc-text-dim);
+}
+:root.tomorrow .catalog-post > .postMessage {
+  margin: 0 !important;
+  padding-bottom: 0.3em;
+  font-size: 15px;           /* was 13px → +2px */
+  line-height: 1.55;
+}
+
+
+/* ── HIDE STUBS & BUTTONS ────────────────────────────────── */
+div.stub { display: none; }
+.hide-thread-button:not(:hover),
+.hide-reply-button:not(:hover) { display: none; }
+
+
+/* ── 4chan X QR / PANEL ──────────────────────────────────── */
+:root {
+  --xt-fxt-bg:     #0e5463;
+  --xt-fxt-border: #52696e;
+}
+
+#header-bar.dialog {
+  background-color: #0e5463;
+}
+
+.dialog {
+  background-color: #0e5463;
+}
+
+/* ── UNREAD LINE ─────────────────────────────────────────── */
+:root.tomorrow #unread-line {
+  border-color: var(--fc-link-you) !important;
+  opacity: 0.55;
+}
+
+
+/* ── SLIM SCROLLBAR ──────────────────────────────────────── */
+:root.tomorrow ::-webkit-scrollbar        { width: 5px; height: 5px; }
+:root.tomorrow ::-webkit-scrollbar-track  { background: var(--fc-bg); }
+:root.tomorrow ::-webkit-scrollbar-thumb  { background: var(--fc-bg3); border-radius: 3px; }
+:root.tomorrow ::-webkit-scrollbar-thumb:hover { background: var(--fc-text-dim); }
+
+
+/* ============================================================
+   OTHER THEMES — fallback / compatibility
+   ============================================================ */
+
+.quote { font-style: italic; }
+
+/* Yotsuba B */
+:root.yotsuba-b body { font-family: Inter, Helvetica, sans-serif; font-size: 17px; line-height: 1.7; color: #000; }
+:root.yotsuba-b div.boardTitle { font-family: sans-serif !important; font-weight: 400 !important; text-shadow: 1px 1px 1px rgba(105,10,15,0.6); }
+:root.yotsuba-b div.post div.postInfo span.subject { color: #000; font-weight: 600; font-size: 18px; }
+:root.yotsuba-b .catalog-stats { font-size: 13px; font-weight: 700; }
+:root.yotsuba-b .catalog-post > .postMessage { margin: 0; padding-bottom: 0.3em; font-size: 15px; }
+
+/* Yotsuba */
+:root.yotsuba body { font-family: Inter, Helvetica, sans-serif; font-size: 17px; line-height: 1.7; }
+:root.yotsuba div.boardTitle { font-family: sans-serif !important; font-weight: 400 !important; text-shadow: 1px 1px 1px rgba(100,0,0,0.6); }
+:root.yotsuba div.post div.postInfo span.subject { font-weight: 600; font-size: 18px; }
+:root.yotsuba .catalog-stats { font-size: 13px; font-weight: 700; }
+:root.yotsuba .catalog-post > .postMessage { margin: 0; padding-bottom: 0.3em; font-size: 15px; }
+
+/* Photon */
+:root.photon div.boardTitle { font-family: sans-serif !important; font-weight: 400 !important; text-shadow: 1px 1px 1px rgba(0,74,153,0.6); }
