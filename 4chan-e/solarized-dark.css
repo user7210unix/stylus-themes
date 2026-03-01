@@ -1,12 +1,12 @@
 :root.tomorrow {
   /* Backgrounds */
-  --fc-bg:         #0e5463;   /* page / outer */
-  --fc-bg2:        #126070;   /* reply blocks */
-  --fc-bg3:        #0f5d6e;   /* OP block / hover rows */
+  --fc-bg:         #002b36;   /* page / outer */
+  --fc-bg2:        #013340;   /* reply blocks */
+  --fc-bg3:        #002b36;   /* OP block / hover rows */
   --fc-border:     #52696e;   /* post borders — visible but soft */
 
   /* Text */
-  --fc-text:       #fdffde;   /* main body — warm near-white */
+  --fc-text:       #839496;   /* main body — warm near-white */
   --fc-text-dim:   #95b1bd;   /* timestamps, post#, file info */
 
   /* Accents — all tuned for contrast on the new base */
@@ -44,11 +44,21 @@
 /* ── BOARD TITLE ─────────────────────────────────────────── */
 :root.tomorrow div.boardTitle {
   font-family: Inter, sans-serif !important;
-  font-weight: 400 !important;
+  font-weight: 520 !important;
   text-shadow: 1px 1px 2px rgba(10,10,12,0.6);
 }
 
+div.boardBanner > div.boardTitle {
+  font-family: Tahoma, sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: -2px;
+  margin-top: 0px;
+}
 
+#bannerCnt {
+  display: none;
+}
 /* ── THREAD SUBJECT ──────────────────────────────────────── */
 :root.tomorrow div.post div.postInfo span.subject {
   font-weight: 600;
@@ -74,6 +84,12 @@ div.post div.postInfo span.nameBlock {
   align-items: baseline;
   gap: 6px;
   flex-wrap: wrap;
+}
+
+select {
+  border: 1px solid #013340;
+  background-color: #013340;
+  color: #839496;
 }
 
 :root.tomorrow div.post div.postMessage,
@@ -150,7 +166,7 @@ div.reply input { display: none; }
   opacity: 0.85;
 }
 :root.tomorrow a         { color: var(--fc-link); }
-:root.tomorrow a:visited { color: #6a8fae; }
+:root.tomorrow a:visited { color: #002b36; }
 
 
 /* ── REPLY BLOCKS ────────────────────────────────────────── */
@@ -187,11 +203,11 @@ div.stub { display: none; }
 }
 
 #header-bar.dialog {
-  background-color: #0e5463;
+  background-color: #002b36;
 }
 
 .dialog {
-  background-color: #0e5463;
+  background-color: #002b36;
 }
 
 /* ── UNREAD LINE ─────────────────────────────────────────── */
