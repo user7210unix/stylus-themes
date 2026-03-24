@@ -1,0 +1,416 @@
+/* ==UserStyle==
+@name           Translucent Sunset Coast 4chan
+@namespace      github.com/openstyles/stylus
+@version        2.0.0
+@description    Dark sunset coast theme — translucent glass posts, warm burnt-orange accents, Maple Mono font
+@author         Me
+==/UserStyle== */
+
+@-moz-document url-prefix("https://boards.4chan.org/") {
+
+@font-face {
+    font-family: "Maple Mono";
+    src: url("https://cdn.jsdelivr.net/gh/subframe7536/maple-font@v7.9/woff2/MapleMono-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Maple Mono";
+    src: url("https://cdn.jsdelivr.net/gh/subframe7536/maple-font@v7.9/woff2/MapleMono-Italic.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+}
+@font-face {
+    font-family: "Maple Mono";
+    src: url("https://cdn.jsdelivr.net/gh/subframe7536/maple-font@v7.9/woff2/MapleMono-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Maple Mono";
+    src: url("https://cdn.jsdelivr.net/gh/subframe7536/maple-font@v7.9/woff2/MapleMono-BoldItalic.woff2") format("woff2");
+    font-weight: 700;
+    font-style: italic;
+}
+
+:root {
+    /* ── Base surfaces ── */
+    --bg-void:          #040402;   /* deepest black, page void     */
+    --bg-deep:          #090502;   /* near-black body tint         */
+    --bg-rock:          #141216;   /* cliff / card base            */
+    --bg-shadow:        #282226;   /* softer dark surface          */
+    --bg-stone:         #3A343A;   /* elevated mid-dark            */
+
+    /* ── Text & muted tones ── */
+    --text-primary:     #A19CA6;   /* mauve-grey body text         */
+    --text-dim:         #6A5B5A;   /* warm tan — dimmed / meta     */
+    --text-muted:       #4D4A54;   /* faint purple-grey            */
+
+    /* ── Accent ── */
+    --accent:           #D0793D;   /* burnt orange horizon         */
+    --accent-dim:       #A05828;   /* darker orange for visited    */
+    --accent-bright:    #E8904F;   /* brighter for hover           */
+
+    /* ── Glass / overlay helpers ── */
+    --glass-bg:         rgba(20, 18, 22, 0.62);
+    --glass-bg-top:     rgba(58, 52, 58, 0.85);
+    --glass-border:     rgba(77, 74, 84, 0.55);
+    --glass-inset-hi:   rgba(90, 82, 90, 0.6);
+    --glass-inset-lo:   rgba(4, 4, 2, 0.8);
+    --glass-blur:       blur(14px);
+    --overlay-dark:     rgba(4, 4, 2, 0.72);
+
+    /* ── Gradients (reused across components) ── */
+    --grad-glass:
+        linear-gradient(
+            180deg,
+            var(--glass-bg-top)  0%,
+            var(--glass-bg)     80%
+        );
+    --grad-glass-edge:
+        linear-gradient(90deg, transparent 99%, rgba(0,0,0,0.3) 100%);
+
+    /* ── Post chrome ── */
+    --post-shadow:
+        0 4px 18px rgba(4, 4, 2, 0.75),
+        inset 1px 1px 0 var(--glass-inset-hi),
+        inset -1px -1px 0 var(--glass-inset-lo);
+
+    /* ── Typography ── */
+    --font-ui:   "Maple Mono", "Fira Code", "Cascadia Code", monospace;
+    --font-size: 13.5pt;
+    --line-h:    1.45;
+}
+
+/* ============================================================
+   FONT & BASE
+   ============================================================ */
+body,
+textarea, input, select, button {
+    font-family: var(--font-ui) !important;
+    font-size:   var(--font-size) !important;
+    line-height: var(--line-h) !important;
+    color:       var(--text-primary) !important;
+}
+
+/* OP subject line */
+.intro span.subject {
+    font-size:   15.5pt !important;
+    font-weight: 700;
+    color:       var(--accent) !important;
+    letter-spacing: 0.01em;
+}
+
+/* Poster name */
+.intro span.name {
+    color:       var(--text-primary) !important;
+    font-weight: 700 !important;
+}
+
+/* Post number / timestamp */
+.intro span.dateTime,
+.intro .postNum a,
+.intro .postNum span {
+    color: var(--text-dim) !important;
+    font-size: 11.5pt !important;
+}
+
+
+div.boardBanner > div.boardTitle {
+  font-family: 'Maple Mono';
+  font-size: 35px;
+  font-weight: bold;
+  letter-spacing: -2px;
+  margin-top: 0px;
+  font-style: italic;
+}
+    
+/* ============================================================
+   BACKGROUND + DARK OVERLAY
+   ============================================================ */
+body {
+    background:
+        url('https://images.unsplash.com/photo-1674109830964-0e4023266bdf?q=80&w=1504&auto=format&fit=crop')
+        bottom right / cover fixed,
+        var(--bg-void);
+    color:  var(--text-primary);
+    margin: 0 4px;
+    padding: 4px;
+}
+
+/* Semi-opaque overlay so text stays legible over the photo */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: var(--overlay-dark);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ============================================================
+   POSTS — OP + REPLIES
+   ============================================================ */
+div.post.reply,
+div.post.op,
+div.post.reply.hidden.post-hover {
+    background:
+        var(--grad-glass-edge),
+        var(--grad-glass);
+    backdrop-filter:         var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border:       1px solid var(--glass-border);
+    border-radius: 5px;
+    box-shadow:   var(--post-shadow);
+    margin:   0.45em 4px;
+    padding:  0.45em 0.6em 0.65em 0.75em;
+    max-width: 94% !important;
+    display:   inline-block;
+}
+
+/* Subtle left-edge accent stripe on replies */
+div.post.reply {
+    border-left: 2px solid rgba(208, 121, 61, 0.35);
+}
+
+/* OP gets a very faint top accent */
+div.post.op {
+    border-top: 1.5px solid rgba(208, 121, 61, 0.45);
+}
+
+/* ============================================================
+   THREAD / CATALOG THUMBNAILS
+   ============================================================ */
+.fileThumb img,
+a.fileThumb > img {
+    border-radius: 3px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 2px 8px rgba(4,4,2,0.6);
+    opacity: 0.92;
+    transition: opacity 0.15s ease, box-shadow 0.15s ease;
+}
+.fileThumb img:hover {
+    opacity: 1;
+    box-shadow: 0 4px 16px rgba(208, 121, 61, 0.25);
+}
+
+/* ============================================================
+   REPLY BOXES / QUOTE LINKS
+   ============================================================ */
+/* Greentext */
+span.quote,
+.postMessage .quote {
+    color: #7EC98A !important; /* muted sage green — readable on dark */
+    font-weight: 500;
+}
+
+/* (You) highlight */
+span.deadlink,
+span.quotelink {
+    color: var(--accent) !important;
+}
+
+/* backlinks */
+.backlink a {
+    color: var(--accent-dim) !important;
+}
+
+/* ============================================================
+   LINKS
+   ============================================================ */
+a         { color: var(--accent)       !important; }
+a:visited { color: var(--accent-dim)   !important; }
+a:hover   { color: var(--accent-bright)!important;
+             text-decoration: underline !important; }
+
+/* ============================================================
+   4CHAN X HEADER BAR
+   ============================================================ */
+#header-bar,
+.drag #header-bar,
+#header-bar .move {
+    background:
+        var(--grad-glass-edge),
+        var(--grad-glass) !important;
+    backdrop-filter:         var(--glass-blur) !important;
+    -webkit-backdrop-filter: var(--glass-blur) !important;
+    border-bottom: 1px solid var(--glass-border) !important;
+    box-shadow: 0 4px 14px rgba(4,4,2,0.65) !important;
+    color:       var(--text-dim) !important;
+    font-size:   11.5pt !important;
+    font-weight: 600 !important;
+    z-index: 9999 !important;
+}
+
+#header-bar a,
+#header-bar span,
+#header-bar .board-title {
+    color: var(--text-dim) !important;
+    font-weight: 600 !important;
+}
+
+#header-bar a:hover {
+    color: var(--accent-bright) !important;
+    text-decoration: underline !important;
+}
+
+/* ============================================================
+   BOARD LIST & PAGINATION
+   ============================================================ */
+.desktop-style div.boardlist:nth-child(1),
+div.pages,
+div.pages a {
+    background:
+        var(--grad-glass-edge),
+        var(--grad-glass);
+    backdrop-filter:         var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(4,4,2,0.55);
+    font-size: 12pt !important;
+    color: var(--accent) !important;
+    border: 1px solid var(--glass-border);
+}
+
+/* ============================================================
+   REPLY FORM / QUICK REPLY
+   ============================================================ */
+#qrForm,
+#quick-reply,
+form[name="post"] {
+    background:
+        var(--grad-glass-edge),
+        var(--grad-glass) !important;
+    backdrop-filter:         var(--glass-blur) !important;
+    -webkit-backdrop-filter: var(--glass-blur) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 6px !important;
+    box-shadow: var(--post-shadow) !important;
+}
+
+textarea#com,
+#qrForm textarea {
+    background: rgba(9, 5, 2, 0.55) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 4px !important;
+    caret-color: var(--accent) !important;
+    resize: vertical;
+}
+
+textarea#com:focus,
+#qrForm textarea:focus {
+    outline: none !important;
+    border-color: rgba(208, 121, 61, 0.5) !important;
+    box-shadow: 0 0 0 2px rgba(208, 121, 61, 0.12) !important;
+}
+
+input[type="submit"],
+button[type="submit"] {
+    background: linear-gradient(180deg, var(--bg-stone) 0%, var(--bg-shadow) 100%) !important;
+    color: var(--accent) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 4px !important;
+    font-family: var(--font-ui) !important;
+    font-size: 11.5pt !important;
+    padding: 3px 14px !important;
+    cursor: pointer !important;
+    transition: background 0.15s, color 0.15s;
+}
+
+input[type="submit"]:hover,
+button[type="submit"]:hover {
+    background: linear-gradient(180deg, var(--bg-stone) 0%, #4a3f48 100%) !important;
+    color: var(--accent-bright) !important;
+    border-color: rgba(208, 121, 61, 0.5) !important;
+}
+
+/* ============================================================
+   CATALOG TILES
+   ============================================================ */
+.thread-image-box,
+.thread.catalog-thread {
+    background: var(--grad-glass) !important;
+    backdrop-filter: var(--glass-blur) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 5px !important;
+    box-shadow: 0 3px 10px rgba(4,4,2,0.6) !important;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+.thread.catalog-thread:hover {
+    border-color: rgba(208, 121, 61, 0.4) !important;
+    box-shadow: 0 5px 18px rgba(4,4,2,0.75), 0 0 0 1px rgba(208,121,61,0.15) !important;
+}
+
+/* ============================================================
+   MISC CHROME
+   ============================================================ */
+hr { display: none; }
+
+div.post div.postInfo span.nameBlock span.name {
+  display: none;
+}
+
+div#absbot {
+  display: none;
+}
+    
+    span.stub-icon {
+        display: none;
+    }
+    
+.adl {
+  font-size: 10px;
+  text-align: center;
+  display: none;
+}
+    
+span.quote, .postMessage .quote {
+  color: #7EC98A !important;
+  font-weight: 500;
+  font-style: italic;
+}
+    
+div.reply input {
+  display: none;
+}
+    
+/* Notification / banner */
+.globalMessage,
+#globalToggle {
+    background: rgba(40, 34, 38, 0.85) !important;
+    color: var(--text-dim) !important;
+    border-bottom: 1px solid var(--glass-border) !important;
+    font-size: 11pt !important;
+}
+
+/* Post hover preview border */
+.post-hover {
+    border: 1px solid rgba(208, 121, 61, 0.3) !important;
+    box-shadow: 0 8px 28px rgba(4,4,2,0.8) !important;
+}
+
+/* Spoiler text */
+s, .spoiler {
+    background: var(--bg-stone) !important;
+    color:      var(--bg-stone) !important;
+}
+s:hover, .spoiler:hover {
+    color: var(--text-primary) !important;
+}
+
+/* ============================================================
+   SCROLLBAR — warm dark coast
+   ============================================================ */
+::-webkit-scrollbar              { width: 10px; }
+::-webkit-scrollbar-track        { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb        {
+    background: linear-gradient(to bottom, var(--bg-stone), var(--bg-shadow));
+    border-radius: 5px;
+    border: 2px solid var(--bg-deep);
+}
+::-webkit-scrollbar-thumb:hover  {
+    background: linear-gradient(to bottom, #4a3f48, #3a2e38);
+}
+
+} /* end @-moz-document */
