@@ -1,0 +1,474 @@
+/* ==UserStyle==
+@name         Futaba Dark Mode
+@namespace    futaba-dark
+@version      1.1.0
+@description  Dark mode for 4chan Futaba theme — same fonts, dark colors only. 4chan X support added.
+@author       Claude
+@match        *://boards.4chan.org/*
+@match        *://boards.4channel.org/*
+@match        *://www.4chan.org/*
+@match        *://www.4channel.org/*
+==/UserStyle== */
+
+@-moz-document domain("4chan.org"), domain("4channel.org") {
+
+  /* ── Base ─────────────────────────────────────────────────── */
+  body {
+    background: #1a1a1a !important;
+    color: #d9a0a0 !important;
+  }
+
+  /* ── Links ────────────────────────────────────────────────── */
+  a, a:visited {
+    color: #7ba7d4 !important;
+  }
+
+  a:hover {
+    color: #e06060 !important;
+  }
+
+  a.replylink:not(:hover), div#absbot a:not(:hover) {
+    color: #7ba7d4 !important;
+  }
+
+  /* ── Reply posts ──────────────────────────────────────────── */
+  div.reply {
+    background-color: #2a1f1f !important;
+  }
+
+  div.reply:target,
+  div.reply.highlight {
+    background: #3a2020 !important;
+  }
+
+  .highlightPost:not(.op) {
+    background: #3a2525 !important;
+  }
+
+  /* ── Reply font size (+3pt over 12pt body) ────────────────── */
+  div.reply blockquote.postMessage {
+    font-size: 15pt !important;
+    line-height: 1.65 !important;
+  }
+
+  /* ── OP post message (bump +1pt for consistency) ──────────── */
+  div.op blockquote.postMessage {
+    font-size: 13pt !important;
+    line-height: 1.6 !important;
+  }
+
+  /* ── Post info: name / trip / subject / date ──────────────── */
+  div.post div.postInfo span.nameBlock span.name,
+  div.post div.postInfo span.nameBlock span.postertrip {
+    color: #5baa7a !important;
+  }
+
+  /* subject +5pt over body, keeps original red ─────────────── */
+  div.post div.postInfo span.subject {
+    color: #e06060 !important;
+    font-size: 17pt !important;
+    font-weight: bold !important;
+  }
+
+  div.post div.postInfo span.postNum a {
+    color: #d9a0a0 !important;
+  }
+
+  div.post div.postInfo span.postNum a:hover,
+  .posteruid .hand:hover {
+    color: #e06060 !important;
+  }
+
+  /* ── Greentext / quotes ───────────────────────────────────── */
+  blockquote > span.quote {
+    color: #6a9955 !important;
+  }
+
+  .quoteLink, .quotelink, .deadlink {
+    color: #7ba7d4 !important;
+  }
+
+  .deadlink {
+    text-decoration: line-through;
+  }
+
+  /* ── Spoilers ─────────────────────────────────────────────── */
+  span.spoiler,
+  s, s a:not(:hover) {
+    color: #2a1f1f !important;
+    background: #2a1f1f !important;
+    text-decoration: none;
+  }
+
+  span.spoiler:hover, span.spoiler:focus,
+  s:hover, s:focus, s:hover a {
+    color: #d9a0a0 !important;
+  }
+
+  /* ── Post form ────────────────────────────────────────────── */
+  #postForm {
+    background: #1a1a1a !important;
+  }
+
+  table.postForm > tbody > tr > td:first-child,
+  .postblock {
+    background-color: #5a3a00 !important;
+    color: #e8c060 !important;
+  }
+
+  /* ── Page list / pagination ───────────────────────────────── */
+  div.pagelist {
+    background: #1a1a1a !important;
+    border-color: #555 !important;
+    border-left-color: #333 !important;
+    border-top-color: #333 !important;
+  }
+
+  div.pagelist strong {
+    color: #d9a0a0 !important;
+  }
+
+  div.pagelist > div {
+    border-color: #555 !important;
+    border-left-color: #333 !important;
+    border-top-color: #333 !important;
+  }
+
+  /* ── Mobile nav / persistent nav bar ─────────────────────── */
+  .persistentNav,
+  div#boardNavMobile {
+    background-color: #252020 !important;
+  }
+
+  /* ── Quick reply window (native) ──────────────────────────── */
+  div.qrWindow {
+    background-color: #1a1a1a !important;
+    border-color: #444 !important;
+  }
+
+  div.qrHeader {
+    background-color: #252020 !important;
+    color: #d9a0a0 !important;
+  }
+
+  /* ── Dropdown menus ───────────────────────────────────────── */
+  .dd-menu ul {
+    background-color: #2a1f1f !important;
+    border-color: #4a3030 !important;
+  }
+
+  .dd-menu li {
+    border-bottom-color: #4a3030 !important;
+  }
+
+  .dd-menu li:hover {
+    background-color: #332020 !important;
+  }
+
+  /* ── Preview hover ────────────────────────────────────────── */
+  .preview {
+    background-color: #2a1f1f !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  /* ── Code blocks ──────────────────────────────────────────── */
+  .prettyprint {
+    background-color: #111 !important;
+    color: #ccc !important;
+  }
+
+  /* ── Disclaimer / modal ───────────────────────────────────── */
+  #disclaimer-modal {
+    background-color: #2a1f1f !important;
+  }
+
+  #disclaimer h3 {
+    border-bottom-color: #4a3030 !important;
+  }
+
+  /* ── Flash / catalog listing ──────────────────────────────── */
+  table.flashListing tr:nth-of-type(odd) {
+    background-color: #221818 !important;
+  }
+
+  table.flashListing .name,
+  table.flashListing .postertrip {
+    color: #5baa7a !important;
+  }
+
+  table.flashListing td.postblock {
+    background-color: #5a3a00 !important;
+    color: #e8c060 !important;
+  }
+
+  table.flashListing .subject {
+    color: #e06060 !important;
+  }
+
+  /* ── Capcode colors ───────────────────────────────────────── */
+  span.capcodeAdmin span.name,
+  span.capcodeAdmin span.name a,
+  span.capcodeAdmin span.postertrip,
+  span.capcodeAdmin strong.capcode {
+    color: #ff6b6b !important;
+  }
+
+  span.capcodeFounder span.name,
+  span.capcodeFounder span.name a,
+  span.capcodeFounder span.postertrip,
+  span.capcodeFounder strong.capcode {
+    color: #5baa7a !important;
+  }
+
+  span.capcodeMod span.name,
+  span.capcodeMod span.name a,
+  span.capcodeMod span.postertrip,
+  span.capcodeMod strong.capcode {
+    color: #c080c0 !important;
+  }
+
+  span.capcodeDeveloper span.name,
+  span.capcodeDeveloper span.name a,
+  span.capcodeDeveloper span.postertrip,
+  span.capcodeDeveloper strong.capcode {
+    color: #7ba7d4 !important;
+  }
+
+  span.capcodeManager span.name,
+  span.capcodeManager span.name a,
+  span.capcodeManager span.postertrip,
+  span.capcodeManager strong.capcode {
+    color: #e06090 !important;
+  }
+
+  span.capcodeVerified span.name,
+  span.capcodeVerified span.name a,
+  span.capcodeVerified span.postertrip,
+  span.capcodeVerified strong.capcode {
+    color: #5ba0df !important;
+  }
+
+  /* ── Omitted / muted text ─────────────────────────────────── */
+  .omittedposts, .abbr {
+    color: #888 !important;
+  }
+
+  /* ── Tooltip ──────────────────────────────────────────────── */
+  #tooltip {
+    background-color: #0d0d0d !important;
+    color: #d9a0a0 !important;
+  }
+
+  /* ── Post error ───────────────────────────────────────────── */
+  #postFormError {
+    background-color: #7a1515 !important;
+  }
+
+  /* ── Footer / absbot ──────────────────────────────────────── */
+  div#absbot {
+    color: #d9a0a0 !important;
+  }
+
+  /* ── Inputs and textareas ─────────────────────────────────── */
+  input[type="text"],
+  input[type="password"],
+  textarea {
+    background-color: #141414 !important;
+    color: #d9a0a0 !important;
+    border-color: #444 !important;
+  }
+
+  /* ── HR ───────────────────────────────────────────────────── */
+  hr {
+    border-color: #3a2a2a !important;
+  }
+
+  /* ── Global message ───────────────────────────────────────── */
+  .globalMessage {
+    color: #ff6b6b !important;
+  }
+
+  /* ── Old post indicator ───────────────────────────────────── */
+  .oldpost {
+    color: #e06060 !important;
+  }
+
+  /* ── t-root sidebar ───────────────────────────────────────── */
+  #t-root {
+    background: #1f1a1a !important;
+    border-color: #555 !important;
+  }
+
+  /* ── Posting mode banner ──────────────────────────────────── */
+  div.postingMode {
+    background-color: #7a2000 !important;
+  }
+
+  /* ── EXIF table ───────────────────────────────────────────── */
+  table.exif td {
+    color: #888 !important;
+  }
+
+  /* ── Blotter ──────────────────────────────────────────────── */
+  .redtxt {
+    color: #e06060 !important;
+  }
+
+  /* ── Pass / inline labels ─────────────────────────────────── */
+  .pu-lbl {
+    color: #5baa7a !important;
+  }
+
+  /* ── Board title area ─────────────────────────────────────── */
+  div.boardBanner > div.boardTitle {
+    color: #d9a0a0 !important;
+  }
+
+
+  /* ════════════════════════════════════════════════════════════
+     4CHAN X SUPPORT
+     All colors drawn from the same v1 palette above.
+  ════════════════════════════════════════════════════════════ */
+
+  /* ── Header bar ───────────────────────────────────────────── */
+  #header-bar,
+  #header,
+  .navLinks.navTop {
+    background-color: #252020 !important;
+    border-bottom: 1px solid #3a2a2a !important;
+    color: #d9a0a0 !important;
+  }
+
+  #header-bar a, #header a           { color: #7ba7d4 !important; }
+  #header-bar a:hover, #header a:hover { color: #e06060 !important; }
+
+  #header-bar .boardList,
+  #header-bar .navLinks,
+  #header .boardList                 { color: #888 !important; }
+
+  /* ── Header icon / menu buttons ───────────────────────────── */
+  .fa-btn, .menu-button,
+  #header-bar button {
+    color: #d9a0a0 !important;
+    background: transparent !important;
+    border-color: #3a2a2a !important;
+  }
+
+  .fa-btn:hover, .menu-button:hover,
+  #header-bar button:hover {
+    color: #e06060 !important;
+    background-color: #332020 !important;
+  }
+
+  /* ── 4chan X Quick Reply ───────────────────────────────────── */
+  #quickReply {
+    background-color: #1a1a1a !important;
+    border: 1px solid #444 !important;
+  }
+
+  #quickReply .move {
+    background-color: #252020 !important;
+    color: #d9a0a0 !important;
+    border-bottom: 1px solid #3a2a2a !important;
+  }
+
+  #quickReply table.postForm > tbody > tr > td:first-child {
+    background-color: #5a3a00 !important;
+    color: #e8c060 !important;
+  }
+
+  /* ── Thread watcher panel ─────────────────────────────────── */
+  #thread-watcher,
+  #watched-threads,
+  #watched-threads-list {
+    background-color: #2a1f1f !important;
+    border: 1px solid #4a3030 !important;
+    color: #d9a0a0 !important;
+  }
+
+  #thread-watcher a,
+  #watched-threads-list a            { color: #7ba7d4 !important; }
+
+  #thread-watcher .watcher-thread.has-unread {
+    background-color: #3a2020 !important;
+  }
+
+  /* ── Unread count badge ───────────────────────────────────── */
+  #unread-count {
+    background-color: #5a3a00 !important;
+    color: #e8c060 !important;
+    border-color: #3a2a2a !important;
+  }
+
+  /* ── Settings overlay backdrop ────────────────────────────── */
+  #overlay,
+  .overlay-container                 { background-color: rgba(0,0,0,0.6) !important; }
+
+  /* ── Settings panel ───────────────────────────────────────── */
+  #fourchanx-settings,
+  #fourchanx-settings .section-container,
+  #fourchanx-settings .section-main,
+  #fourchanx-settings > div,
+  .dialog {
+    background-color: #2a1f1f !important;
+    border: 1px solid #4a3030 !important;
+    color: #d9a0a0 !important;
+  }
+
+  #fourchanx-settings h3,
+  #fourchanx-settings h4,
+  .dialog h3 {
+    background-color: #332020 !important;
+    color: #e8c060 !important;
+    border-bottom: 1px solid #4a3030 !important;
+  }
+
+  #fourchanx-settings a              { color: #7ba7d4 !important; }
+
+  #fourchanx-settings input[type="text"],
+  #fourchanx-settings input[type="number"],
+  #fourchanx-settings textarea {
+    background-color: #141414 !important;
+    color: #d9a0a0 !important;
+    border: 1px solid #444 !important;
+  }
+
+  #fourchanx-settings input[type="checkbox"] {
+    accent-color: #5baa7a !important;
+  }
+
+  /* ── Settings sidebar nav ─────────────────────────────────── */
+  #fourchanx-settings nav,
+  #fourchanx-settings .sections-list {
+    background-color: #221818 !important;
+    border-right: 1px solid #4a3030 !important;
+  }
+
+  #fourchanx-settings nav a,
+  #fourchanx-settings .sections-list a {
+    color: #d9a0a0 !important;
+  }
+
+  #fourchanx-settings nav a:hover,
+  #fourchanx-settings nav a.selected,
+  #fourchanx-settings .sections-list a:hover,
+  #fourchanx-settings .sections-list a.selected {
+    background-color: #3a2020 !important;
+    color: #e8c060 !important;
+  }
+
+  /* ── Catalog / search bar ─────────────────────────────────── */
+  #catalog-search,
+  #search-box {
+    background-color: #141414 !important;
+    color: #d9a0a0 !important;
+    border: 1px solid #444 !important;
+  }
+
+  /* ── Post hover (posthover — 4chanX injects this) ─────────── */
+  div.posthover {
+    background-color: #2a1f1f !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  }
+
+}
