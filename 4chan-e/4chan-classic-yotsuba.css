@@ -1,0 +1,90 @@
+/* ==UserStyle==
+@name           Classic 4chan Yotsuba
+@namespace      github.com/openstyles/stylus
+@version        1.0.0
+@description    A new userstyle
+@author         Me
+==/UserStyle== */
+
+@-moz-document url-prefix("https://boards.4chan.org/"), url-prefix("http://boards.4chan.org/"), url-prefix("http://4chan.org"), url-prefix("https://4chan.org") {
+ 
+    html, body {
+  height: 100%;
+  /* This stack prioritizes the Shift_JIS art font first, then the standard Arial */
+  font-family: "MS PGothic", "Mona", Arial, Helvetica, sans-serif !important;
+  
+  /* Classic 4chan used small font sizes, typically 13px (10pt) */
+  font-size: 13px !important;
+  
+  /* This helps get that 'crunchy' 2004 aliased look on modern browsers */
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+  
+  /* Early 4chan didn't use light font weights; 400 is standard */
+  font-weight: 400 !important;
+}
+
+    div.boardBanner > div.boardTitle {
+    font-family: Tahoma, sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: -2px;
+    margin-top: 0px;
+}
+
+    
+/* Optional: Targets post text specifically to ensure it matches */
+.postMessage {
+  font-family: "MS PGothic", "Mona", Arial, sans-serif !important;
+  font-size: 13px !important;
+}
+
+body {
+  background-color: #FFFFEE !important; /* The classic "Yotsuba" peach */
+  color: #800000 !important;           /* Dark red for some text elements */
+}
+
+/* The iconic "Greentext" style */
+.quote {
+  color: #789922 !important;
+}
+
+/* Classic blue links without the modern "smooth" hover effects */
+a {
+  color: #0000EE !important;
+  text-decoration: underline !important;
+}
+
+a:visited {
+  color: #551A8B !important;
+}
+
+div.post div.postInfo span.subject {
+  color: #cc1105;
+  font-weight: bold;
+  font-family: "New Times Roman";
+  font-size: larger;
+}
+
+.menu-button {
+  cursor: pointer;
+  display: none;
+}
+    
+    
+    /* hide elements */
+    svg.icon {
+  display: none;
+}
+
+div.reply input {
+  display: none;
+}
+ 
+    /* only works with treeview enabled */
+    .threadContainer {
+  margin-left: 20px;
+  border-left: 0px solid rgba(128,128,128,.3);
+}
+    
+}
