@@ -1,0 +1,90 @@
+/* ==UserStyle==
+@name         sfwbar — 4chan
+@namespace    sfwbar-4chan
+@version      2.0.0
+@description  .
+@author       anon
+@match        *://boards.4chan.org/*
+@match        *://boards.4channel.org/*
+@match        *://sys.4chan.org/*
+@match        *://sys.4channel.org/*
+==/UserStyle== */
+ 
+@-moz-document domain("4chan.org"), domain("4channel.org") {
+ 
+/* GOOGLE FONTS
+   MochiyPopOne  — display / UI chrome / headers
+   IBM Plex Mono — body text / post content */
+@import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap');
+
+
+    
+    div.thread {
+  margin: 19px;
+  clear: both;
+}
+ 
+    div.post div.postInfo span.nameBlock span.name, div.reply input, span.stub-icon, #bannerCnt {
+  display: none;
+}
+    
+    body {
+        color: #504549;
+        background: #e4e3f1;
+    }
+ 
+ 
+    body {
+        font-family: sans-serif;
+        font-size: 14px;
+    }
+    
+  span.subject {
+  color: #0F0C5D;
+  font-size: small;
+  font-family: 'Mochiy Pop One';
+}
+    
+     div.navLinks.desktop {
+  color: #504549;
+  font-size: small;
+  font-family: 'Mochiy Pop One';
+}
+ 
+    /* treeview vertical indicator */
+    .threadContainer {
+  margin-left: 20px;
+  border-left: 1px solid rgba(128, 128, 128, 0.14);
+}
+    
+    div.boardBanner > div.boardTitle {
+  font-family: 'Mochiy Pop One';
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: -2px;
+  margin-top: 0px;
+}
+    
+ .fixed.bottom-header #header-bar {
+  box-shadow: 0 0px 0px rgba(0, 0, 0, .0);
+  border-top-width: 0px;
+  background: #e4e3f1;
+
+}
+    
+    div.reply {
+  background-color: #e4e3f1;
+  border: 0px solid #B7C5D9;
+    border-top-width: 0px;
+    border-top-style: solid;
+    border-top-color: rgb(183, 197, 217);
+    border-left-width: 0px;
+    border-left-style: solid;
+    border-left-color: rgb(183, 197, 217);
+  border-left: none;
+  border-top: none;
+  display: table;
+  padding: 2px;
+}
+    
+}
