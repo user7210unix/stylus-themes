@@ -1,1 +1,1798 @@
-{"widget/default-greeting":null,"widget/1rQ5QDqaWxQ5":{"id":"1rQ5QDqaWxQ5","key":"widget/search","order":1,"display":{"position":"middleCentre"}},"data/default-unsplash":{"by":"search","collections":"","featured":false,"paused":false,"search":"landscape","topics":"bo8jQKTaE0Y","timeout":86400},"data/default-time":{"mode":"digital","hour12":false,"showDate":false,"showMinutes":true,"showSeconds":false,"showDayPeriod":true,"timeZone":null},"widget/Latca4SrRH6E":{"id":"Latca4SrRH6E","key":"widget/links","order":2,"display":{"position":"middleCentre"}},"widget/default-time":{"id":"default-time","key":"widget/time","order":0,"display":{"position":"middleCentre","fontWeight":700}},"data/Latca4SrRH6E":{"columns":5,"links":[{"url":"https://inv.nadeko.net/feed/popular","name":"invidous","icon":"_favicon"},{"url":"https://nitter.space/","name":"Nitter","icon":"_favicon"},{"url":"https://soyjak.st","name":"soyjak","icon":"_favicon"},{"url":"https://4chan.org","name":"4kuk","icon":"_favicon"},{"url":"https://8kun.top","name":"8kun","icon":"_favicon"}],"visible":true,"linkOpenStyle":false},"background":{"id":"default-unsplash","key":"background/unsplash","display":{"luminosity":-0.2,"blur":0}},"focus":false,"locale":"en","timeZone":null,"version":3}
+// ==UserScript==
+// @name         EndchanX
+// @namespace    https://endchan.org
+// @version      1.0.0
+// @description  Feature enhancement for Endchan (LynxChan engine) — image hover preview, reply tree view, post filtering, QoL features, and settings menu. Inspired by 4chan X.
+// @author       EndchanX Contributors
+// @match        https://endchan.org/*
+// @match        https://*.endchan.org/*
+// @grant        GM_setValue
+// @grant        GM_getValue
+// @grant        GM_addStyle
+// @run-at       document-idle
+// @license      MIT
+// ==/UserScript==
+
+/* ============================================================
+   EndchanX — LynxChan Enhancement Suite
+   ============================================================
+   Modules:
+     1. Settings (GM storage + popup UI)
+     2. Styles (injected CSS)
+     3. Image Hover Preview
+     4. Post / Reply Tree (backlinks)
+     5. Post Filtering (name / subject / body / tripcode regex)
+     6. Post Hiding
+     7. Quick Reply
+     8. Thread Watcher
+     9. Post Number Click → Quote
+    10. Relative Timestamps
+    11. Catalog Enhancements
+    12. WEBM / MP4 Inline Player
+    13. Header Settings Button
+   ============================================================ */
+
+(function () {
+  'use strict';
+
+  /* ──────────────────────────────────────────────────────────
+     0. CONSTANTS & HELPERS
+  ────────────────────────────────────────────────────────── */
+
+  const IS_THREAD = /\/res\/\d+\.html/.test(location.pathname);
+  const IS_CATALOG = /\/catalog\.html/.test(location.pathname);
+  const IS_BOARD_INDEX = !IS_THREAD && !IS_CATALOG && /\/[a-z0-9]+\/?$/.test(location.pathname);
+  const BOARD = (location.pathname.match(/\/([a-z0-9]+)(?:\/|$)/) || [])[1] || '';
+
+  const $ = (sel, ctx = document) => ctx.querySelector(sel);
+  const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+  const ce = (tag, props = {}, ...children) => {
+    const el = document.createElement(tag);
+    Object.assign(el, props);
+    children.forEach(c => el.append(c));
+    return el;
+  };
+
+  /* ──────────────────────────────────────────────────────────
+     1. SETTINGS
+  ────────────────────────────────────────────────────────── */
+
+  const DEFAULTS = {
+    imageHover:          true,
+    imageHoverDelay:     80,        // ms
+    imageHoverMaxWidth:  420,       // px
+    imageHoverMaxHeight: 560,       // px
+    replyTree:           true,
+    relativeTime:        true,
+    quickReply:          true,
+    threadWatcher:       true,
+    postHiding:          true,
+    inlineMedia:         true,
+    smoothScroll:        true,
+    compactMode:         false,
+    darkMode:            false,     // overlay — endchan already dark by default
+    filters:             [],        // [{type,pattern,action,boards}]
+    hiddenPosts:         {},        // {board: [postIds]}
+    watchedThreads:      {},        // {board: [{id,title,replies,url}]}
+  };
+
+  const cfg = (() => {
+    let store = {};
+    try {
+      store = JSON.parse(GM_getValue('ecx_settings', '{}'));
+    } catch (e) { store = {}; }
+
+    const s = Object.assign({}, DEFAULTS, store);
+
+    return {
+      get: k => (k in s ? s[k] : DEFAULTS[k]),
+      set: (k, v) => {
+        s[k] = v;
+        GM_setValue('ecx_settings', JSON.stringify(s));
+      },
+      all: () => s,
+    };
+  })();
+
+  /* ──────────────────────────────────────────────────────────
+     2. STYLES
+  ────────────────────────────────────────────────────────── */
+
+  GM_addStyle(/* css */`
+    /* ── EndchanX Base ── */
+    :root {
+      --ecx-accent:   #d65d0e;
+      --ecx-accent2:  #fe8019;
+      --ecx-bg:       #1d2021;
+      --ecx-bg2:      #282828;
+      --ecx-bg3:      #32302f;
+      --ecx-border:   #504945;
+      --ecx-text:     #ebdbb2;
+      --ecx-muted:    #928374;
+      --ecx-green:    #8ec07c;
+      --ecx-yellow:   #fabd2f;
+      --ecx-red:      #fb4934;
+      --ecx-blue:     #83a598;
+      --ecx-radius:   3px;
+      --ecx-font:     'Segoe UI', 'Liberation Sans', sans-serif;
+      --ecx-mono:     'Consolas', 'Liberation Mono', monospace;
+    }
+
+    /* ── Settings icon in header ── */
+    #ecx-settings-btn {
+      cursor: pointer;
+      font-size: 16px;
+      padding: 2px 6px;
+      color: var(--ecx-accent2);
+      user-select: none;
+      border-radius: var(--ecx-radius);
+      transition: background .15s;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    #ecx-settings-btn:hover { background: var(--ecx-bg3); }
+
+    /* ── Settings Popup ── */
+    #ecx-settings-panel {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(680px, 96vw);
+      max-height: 85vh;
+      background: var(--ecx-bg);
+      border: 1px solid var(--ecx-border);
+      border-radius: 6px;
+      z-index: 99999;
+      display: none;
+      flex-direction: column;
+      font-family: var(--ecx-font);
+      font-size: 13px;
+      color: var(--ecx-text);
+      box-shadow: 0 8px 40px rgba(0,0,0,.75);
+    }
+    #ecx-settings-panel.open { display: flex; }
+
+    #ecx-settings-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      z-index: 99998;
+      display: none;
+    }
+    #ecx-settings-overlay.open { display: block; }
+
+    .ecx-panel-header {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--ecx-border);
+      background: var(--ecx-bg2);
+      border-radius: 6px 6px 0 0;
+      gap: 8px;
+    }
+    .ecx-panel-header h2 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ecx-accent2);
+      letter-spacing: .05em;
+      flex: 1;
+    }
+    .ecx-panel-close {
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--ecx-muted);
+      padding: 0 4px;
+      line-height: 1;
+    }
+    .ecx-panel-close:hover { color: var(--ecx-red); }
+
+    .ecx-panel-body {
+      display: flex;
+      overflow: hidden;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .ecx-tab-sidebar {
+      width: 130px;
+      flex-shrink: 0;
+      background: var(--ecx-bg2);
+      border-right: 1px solid var(--ecx-border);
+      display: flex;
+      flex-direction: column;
+      padding: 8px 0;
+    }
+    .ecx-tab-btn {
+      padding: 8px 14px;
+      cursor: pointer;
+      color: var(--ecx-muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      border-left: 3px solid transparent;
+      transition: color .12s, border-color .12s, background .12s;
+    }
+    .ecx-tab-btn:hover { color: var(--ecx-text); background: var(--ecx-bg3); }
+    .ecx-tab-btn.active {
+      color: var(--ecx-accent2);
+      border-left-color: var(--ecx-accent);
+      background: var(--ecx-bg3);
+    }
+
+    .ecx-tab-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: none;
+    }
+    .ecx-tab-content.active { display: block; }
+
+    .ecx-setting-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(80,73,69,.3);
+    }
+    .ecx-setting-row:last-child { border-bottom: none; }
+    .ecx-setting-label {
+      flex: 1;
+      font-size: 13px;
+    }
+    .ecx-setting-desc {
+      font-size: 11px;
+      color: var(--ecx-muted);
+      display: block;
+      margin-top: 1px;
+    }
+
+    /* Toggle switch */
+    .ecx-toggle {
+      position: relative;
+      width: 38px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+    .ecx-toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .ecx-toggle-slider {
+      position: absolute;
+      inset: 0;
+      background: var(--ecx-bg3);
+      border: 1px solid var(--ecx-border);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .ecx-toggle-slider::after {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      width: 14px;
+      height: 14px;
+      background: var(--ecx-muted);
+      border-radius: 50%;
+      transition: transform .15s, background .15s;
+    }
+    .ecx-toggle input:checked + .ecx-toggle-slider {
+      background: var(--ecx-accent);
+      border-color: var(--ecx-accent);
+    }
+    .ecx-toggle input:checked + .ecx-toggle-slider::after {
+      transform: translateX(18px);
+      background: #fff;
+    }
+
+    /* Number input */
+    .ecx-num-input {
+      width: 60px;
+      padding: 3px 6px;
+      background: var(--ecx-bg3);
+      border: 1px solid var(--ecx-border);
+      border-radius: var(--ecx-radius);
+      color: var(--ecx-text);
+      font-size: 12px;
+      text-align: right;
+    }
+    .ecx-num-input:focus { outline: 1px solid var(--ecx-accent); }
+
+    .ecx-section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--ecx-accent);
+      font-weight: 700;
+      margin: 14px 0 6px;
+    }
+    .ecx-section-title:first-child { margin-top: 0; }
+
+    /* ── Filter editor ── */
+    .ecx-filter-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .ecx-filter-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      background: var(--ecx-bg2);
+      padding: 6px 8px;
+      border-radius: var(--ecx-radius);
+      border: 1px solid var(--ecx-border);
+    }
+    .ecx-filter-row select,
+    .ecx-filter-row input[type=text] {
+      background: var(--ecx-bg3);
+      border: 1px solid var(--ecx-border);
+      color: var(--ecx-text);
+      border-radius: var(--ecx-radius);
+      padding: 3px 6px;
+      font-size: 12px;
+    }
+    .ecx-filter-row input[type=text] { flex: 1; min-width: 0; }
+    .ecx-filter-row select { min-width: 70px; }
+    .ecx-btn {
+      padding: 4px 10px;
+      border-radius: var(--ecx-radius);
+      border: 1px solid var(--ecx-border);
+      background: var(--ecx-bg3);
+      color: var(--ecx-text);
+      font-size: 12px;
+      cursor: pointer;
+      transition: background .12s;
+    }
+    .ecx-btn:hover { background: var(--ecx-border); }
+    .ecx-btn.primary {
+      background: var(--ecx-accent);
+      border-color: var(--ecx-accent);
+      color: #fff;
+    }
+    .ecx-btn.primary:hover { background: var(--ecx-accent2); }
+    .ecx-btn.danger { border-color: var(--ecx-red); color: var(--ecx-red); }
+    .ecx-btn.danger:hover { background: rgba(251,73,52,.15); }
+
+    /* ── Thread Watcher ── */
+    #ecx-watcher {
+      position: fixed;
+      top: 60px;
+      right: 12px;
+      width: 230px;
+      background: var(--ecx-bg);
+      border: 1px solid var(--ecx-border);
+      border-radius: 6px;
+      z-index: 9000;
+      font-family: var(--ecx-font);
+      font-size: 12px;
+      color: var(--ecx-text);
+      box-shadow: 0 4px 20px rgba(0,0,0,.5);
+      display: none;
+    }
+    #ecx-watcher.open { display: block; }
+    .ecx-watcher-header {
+      display: flex;
+      align-items: center;
+      padding: 7px 10px;
+      background: var(--ecx-bg2);
+      border-bottom: 1px solid var(--ecx-border);
+      border-radius: 6px 6px 0 0;
+      cursor: move;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--ecx-accent2);
+      gap: 6px;
+    }
+    .ecx-watcher-header span { flex: 1; }
+    .ecx-watcher-list {
+      max-height: 320px;
+      overflow-y: auto;
+      padding: 4px 0;
+    }
+    .ecx-watcher-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-bottom: 1px solid rgba(80,73,69,.2);
+      cursor: pointer;
+      transition: background .1s;
+    }
+    .ecx-watcher-item:hover { background: var(--ecx-bg2); }
+    .ecx-watcher-title {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 11px;
+    }
+    .ecx-watcher-replies {
+      font-size: 10px;
+      color: var(--ecx-muted);
+      flex-shrink: 0;
+    }
+    .ecx-watcher-new { color: var(--ecx-green); font-weight: 700; }
+    .ecx-watcher-del {
+      color: var(--ecx-muted);
+      font-size: 13px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0 2px;
+    }
+    .ecx-watcher-del:hover { color: var(--ecx-red); }
+
+    /* ── Image Hover Preview ── */
+    #ecx-img-preview {
+      position: fixed;
+      z-index: 99990;
+      pointer-events: none;
+      display: none;
+      border: 2px solid var(--ecx-border);
+      border-radius: var(--ecx-radius);
+      box-shadow: 0 6px 30px rgba(0,0,0,.7);
+      background: var(--ecx-bg);
+      overflow: hidden;
+      max-width: var(--ecx-prev-mw, 420px);
+      max-height: var(--ecx-prev-mh, 560px);
+    }
+    #ecx-img-preview img, #ecx-img-preview video {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    /* ── Reply tree / backlinks ── */
+    .ecx-backlinks {
+      margin: 3px 0 1px 2px;
+      font-size: 12px;
+      color: var(--ecx-muted);
+    }
+    .ecx-backlinks span { margin-right: 3px; }
+    .ecx-backlinks a {
+      color: var(--ecx-blue);
+      text-decoration: none;
+      margin-right: 4px;
+    }
+    .ecx-backlinks a:hover { text-decoration: underline; }
+
+    /* ── Post hover popup ── */
+    .ecx-post-popup {
+      position: fixed;
+      z-index: 99985;
+      background: var(--ecx-bg2);
+      border: 1px solid var(--ecx-border);
+      border-radius: 4px;
+      max-width: 500px;
+      max-height: 400px;
+      overflow: auto;
+      padding: 8px 10px;
+      font-size: 12px;
+      pointer-events: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,.6);
+      color: var(--ecx-text);
+    }
+    .ecx-post-popup .innerPost { pointer-events: none; }
+
+    /* ── Hidden post stub ── */
+    .ecx-hidden-stub {
+      font-size: 11px;
+      color: var(--ecx-muted);
+      font-style: italic;
+      cursor: pointer;
+      padding: 2px 0;
+    }
+    .ecx-hidden-stub:hover { color: var(--ecx-text); }
+
+    /* ── Quick Reply ── */
+    #ecx-qr {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 340px;
+      background: var(--ecx-bg);
+      border: 1px solid var(--ecx-border);
+      border-radius: 6px;
+      z-index: 9500;
+      font-family: var(--ecx-font);
+      font-size: 13px;
+      color: var(--ecx-text);
+      box-shadow: 0 6px 28px rgba(0,0,0,.65);
+      display: none;
+    }
+    #ecx-qr.open { display: block; }
+    .ecx-qr-header {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      background: var(--ecx-bg2);
+      border-bottom: 1px solid var(--ecx-border);
+      border-radius: 6px 6px 0 0;
+      cursor: move;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--ecx-accent2);
+      gap: 6px;
+    }
+    .ecx-qr-header span { flex: 1; }
+    .ecx-qr-body { padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+    .ecx-qr-body input,
+    .ecx-qr-body textarea {
+      background: var(--ecx-bg3);
+      border: 1px solid var(--ecx-border);
+      color: var(--ecx-text);
+      border-radius: var(--ecx-radius);
+      padding: 5px 8px;
+      font-size: 12px;
+      font-family: var(--ecx-font);
+      width: 100%;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+    .ecx-qr-body input:focus,
+    .ecx-qr-body textarea:focus { outline: 1px solid var(--ecx-accent); }
+    .ecx-qr-body textarea { min-height: 90px; }
+    .ecx-qr-footer {
+      display: flex;
+      gap: 6px;
+      padding: 8px 12px;
+      border-top: 1px solid var(--ecx-border);
+      justify-content: flex-end;
+    }
+
+    /* ── Compact mode ── */
+    body.ecx-compact .postCell .innerPost {
+      padding: 4px 6px !important;
+    }
+    body.ecx-compact .postCell { margin-bottom: 4px !important; }
+
+    /* ── Relative time ── */
+    .ecx-reltime {
+      font-size: 11px;
+      color: var(--ecx-muted);
+      cursor: help;
+    }
+
+    /* ── Highlight own posts ── */
+    .ecx-own-post .innerPost {
+      border-left: 3px solid var(--ecx-accent) !important;
+    }
+
+    /* ── Filter highlight ── */
+    .ecx-filter-highlight .innerPost {
+      border-left: 3px solid var(--ecx-yellow) !important;
+    }
+
+    /* ── Header bar ── */
+    #ecx-toolbar {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 6px;
+    }
+    #ecx-toolbar-btn-watcher {
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--ecx-muted);
+      padding: 2px 5px;
+      border-radius: var(--ecx-radius);
+    }
+    #ecx-toolbar-btn-watcher:hover,
+    #ecx-toolbar-btn-watcher.active { color: var(--ecx-green); }
+
+    /* ── Scrollbar polish ── */
+    .ecx-tab-content::-webkit-scrollbar,
+    .ecx-watcher-list::-webkit-scrollbar,
+    .ecx-post-popup::-webkit-scrollbar { width: 6px; }
+    .ecx-tab-content::-webkit-scrollbar-thumb,
+    .ecx-watcher-list::-webkit-scrollbar-thumb,
+    .ecx-post-popup::-webkit-scrollbar-thumb {
+      background: var(--ecx-border);
+      border-radius: 3px;
+    }
+
+    /* ── Thread stats bar ── */
+    .ecx-thread-stats {
+      font-size: 11px;
+      color: var(--ecx-muted);
+      margin-bottom: 4px;
+    }
+    .ecx-thread-stats b { color: var(--ecx-text); }
+
+    /* ── Reply count badge on index ── */
+    .ecx-reply-badge {
+      display: inline-block;
+      background: var(--ecx-bg3);
+      border: 1px solid var(--ecx-border);
+      color: var(--ecx-muted);
+      font-size: 10px;
+      border-radius: 3px;
+      padding: 1px 4px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    /* ── Inline media ── */
+    .ecx-inline-media {
+      display: block;
+      max-width: 100%;
+      max-height: 480px;
+      margin: 4px 0;
+      border-radius: var(--ecx-radius);
+      cursor: zoom-out;
+      border: 1px solid var(--ecx-border);
+    }
+
+    /* ── Post menu ── */
+    .ecx-post-menu {
+      position: fixed;
+      z-index: 99970;
+      background: var(--ecx-bg2);
+      border: 1px solid var(--ecx-border);
+      border-radius: 4px;
+      min-width: 140px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.55);
+      font-size: 12px;
+    }
+    .ecx-post-menu a {
+      display: block;
+      padding: 7px 12px;
+      color: var(--ecx-text);
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .1s;
+    }
+    .ecx-post-menu a:hover { background: var(--ecx-bg3); color: var(--ecx-accent2); }
+    .ecx-post-menu a.danger { color: var(--ecx-red); }
+
+    /* ── Compact mode toggle body class ── */
+    body.ecx-compact { font-size: 12px; }
+  `);
+
+  /* ──────────────────────────────────────────────────────────
+     3. SETTINGS PANEL
+  ────────────────────────────────────────────────────────── */
+
+  function buildSettingsPanel() {
+    const overlay = ce('div', { id: 'ecx-settings-overlay' });
+    const panel = ce('div', { id: 'ecx-settings-panel' });
+
+    // Header
+    const hdr = ce('div', { className: 'ecx-panel-header' });
+    const title = ce('h2', {}, '⚙ EndchanX Settings');
+    const ver = ce('span', { style: 'font-size:10px;color:#928374;' }, 'v1.0.0');
+    const close = ce('span', { className: 'ecx-panel-close', title: 'Close' }, '✕');
+    hdr.append(title, ver, close);
+
+    // Body
+    const body = ce('div', { className: 'ecx-panel-body' });
+
+    // Sidebar
+    const sidebar = ce('div', { className: 'ecx-tab-sidebar' });
+    const TABS = [
+      ['general',  'General'],
+      ['media',    'Media'],
+      ['posts',    'Posts'],
+      ['filters',  'Filters'],
+      ['watcher',  'Watcher'],
+      ['about',    'About'],
+    ];
+    const tabBtns = {};
+    const tabPanes = {};
+
+    TABS.forEach(([id, label]) => {
+      const btn = ce('div', { className: 'ecx-tab-btn', dataset: { tab: id } }, label);
+      sidebar.append(btn);
+      tabBtns[id] = btn;
+
+      const pane = ce('div', { className: 'ecx-tab-content', dataset: { tab: id } });
+      tabPanes[id] = pane;
+    });
+
+    function activateTab(id) {
+      Object.values(tabBtns).forEach(b => b.classList.remove('active'));
+      Object.values(tabPanes).forEach(p => p.classList.remove('active'));
+      tabBtns[id].classList.add('active');
+      tabPanes[id].classList.add('active');
+    }
+
+    sidebar.addEventListener('click', e => {
+      const btn = e.target.closest('.ecx-tab-btn');
+      if (btn) activateTab(btn.dataset.tab);
+    });
+
+    // ── General tab
+    const g = tabPanes.general;
+    g.append(makeSection('Browsing'));
+    g.append(makeToggleRow('Quick Reply',    'ecx-qr popup instead of scrolling to form',       'quickReply'));
+    g.append(makeToggleRow('Relative Times', 'Show "5 min ago" style timestamps',                'relativeTime'));
+    g.append(makeToggleRow('Smooth Scroll',  'Smooth-scroll on internal anchor navigation',      'smoothScroll'));
+    g.append(makeToggleRow('Compact Mode',   'Reduce post padding for denser layout',            'compactMode'));
+    g.append(makeToggleRow('Reply Tree',     'Show backlink list below OP and each reply',       'replyTree'));
+    g.append(makeToggleRow('Post Hiding',    'Allow hiding individual posts',                    'postHiding'));
+
+    // ── Media tab
+    const m = tabPanes.media;
+    m.append(makeSection('Image Hover Preview'));
+    m.append(makeToggleRow('Enable Preview', 'Float full-size image next to cursor on hover', 'imageHover'));
+    m.append(makeNumRow('Hover Delay (ms)', 'Delay before preview appears', 'imageHoverDelay', 0, 2000));
+    m.append(makeNumRow('Max Width (px)',   'Maximum preview width',         'imageHoverMaxWidth', 100, 1200));
+    m.append(makeNumRow('Max Height (px)',  'Maximum preview height',        'imageHoverMaxHeight', 100, 1200));
+    m.append(makeSection('Inline Video'));
+    m.append(makeToggleRow('Inline Media', 'Expand webm/mp4 inline on click', 'inlineMedia'));
+
+    // ── Posts tab
+    const p = tabPanes.posts;
+    p.append(makeSection('Post Controls'));
+    p.append(makeToggleRow('Thread Watcher', 'Float panel tracking watched threads', 'threadWatcher'));
+
+    // ── Filters tab
+    buildFiltersTab(tabPanes.filters);
+
+    // ── Watcher tab
+    buildWatcherTab(tabPanes.watcher);
+
+    // ── About tab
+    const ab = tabPanes.about;
+    ab.innerHTML = `
+      <div class="ecx-section-title">EndchanX</div>
+      <p style="color:var(--ecx-muted);font-size:12px;line-height:1.6">
+        A feature enhancement userscript for <a href="https://endchan.org" style="color:var(--ecx-blue)">Endchan.org</a>,
+        powered by the LynxChan engine (InfinityNow fork).<br><br>
+        Features: hover preview · reply trees · post filtering · thread watcher
+        · quick reply · inline media · relative timestamps · post hiding.<br><br>
+        Inspired by <a href="https://github.com/ccd0/4chan-x" style="color:var(--ecx-blue)">4chan X</a>.
+      </p>
+      <div class="ecx-section-title" style="margin-top:12px">Engine</div>
+      <p style="color:var(--ecx-muted);font-size:12px;line-height:1.6">
+        LynxChan by Stephen Lynx · InfinityNow fork<br>
+        <a href="https://gitgud.io/LynxChan/LynxChan" style="color:var(--ecx-blue)">gitgud.io/LynxChan/LynxChan</a>
+      </p>
+    `;
+
+    const contentArea = ce('div', { style: 'flex:1;overflow:hidden;display:flex;flex-direction:column;' });
+    Object.values(tabPanes).forEach(p => contentArea.append(p));
+    body.append(sidebar, contentArea);
+
+    panel.append(hdr, body);
+    document.body.append(overlay, panel);
+
+    close.addEventListener('click', closeSettings);
+    overlay.addEventListener('click', closeSettings);
+    activateTab('general');
+
+    function closeSettings() {
+      panel.classList.remove('open');
+      overlay.classList.remove('open');
+    }
+
+    window.__ecxOpenSettings = () => {
+      panel.classList.add('open');
+      overlay.classList.add('open');
+    };
+  }
+
+  function makeSection(label) {
+    const d = ce('div', { className: 'ecx-section-title' }, label);
+    return d;
+  }
+
+  function makeToggleRow(label, desc, key) {
+    const row = ce('div', { className: 'ecx-setting-row' });
+    const lbl = ce('label', { className: 'ecx-setting-label', htmlFor: 'ecx-toggle-' + key });
+    lbl.innerHTML = `${label}<span class="ecx-setting-desc">${desc}</span>`;
+
+    const tog = ce('label', { className: 'ecx-toggle' });
+    const inp = ce('input', { type: 'checkbox', id: 'ecx-toggle-' + key, checked: cfg.get(key) });
+    const slider = ce('span', { className: 'ecx-toggle-slider' });
+    tog.append(inp, slider);
+
+    inp.addEventListener('change', () => {
+      cfg.set(key, inp.checked);
+      applySettings();
+    });
+
+    row.append(lbl, tog);
+    return row;
+  }
+
+  function makeNumRow(label, desc, key, min, max) {
+    const row = ce('div', { className: 'ecx-setting-row' });
+    const lbl = ce('label', { className: 'ecx-setting-label', htmlFor: 'ecx-num-' + key });
+    lbl.innerHTML = `${label}<span class="ecx-setting-desc">${desc}</span>`;
+
+    const inp = ce('input', {
+      type: 'number', id: 'ecx-num-' + key,
+      className: 'ecx-num-input',
+      value: cfg.get(key), min, max,
+    });
+    inp.addEventListener('change', () => {
+      const v = Math.min(max, Math.max(min, parseInt(inp.value) || 0));
+      cfg.set(key, v);
+      inp.value = v;
+      applySettings();
+    });
+
+    row.append(lbl, inp);
+    return row;
+  }
+
+  function buildFiltersTab(pane) {
+    pane.append(makeSection('Post Filters'));
+
+    const helpText = ce('p', {
+      style: 'font-size:11px;color:var(--ecx-muted);margin:0 0 10px;line-height:1.6'
+    }, 'Filters match against post fields. Use plain text or /regex/i. Action: hide, highlight, or collapse.');
+
+    const filterList = ce('div', { className: 'ecx-filter-list', id: 'ecx-filter-list' });
+    const addBtn = ce('button', { className: 'ecx-btn primary', id: 'ecx-filter-add' }, '+ Add Filter');
+
+    pane.append(helpText, filterList, addBtn);
+
+    function renderFilters() {
+      filterList.innerHTML = '';
+      const filters = cfg.get('filters') || [];
+      filters.forEach((f, i) => {
+        const row = ce('div', { className: 'ecx-filter-row' });
+
+        const typeSelect = ce('select');
+        ['name', 'subject', 'body', 'trip'].forEach(t => {
+          const opt = ce('option', { value: t }, t);
+          if (f.type === t) opt.selected = true;
+          typeSelect.append(opt);
+        });
+
+        const patInput = ce('input', { type: 'text', placeholder: 'pattern or /regex/', value: f.pattern || '' });
+
+        const actionSelect = ce('select');
+        ['hide', 'highlight', 'collapse'].forEach(a => {
+          const opt = ce('option', { value: a }, a);
+          if (f.action === a) opt.selected = true;
+          actionSelect.append(opt);
+        });
+
+        const boardInput = ce('input', { type: 'text', placeholder: 'all / b,pol', value: f.boards || '', style: 'width:70px;flex-shrink:0' });
+
+        const delBtn = ce('button', { className: 'ecx-btn danger' }, '✕');
+        delBtn.addEventListener('click', () => {
+          const filters = cfg.get('filters');
+          filters.splice(i, 1);
+          cfg.set('filters', filters);
+          renderFilters();
+          applyFilters();
+        });
+
+        const saveRow = () => {
+          const filters = cfg.get('filters');
+          filters[i] = {
+            type:    typeSelect.value,
+            pattern: patInput.value,
+            action:  actionSelect.value,
+            boards:  boardInput.value,
+          };
+          cfg.set('filters', filters);
+          applyFilters();
+        };
+
+        [typeSelect, patInput, actionSelect, boardInput].forEach(el => el.addEventListener('change', saveRow));
+        patInput.addEventListener('input', saveRow);
+
+        row.append(typeSelect, patInput, actionSelect, boardInput, delBtn);
+        filterList.append(row);
+      });
+    }
+
+    addBtn.addEventListener('click', () => {
+      const filters = cfg.get('filters');
+      filters.push({ type: 'body', pattern: '', action: 'hide', boards: 'all' });
+      cfg.set('filters', filters);
+      renderFilters();
+    });
+
+    renderFilters();
+  }
+
+  function buildWatcherTab(pane) {
+    pane.append(makeSection('Watched Threads'));
+    const info = ce('p', { style: 'font-size:11px;color:var(--ecx-muted);margin:0 0 10px' },
+      'Click the 👁 icon on any thread to watch it. The floating panel tracks reply counts.');
+    const clearBtn = ce('button', { className: 'ecx-btn danger' }, 'Clear All Watched Threads');
+    clearBtn.addEventListener('click', () => {
+      cfg.set('watchedThreads', {});
+      renderWatchedList();
+    });
+    const list = ce('div', { id: 'ecx-watcher-settings-list', style: 'margin-top:8px;' });
+    pane.append(info, clearBtn, list);
+
+    function renderWatchedList() {
+      list.innerHTML = '';
+      const w = cfg.get('watchedThreads');
+      let any = false;
+      Object.entries(w).forEach(([board, threads]) => {
+        threads.forEach(t => {
+          any = true;
+          const row = ce('div', { style: 'font-size:11px;color:var(--ecx-muted);padding:3px 0;border-bottom:1px solid rgba(80,73,69,.2)' });
+          row.textContent = `/${board}/ — ${t.title} (${t.replies} replies)`;
+          list.append(row);
+        });
+      });
+      if (!any) list.textContent = 'No watched threads.';
+    }
+    renderWatchedList();
+  }
+
+  function applySettings() {
+    document.body.classList.toggle('ecx-compact', cfg.get('compactMode'));
+    document.documentElement.style.setProperty('--ecx-prev-mw', cfg.get('imageHoverMaxWidth') + 'px');
+    document.documentElement.style.setProperty('--ecx-prev-mh', cfg.get('imageHoverMaxHeight') + 'px');
+
+    if (cfg.get('smoothScroll')) {
+      document.documentElement.style.scrollBehavior = 'smooth';
+    } else {
+      document.documentElement.style.scrollBehavior = '';
+    }
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     4. HEADER TOOLBAR
+  ────────────────────────────────────────────────────────── */
+
+  function buildHeaderToolbar() {
+    // LynxChan puts a simple flat header at top
+    // We'll inject after the nav link list
+    const navDiv = document.querySelector('div#boardHeader, header, #divMessage, .divMessage, body > div:first-child, div.linkList')
+      || document.querySelector('body');
+
+    const toolbar = ce('span', { id: 'ecx-toolbar' });
+
+    // Settings cog
+    const settingsBtn = ce('span', { id: 'ecx-settings-btn', title: 'EndchanX Settings' }, '⚙');
+    settingsBtn.addEventListener('click', () => window.__ecxOpenSettings && window.__ecxOpenSettings());
+
+    // Watcher eye
+    const watcherBtn = ce('span', { id: 'ecx-toolbar-btn-watcher', title: 'Thread Watcher' }, '👁');
+    watcherBtn.addEventListener('click', () => {
+      const w = document.getElementById('ecx-watcher');
+      if (w) {
+        w.classList.toggle('open');
+        watcherBtn.classList.toggle('active', w.classList.contains('open'));
+      }
+    });
+
+    // Quick Reply toggle (only in threads)
+    if (IS_THREAD && cfg.get('quickReply')) {
+      const qrBtn = ce('span', { title: 'Quick Reply', style: 'cursor:pointer;font-size:14px;padding:2px 5px;color:var(--ecx-muted)' }, '✏');
+      qrBtn.addEventListener('click', () => toggleQR());
+      toolbar.append(qrBtn);
+    }
+
+    toolbar.append(watcherBtn, settingsBtn);
+
+    // Try to insert after first nav bar on page
+    const firstLink = document.querySelector('a[href*="/b/"], a[href*="boards"]');
+    if (firstLink) {
+      const parent = firstLink.closest('p, div');
+      if (parent) parent.appendChild(toolbar);
+    } else {
+      document.body.prepend(toolbar);
+    }
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     5. IMAGE HOVER PREVIEW
+  ────────────────────────────────────────────────────────── */
+
+  function initImageHover() {
+    if (!cfg.get('imageHover')) return;
+
+    const preview = ce('div', { id: 'ecx-img-preview' });
+    const previewImg = ce('img');
+    const previewVid = ce('video', { controls: false, autoplay: true, loop: true, muted: true });
+    preview.append(previewImg, previewVid);
+    document.body.append(preview);
+
+    let hoverTimer = null;
+    let currentSrc = null;
+
+    function showPreview(src, isVideo, x, y) {
+      if (isVideo) {
+        previewImg.style.display = 'none';
+        previewVid.style.display = 'block';
+        if (previewVid.src !== src) {
+          previewVid.src = src;
+          previewVid.load();
+          previewVid.play().catch(() => {});
+        }
+      } else {
+        previewVid.style.display = 'none';
+        previewVid.pause();
+        previewVid.src = '';
+        previewImg.style.display = 'block';
+        previewImg.src = src;
+      }
+      preview.style.display = 'block';
+      positionPreview(x, y);
+    }
+
+    function positionPreview(x, y) {
+      const mw = cfg.get('imageHoverMaxWidth');
+      const mh = cfg.get('imageHoverMaxHeight');
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const pad = 18;
+
+      let left = x + pad;
+      let top  = y - 30;
+
+      if (left + mw > vw - pad) left = x - mw - pad;
+      if (left < pad) left = pad;
+      if (top + mh > vh - pad) top = vh - mh - pad;
+      if (top < pad) top = pad;
+
+      preview.style.left = left + 'px';
+      preview.style.top  = top + 'px';
+    }
+
+    function hidePreview() {
+      clearTimeout(hoverTimer);
+      preview.style.display = 'none';
+      previewVid.pause();
+      previewVid.src = '';
+      currentSrc = null;
+    }
+
+    document.addEventListener('mouseover', e => {
+      if (!cfg.get('imageHover')) return;
+      // Match thumbnail links and "Open File" links
+      const a = e.target.closest('a[href*="/.media/"], a[href^="/.media/"]');
+      if (!a) { hidePreview(); return; }
+
+      const href = a.href;
+      if (href === currentSrc) return;
+
+      clearTimeout(hoverTimer);
+      const delay = cfg.get('imageHoverDelay');
+      const isVideo = /\.(webm|mp4|ogv)(\?|$)/i.test(href);
+
+      hoverTimer = setTimeout(() => {
+        currentSrc = href;
+        showPreview(href, isVideo, e.clientX, e.clientY);
+      }, delay);
+    });
+
+    document.addEventListener('mousemove', e => {
+      if (preview.style.display === 'block') {
+        positionPreview(e.clientX, e.clientY);
+      }
+    });
+
+    document.addEventListener('mouseout', e => {
+      const a = e.target.closest('a[href*="/.media/"]');
+      if (a) {
+        clearTimeout(hoverTimer);
+        // Slight delay so we don't flicker on gap between thumb and preview
+        hoverTimer = setTimeout(hidePreview, 100);
+      }
+    });
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     6. REPLY TREE / BACKLINKS
+  ────────────────────────────────────────────────────────── */
+
+  function buildReplyTree() {
+    if (!cfg.get('replyTree')) return;
+    if (!IS_THREAD) return;
+
+    // Map postId → array of post IDs that link to it
+    const backlinks = {};
+
+    $$('.quoteLink, a.quoteLink').forEach(link => {
+      const href = link.getAttribute('href') || '';
+      const targetId = href.replace(/.*#/, '');
+      // Find the post this link lives in
+      const postCell = link.closest('.postCell');
+      if (!postCell) return;
+      const postId = postCell.id || postCell.dataset.post;
+      const idNum = postId && postId.replace(/\D/g, '');
+      if (!idNum || !targetId) return;
+
+      if (!backlinks[targetId]) backlinks[targetId] = new Set();
+      backlinks[targetId].add(idNum);
+    });
+
+    // Inject backlink divs
+    Object.entries(backlinks).forEach(([targetId, repliers]) => {
+      const target = document.getElementById(targetId) || document.querySelector(`[data-post="${targetId}"]`);
+      if (!target) return;
+
+      const inner = target.querySelector('.innerPost') || target;
+      const existing = inner.querySelector('.ecx-backlinks');
+      if (existing) return;
+
+      const blDiv = ce('div', { className: 'ecx-backlinks' });
+      blDiv.append(document.createTextNode('↳ '));
+      repliers.forEach(id => {
+        const a = ce('a', { href: '#' + id, className: 'ecx-bl-link' }, '>>' + id);
+        a.dataset.target = id;
+        blDiv.append(a);
+      });
+      inner.prepend(blDiv);
+    });
+
+    // Post hover on backlinks
+    initPostHover();
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     7. POST HOVER POPUP
+  ────────────────────────────────────────────────────────── */
+
+  function initPostHover() {
+    let popup = null;
+    let popupTimer = null;
+
+    document.addEventListener('mouseover', e => {
+      const a = e.target.closest('a.quoteLink, a.ecx-bl-link, a[href*="#q"]');
+      if (!a) return;
+
+      const href = a.getAttribute('href') || '';
+      const targetId = href.replace(/.*#q?/, '');
+      if (!targetId) return;
+
+      clearTimeout(popupTimer);
+      popupTimer = setTimeout(() => {
+        removePopup();
+        const targetPost = document.getElementById(targetId) || document.querySelector(`[data-post="${targetId}"]`);
+        if (!targetPost) return;
+
+        popup = ce('div', { className: 'ecx-post-popup' });
+        const inner = targetPost.querySelector('.innerPost');
+        if (inner) popup.innerHTML = inner.innerHTML;
+        document.body.append(popup);
+
+        const rect = a.getBoundingClientRect();
+        let top  = rect.bottom + window.scrollY + 4;
+        let left = rect.left + window.scrollX;
+        if (left + 500 > window.innerWidth) left = window.innerWidth - 510;
+        popup.style.top  = top + 'px';
+        popup.style.left = left + 'px';
+      }, 120);
+    });
+
+    document.addEventListener('mouseout', e => {
+      const a = e.target.closest('a.quoteLink, a.ecx-bl-link, a[href*="#q"]');
+      if (a) {
+        clearTimeout(popupTimer);
+        popupTimer = setTimeout(removePopup, 80);
+      }
+    });
+
+    function removePopup() {
+      if (popup) { popup.remove(); popup = null; }
+    }
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     8. POST FILTERING
+  ────────────────────────────────────────────────────────── */
+
+  function applyFilters() {
+    const filters = cfg.get('filters') || [];
+    if (!filters.length) return;
+
+    $$('.postCell').forEach(cell => {
+      // Reset
+      cell.classList.remove('ecx-filter-highlight');
+      const stub = cell.querySelector('.ecx-hidden-stub');
+      if (stub) stub.remove();
+
+      const nameEl    = cell.querySelector('.labelName, .namePoster, span.labelName');
+      const subjectEl = cell.querySelector('.labelSubject');
+      const bodyEl    = cell.querySelector('.divMessage, .postMessage');
+      const tripEl    = cell.querySelector('.labelTripcode, .tripcode');
+
+      const vals = {
+        name:    nameEl    ? nameEl.textContent.trim()    : '',
+        subject: subjectEl ? subjectEl.textContent.trim() : '',
+        body:    bodyEl    ? bodyEl.textContent.trim()    : '',
+        trip:    tripEl    ? tripEl.textContent.trim()    : '',
+      };
+
+      for (const f of filters) {
+        if (!f.pattern) continue;
+
+        // Board check
+        if (f.boards && f.boards !== 'all') {
+          const boards = f.boards.split(',').map(b => b.trim());
+          if (!boards.includes(BOARD)) continue;
+        }
+
+        // Pattern matching
+        let matches = false;
+        const pat = f.pattern;
+        if (pat.startsWith('/') && pat.lastIndexOf('/') > 0) {
+          const lastSlash = pat.lastIndexOf('/');
+          const re = new RegExp(pat.slice(1, lastSlash), pat.slice(lastSlash + 1) || 'i');
+          matches = re.test(vals[f.type] || '');
+        } else {
+          matches = (vals[f.type] || '').toLowerCase().includes(pat.toLowerCase());
+        }
+
+        if (!matches) continue;
+
+        if (f.action === 'hide') {
+          hidePost(cell, 'Filtered post — click to show');
+        } else if (f.action === 'highlight') {
+          cell.classList.add('ecx-filter-highlight');
+        } else if (f.action === 'collapse') {
+          const inner = cell.querySelector('.innerPost');
+          if (inner) inner.style.display = 'none';
+        }
+        break;
+      }
+    });
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     9. POST HIDING
+  ────────────────────────────────────────────────────────── */
+
+  function initPostHiding() {
+    if (!cfg.get('postHiding')) return;
+
+    // Add [hide] button next to post number
+    $$('.postCell').forEach(addHideButton);
+
+    // Restore hidden posts from storage
+    const hidden = cfg.get('hiddenPosts') || {};
+    const boardHidden = hidden[BOARD] || [];
+    boardHidden.forEach(id => {
+      const cell = document.getElementById(id) || document.querySelector(`[data-post="${id}"]`);
+      if (cell) hidePost(cell, 'Hidden post — click to show');
+    });
+  }
+
+  function addHideButton(cell) {
+    const postNum = cell.querySelector('a[href*="#q"]');
+    if (!postNum || cell.querySelector('.ecx-hide-btn')) return;
+
+    const btn = ce('span', { className: 'ecx-hide-btn', title: 'Hide post', style: 'cursor:pointer;color:var(--ecx-muted);font-size:11px;margin-left:4px;user-select:none' }, '[−]');
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const postId = getPostId(cell);
+      const hidden = cfg.get('hiddenPosts');
+      if (!hidden[BOARD]) hidden[BOARD] = [];
+      if (!hidden[BOARD].includes(postId)) hidden[BOARD].push(postId);
+      cfg.set('hiddenPosts', hidden);
+      hidePost(cell, 'Hidden post — click to show');
+    });
+
+    if (postNum.parentNode) postNum.parentNode.insertBefore(btn, postNum.nextSibling);
+  }
+
+  function hidePost(cell, msg) {
+    const inner = cell.querySelector('.innerPost');
+    if (!inner) return;
+    inner.style.display = 'none';
+
+    const existing = cell.querySelector('.ecx-hidden-stub');
+    if (existing) return;
+
+    const stub = ce('div', { className: 'ecx-hidden-stub' }, msg || 'Post hidden — click to show');
+    stub.addEventListener('click', () => {
+      inner.style.display = '';
+      stub.remove();
+      const postId = getPostId(cell);
+      const hidden = cfg.get('hiddenPosts');
+      if (hidden[BOARD]) {
+        hidden[BOARD] = hidden[BOARD].filter(id => id !== postId);
+        cfg.set('hiddenPosts', hidden);
+      }
+    });
+    cell.insertBefore(stub, inner);
+  }
+
+  function getPostId(cell) {
+    return cell.id || cell.dataset.post || '';
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     10. POST CONTEXT MENU
+  ────────────────────────────────────────────────────────── */
+
+  function initPostMenu() {
+    let menu = null;
+
+    function closeMenu() { if (menu) { menu.remove(); menu = null; } }
+
+    document.addEventListener('click', e => {
+      if (!e.target.closest('#ecx-post-menu')) closeMenu();
+    });
+
+    // Right-click on post number
+    document.addEventListener('contextmenu', e => {
+      const postNum = e.target.closest('.linkQuote, a[href*="#q"]');
+      if (!postNum) return;
+
+      const cell = postNum.closest('.postCell');
+      if (!cell) return;
+
+      e.preventDefault();
+      closeMenu();
+
+      const postId = getPostId(cell);
+      menu = ce('div', { id: 'ecx-post-menu', className: 'ecx-post-menu' });
+
+      const items = [
+        ['📋 Copy Post #', () => navigator.clipboard?.writeText('>>' + postId)],
+        ['🔗 Copy Link',    () => {
+          const url = window.location.origin + window.location.pathname + '#' + postId;
+          navigator.clipboard?.writeText(url);
+        }],
+        ['👁 Hide Post',   () => { hidePost(cell, 'Hidden post — click to show'); closeMenu(); }],
+        ['✏ Reply',        () => { insertQuote(postId); closeMenu(); }],
+      ];
+
+      items.forEach(([label, fn]) => {
+        const a = ce('a', {}, label);
+        a.addEventListener('click', fn);
+        menu.append(a);
+      });
+
+      menu.style.left = e.clientX + 'px';
+      menu.style.top  = e.clientY + 'px';
+      document.body.append(menu);
+    });
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     11. QUICK REPLY
+  ────────────────────────────────────────────────────────── */
+
+  let qrOpen = false;
+
+  function buildQuickReply() {
+    if (!cfg.get('quickReply') || !IS_THREAD) return;
+
+    const qr = ce('div', { id: 'ecx-qr' });
+
+    const hdr = ce('div', { className: 'ecx-qr-header' });
+    const title = ce('span', {}, '✏ Quick Reply');
+    const closeBtn = ce('span', { style: 'cursor:pointer;color:var(--ecx-muted);font-size:16px' }, '✕');
+    closeBtn.addEventListener('click', () => { qr.classList.remove('open'); qrOpen = false; });
+    hdr.append(title, closeBtn);
+
+    const body = ce('div', { className: 'ecx-qr-body' });
+
+    const nameInput    = ce('input', { type: 'text', placeholder: 'Name (optional)', id: 'ecx-qr-name' });
+    const subjectInput = ce('input', { type: 'text', placeholder: 'Subject', id: 'ecx-qr-subject' });
+    const textArea     = ce('textarea', { placeholder: 'Comment…', id: 'ecx-qr-comment', rows: 5 });
+    const fileInput    = ce('input', { type: 'file', id: 'ecx-qr-file', multiple: true, accept: 'image/*,video/*' });
+    fileInput.style.cssText = 'color:var(--ecx-muted);font-size:11px;';
+
+    body.append(nameInput, subjectInput, textArea, fileInput);
+
+    const footer = ce('div', { className: 'ecx-qr-footer' });
+    const cancelBtn = ce('button', { className: 'ecx-btn' }, 'Cancel');
+    cancelBtn.addEventListener('click', () => { qr.classList.remove('open'); qrOpen = false; });
+    const submitBtn = ce('button', { className: 'ecx-btn primary' }, 'Post Reply');
+    submitBtn.addEventListener('click', () => submitQR());
+    footer.append(cancelBtn, submitBtn);
+
+    qr.append(hdr, body, footer);
+    document.body.append(qr);
+    makeDraggable(qr, hdr);
+
+    // Intercept "Reply" and post# quote links to open QR
+    document.addEventListener('click', e => {
+      const qLink = e.target.closest('a.linkQuote, a[href*="#q"]');
+      if (qLink && cfg.get('quickReply')) {
+        const id = (qLink.getAttribute('href') || '').replace(/.*#q?/, '');
+        if (id) {
+          e.preventDefault();
+          insertQuote(id);
+        }
+      }
+    });
+  }
+
+  function toggleQR() {
+    const qr = document.getElementById('ecx-qr');
+    if (!qr) return;
+    qrOpen = !qrOpen;
+    qr.classList.toggle('open', qrOpen);
+    if (qrOpen) document.getElementById('ecx-qr-comment')?.focus();
+  }
+
+  function insertQuote(postId) {
+    const qr = document.getElementById('ecx-qr');
+    if (qr) {
+      qr.classList.add('open');
+      qrOpen = true;
+      const ta = document.getElementById('ecx-qr-comment');
+      if (ta) {
+        ta.value += `>>${postId}\n`;
+        ta.focus();
+        ta.selectionStart = ta.selectionEnd = ta.value.length;
+      }
+    }
+  }
+
+  function submitQR() {
+    // Build a FormData and submit to LynxChan reply endpoint
+    const threadMatch = location.pathname.match(/\/res\/(\d+)\.html/);
+    if (!threadMatch) return;
+    const threadId = threadMatch[1];
+
+    const name    = document.getElementById('ecx-qr-name')?.value || '';
+    const subject = document.getElementById('ecx-qr-subject')?.value || '';
+    const message = document.getElementById('ecx-qr-comment')?.value || '';
+    const files   = document.getElementById('ecx-qr-file')?.files;
+
+    if (!message && (!files || files.length === 0)) {
+      alert('Please enter a message or attach a file.');
+      return;
+    }
+
+    const form = document.querySelector('form[id], form[action]');
+    const action = form ? form.action : `/replyThread.js`;
+
+    const fd = new FormData();
+    fd.append('boardUri', BOARD);
+    fd.append('threadId', threadId);
+    fd.append('name', name);
+    fd.append('subject', subject);
+    fd.append('message', message);
+    if (files) Array.from(files).forEach(f => fd.append('files', f));
+
+    // Copy password if present
+    const passEl = form && form.querySelector('input[name=password]');
+    if (passEl) fd.append('password', passEl.value);
+
+    fetch(action, { method: 'POST', body: fd, credentials: 'same-origin' })
+      .then(r => r.text())
+      .then(() => {
+        // Clear and reload thread
+        document.getElementById('ecx-qr-comment').value = '';
+        document.getElementById('ecx-qr-name').value    = '';
+        document.getElementById('ecx-qr-subject').value = '';
+        location.reload();
+      })
+      .catch(err => alert('Post failed: ' + err));
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     12. THREAD WATCHER
+  ────────────────────────────────────────────────────────── */
+
+  function buildThreadWatcher() {
+    if (!cfg.get('threadWatcher')) return;
+
+    const watcher = ce('div', { id: 'ecx-watcher' });
+    const hdr = ce('div', { className: 'ecx-watcher-header' });
+    const title = ce('span', {}, '👁 Watched Threads');
+    const closeBtn = ce('span', { style: 'cursor:pointer;font-size:14px;color:var(--ecx-muted)' }, '✕');
+    closeBtn.addEventListener('click', () => { watcher.classList.remove('open'); });
+    hdr.append(title, closeBtn);
+
+    const list = ce('div', { className: 'ecx-watcher-list', id: 'ecx-watcher-inner' });
+    watcher.append(hdr, list);
+    document.body.append(watcher);
+    makeDraggable(watcher, hdr);
+
+    // Add watch button on thread view
+    if (IS_THREAD) {
+      const threadMatch = location.pathname.match(/\/res\/(\d+)\.html/);
+      const threadId = threadMatch ? threadMatch[1] : null;
+
+      if (threadId) {
+        const watchBtn = ce('span', {
+          style: 'cursor:pointer;font-size:12px;color:var(--ecx-muted);margin-left:8px;',
+          title: 'Watch/Unwatch thread',
+        }, '👁 Watch');
+
+        watchBtn.addEventListener('click', () => {
+          const threads = cfg.get('watchedThreads');
+          const boardThreads = threads[BOARD] || [];
+          const existing = boardThreads.find(t => t.id === threadId);
+
+          if (existing) {
+            threads[BOARD] = boardThreads.filter(t => t.id !== threadId);
+            watchBtn.style.color = 'var(--ecx-muted)';
+            watchBtn.textContent = '👁 Watch';
+          } else {
+            const subjectEl = document.querySelector('.labelSubject, .threadSubject');
+            const title = subjectEl ? subjectEl.textContent.trim() : ('Thread #' + threadId);
+            const replyCount = $$('.postCell').length - 1;
+            if (!threads[BOARD]) threads[BOARD] = [];
+            threads[BOARD].push({ id: threadId, title, replies: replyCount, url: location.href });
+            watchBtn.style.color = 'var(--ecx-green)';
+            watchBtn.textContent = '👁 Watching';
+          }
+
+          cfg.set('watchedThreads', threads);
+          renderWatcher();
+        });
+
+        // Check if already watched
+        const watched = (cfg.get('watchedThreads')[BOARD] || []).find(t => t.id === threadId);
+        if (watched) {
+          watchBtn.style.color = 'var(--ecx-green)';
+          watchBtn.textContent = '👁 Watching';
+        }
+
+        const navBar = document.querySelector('div.boardHeader a, div[class*="nav"] a');
+        if (navBar && navBar.parentNode) navBar.parentNode.append(watchBtn);
+      }
+    }
+
+    renderWatcher();
+
+    function renderWatcher() {
+      const inner = document.getElementById('ecx-watcher-inner');
+      if (!inner) return;
+      inner.innerHTML = '';
+
+      const allThreads = cfg.get('watchedThreads');
+      let any = false;
+
+      Object.entries(allThreads).forEach(([board, threads]) => {
+        threads.forEach(t => {
+          any = true;
+          const item = ce('div', { className: 'ecx-watcher-item' });
+          item.addEventListener('click', () => { location.href = t.url; });
+
+          const titleSpan = ce('span', { className: 'ecx-watcher-title', title: t.title }, `/${board}/ ${t.title}`);
+          const repSpan   = ce('span', { className: 'ecx-watcher-replies' }, t.replies + 'R');
+          const del       = ce('span', { className: 'ecx-watcher-del', title: 'Remove' }, '✕');
+          del.addEventListener('click', ev => {
+            ev.stopPropagation();
+            const w = cfg.get('watchedThreads');
+            w[board] = (w[board] || []).filter(x => x.id !== t.id);
+            cfg.set('watchedThreads', w);
+            item.remove();
+          });
+
+          item.append(titleSpan, repSpan, del);
+          inner.append(item);
+        });
+      });
+
+      if (!any) {
+        inner.append(ce('div', {
+          style: 'padding:10px;color:var(--ecx-muted);font-size:11px;text-align:center'
+        }, 'No watched threads'));
+      }
+    }
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     13. RELATIVE TIMESTAMPS
+  ────────────────────────────────────────────────────────── */
+
+  function initRelativeTime() {
+    if (!cfg.get('relativeTime')) return;
+
+    function relTime(date) {
+      const diff = Date.now() - date.getTime();
+      const sec = Math.floor(diff / 1000);
+      if (sec < 60) return sec + 's ago';
+      const min = Math.floor(sec / 60);
+      if (min < 60) return min + 'm ago';
+      const hr = Math.floor(min / 60);
+      if (hr < 24) return hr + 'h ago';
+      const d = Math.floor(hr / 24);
+      if (d < 30) return d + 'd ago';
+      const mo = Math.floor(d / 30);
+      if (mo < 12) return mo + 'mo ago';
+      return Math.floor(mo / 12) + 'y ago';
+    }
+
+    function parsePostDate(el) {
+      // LynxChan format: "05/24/2026 (Sun) 19:35"
+      const txt = el.textContent.trim();
+      const m = txt.match(/(\d{2})\/(\d{2})\/(\d{4})\s*(?:\([A-Za-z]+\))?\s*(\d{2}):(\d{2})/);
+      if (!m) return null;
+      return new Date(`${m[3]}-${m[1]}-${m[2]}T${m[4]}:${m[5]}:00`);
+    }
+
+    $$('.labelCreated, time, span[title*="20"]').forEach(el => {
+      const date = parsePostDate(el);
+      if (!date || isNaN(date)) return;
+
+      const rel = ce('span', { className: 'ecx-reltime', title: el.textContent.trim() }, ' (' + relTime(date) + ')');
+      el.after(rel);
+    });
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     14. INLINE MEDIA
+  ────────────────────────────────────────────────────────── */
+
+  function initInlineMedia() {
+    if (!cfg.get('inlineMedia')) return;
+
+    document.addEventListener('click', e => {
+      // Click on a thumbnail link → expand inline
+      const a = e.target.closest('a[href*="/.media/"]');
+      if (!a) return;
+
+      // Don't intercept "Open File" text links or video direct hrefs without thumbnails
+      const isThumbParent = a.querySelector('img') || e.target.tagName === 'IMG';
+      if (!isThumbParent) return;
+
+      const href = a.href;
+      const isVideo = /\.(webm|mp4|ogv)(\?|$)/i.test(href);
+
+      // Check if already expanded
+      const existing = a.parentNode.querySelector('.ecx-inline-media');
+      if (existing) {
+        existing.remove();
+        return;
+      }
+
+      e.preventDefault();
+
+      let media;
+      if (isVideo) {
+        media = ce('video', {
+          src: href,
+          className: 'ecx-inline-media',
+          controls: true,
+          loop: true,
+          muted: false,
+        });
+      } else {
+        media = ce('img', { src: href, className: 'ecx-inline-media' });
+      }
+
+      media.addEventListener('click', () => media.remove());
+      a.parentNode.insertBefore(media, a.nextSibling);
+    });
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     15. THREAD STATS
+  ────────────────────────────────────────────────────────── */
+
+  function injectThreadStats() {
+    if (!IS_THREAD) return;
+
+    const posts = $$('.postCell');
+    const opPost = posts[0];
+    const replyCount = posts.length - 1;
+    const imageCount = $$('.imgLink, a[href*="/.media/"] img').length;
+    const posters = new Set($$('.labelName').map(e => e.textContent.trim())).size;
+
+    const statsBar = ce('div', { className: 'ecx-thread-stats' });
+    statsBar.innerHTML = `<b>${replyCount}</b> replies · <b>${imageCount}</b> images · <b>${posters}</b> unique posters`;
+
+    const returnLink = document.querySelector('a[href$="/b/"], a[href*="Return"]');
+    if (returnLink && returnLink.parentNode) {
+      returnLink.parentNode.insertBefore(statsBar, returnLink.parentNode.firstChild);
+    } else if (opPost) {
+      opPost.parentNode.insertBefore(statsBar, opPost);
+    }
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     16. DRAGGABLE HELPER
+  ────────────────────────────────────────────────────────── */
+
+  function makeDraggable(el, handle) {
+    let ox = 0, oy = 0, startX = 0, startY = 0;
+
+    handle.addEventListener('mousedown', e => {
+      if (e.button !== 0) return;
+      e.preventDefault();
+      startX = e.clientX;
+      startY = e.clientY;
+      const rect = el.getBoundingClientRect();
+      ox = rect.left;
+      oy = rect.top;
+      el.style.position = 'fixed';
+      el.style.margin   = '0';
+
+      const onMove = mv => {
+        el.style.left = (ox + mv.clientX - startX) + 'px';
+        el.style.top  = (oy + mv.clientY - startY) + 'px';
+      };
+      const onUp = () => {
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+      };
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+    });
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     17. CATALOG ENHANCEMENTS
+  ────────────────────────────────────────────────────────── */
+
+  function initCatalog() {
+    if (!IS_CATALOG) return;
+
+    // Add reply count badges
+    $$('.catalogCell').forEach(cell => {
+      const replies = cell.querySelector('.replyCount, .catalogReply');
+      if (!replies) return;
+      const badge = ce('span', { className: 'ecx-reply-badge' }, replies.textContent.trim());
+      replies.parentNode.insertBefore(badge, replies);
+    });
+
+    // Catalog search filter
+    const searchBar = ce('input', {
+      type: 'search',
+      placeholder: '🔍 Filter catalog…',
+      style: `
+        display: block;
+        width: 280px;
+        margin: 8px auto;
+        padding: 6px 12px;
+        background: var(--ecx-bg2);
+        border: 1px solid var(--ecx-border);
+        border-radius: 4px;
+        color: var(--ecx-text);
+        font-family: var(--ecx-font);
+        font-size: 13px;
+      `
+    });
+
+    const catalog = document.querySelector('#divThreads, .catalogCells, div[class*="catalog"]');
+    if (catalog && catalog.parentNode) {
+      catalog.parentNode.insertBefore(searchBar, catalog);
+    }
+
+    searchBar.addEventListener('input', () => {
+      const q = searchBar.value.toLowerCase();
+      $$('.catalogCell').forEach(cell => {
+        const text = cell.textContent.toLowerCase();
+        cell.style.display = (!q || text.includes(q)) ? '' : 'none';
+      });
+    });
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     INIT — run all modules
+  ────────────────────────────────────────────────────────── */
+
+  function init() {
+    applySettings();
+    buildSettingsPanel();
+    buildHeaderToolbar();
+    buildQuickReply();
+    buildThreadWatcher();
+    initImageHover();
+    initInlineMedia();
+    initRelativeTime();
+    initCatalog();
+    injectThreadStats();
+    initPostHiding();
+    initPostMenu();
+
+    if (IS_THREAD) {
+      buildReplyTree();   // also calls initPostHover()
+    } else {
+      initPostHover();
+    }
+
+    applyFilters();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
