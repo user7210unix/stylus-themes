@@ -1,0 +1,409 @@
+/* ==UserStyle==
+@name         Abyss for 8TailedLynx
+@namespace    USO Archive
+@author       Shinji, o gozador (palette remap)
+@description  <strong>Abyss theme for 8TailedLynx, LynxChan's front-end.</strong>
+@version      20160521.23.44
+@license      NONE
+@preprocessor uso
+==/UserStyle== */
+
+/*
+Abyss for 8TailedLynx
+Deep black/charcoal palette with acid green links,
+muted cyan quotes, crimson mod markers.
+*/
+
+@-moz-document domain(endchan.org) {
+
+/*──────────────────────────────────────────
+  PALETTE REFERENCE
+  --bg-base:     #0d0d0f   page background (near-black)
+  --bg-surface:  #131417   post/nav/form surfaces
+  --bg-raised:   #1a1b1f   slightly lifted elements
+  --border:      #242529   subtle separators
+  --text-pri:    #d4d4cc   primary text (warm off-white)
+  --text-muted:  #7a7a72   secondary / timestamps
+  --link:        #7ec87e   acid green links
+  --link-hover:  #a8e6a8   brighter on hover
+  --quote:       #5db8c4   cyan quotelinks
+  --subject:     #c08fdb   soft purple subjects
+  --green-text:  #8dbf5a   classic greentext
+  --spoiler-bg:  #000000
+  --role-bg:     #0d0d0f
+  --role-text:   #e03333   crimson capcode
+──────────────────────────────────────────*/
+
+/*Global*/
+body {
+  background: #0d0d0f none;
+  color: #d4d4cc;
+  font-family: arial, helvetica, sans-serif;
+}
+
+a {
+  color: #7ec87e;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #a8e6a8;
+}
+
+hr {
+  background-color: #1a1b1f;
+  border: 0;
+  height: 1px;
+  clear: left;
+}
+
+.red {
+  color: #d4d4cc;
+}
+
+/*Nav*/
+nav {
+  background: #131417;
+  color: #d4d4cc;
+  border-bottom: 1px solid #0a0a0c;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+}
+
+/*Index*/
+#topBox {
+  text-align: center;
+  font-size: 16px;
+  padding: 10px 0 20px 0;
+}
+
+#innerWrapper > div, .infoBox {
+  border: none;
+  background: none;
+}
+
+.linkPost img {
+  padding: 6px 0 6px 0;
+}
+
+footer {
+  background: none;
+  font-size: 10px;
+  margin: 20px 0 10px 0;
+}
+
+/*boards.js*/
+#boardsCellHeader span {
+  background: #131417;
+  border: 1px solid #0a0a0c;
+  color: #d4d4cc;
+}
+
+.boardsCell:nth-of-type(2n+1) span {
+  background-color: #131417;
+}
+
+/*boardManagement, logs*/
+.settings {
+  background: none;
+  border: none;
+}
+
+.logCell {
+  font-weight: bold;
+  font-size: 15px;
+  margin: 10px;
+  padding: 0 5px 0 0;
+}
+
+.logCell p span {
+  font-weight: normal;
+  padding: 10px;
+}
+
+/*Board Header*/
+#bannerImage {
+  border: 1px solid #3a3a3a;
+  margin: -5px 0 15px 0;
+}
+
+#modeBanner {
+  background-color: #0d0d0f;
+  color: #d4d4cc;
+  font-size: 12pt;
+  font-weight: bold;
+  margin: 1em 0;
+}
+
+.boardHeader p {
+  font-family: tahoma;
+  color: #d4d4cc;
+}
+
+.boardHeader p#labelName {
+  font-weight: bold;
+  font-size: 22pt;
+}
+
+.boardHeader a {
+  font-family: arial, sans-serif;
+  font-size: 12px;
+}
+
+#divMessage {
+  text-align: center;
+  color: #e03333;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/*Post form*/
+.form-post th {
+  background: #131417;
+  border: 1px solid #0a0a0c;
+  color: #d4d4cc;
+}
+
+input, button, textarea {
+  padding: 3px 4px 3px;
+  border: 1px solid #1a1b1f;
+  background-color: #1e1f24;
+  color: #c8c8c0;
+}
+
+input:focus, button:focus, textarea:focus {
+  border: 1px solid #5db8c4;
+}
+
+/*Quick reply box*/
+#quick-reply table {
+  background: #131417;
+  border: 1px solid #0a0a0c;
+  color: #d4d4cc;
+}
+
+#post-form-inner th {
+  background: #131417 !important;
+  border: 1px solid #0a0a0c;
+  color: #d4d4cc;
+  text-align: center;
+  padding: 2px 0;
+}
+
+#quick-reply th .handle {
+  color: #d4d4cc;
+  font-size: 13px;
+}
+
+/*Posts*/
+.labelSubject {
+  color: #c08fdb;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.innerPost {
+  background-color: #131417;
+  border: 1px solid #1a1b1f;
+  margin: 0 0 0 8px;
+  max-width: 95%;
+}
+
+.innerPost .uploadCell img {
+  padding: 6px;
+  margin-right: 20px;
+}
+
+.markedPost {
+  background-color: #0f1012;
+  border: 1px solid #0a0a0c;
+}
+
+#divThreads .linkSelf, #divThreads .linkQuote {
+  color: #7a7a72;
+}
+
+#divThreads .linkSelf:hover, #divThreads .linkQuote:hover {
+  color: #a8e6a8;
+}
+
+.divMessage {
+  font-size: 13px;
+  margin: 12px 19px 12px 28px;
+  padding: 0 5px 0 0;
+}
+
+.quoteLink {
+  color: #5db8c4;
+}
+
+.noEmailName, .noEmailName:hover {
+  font-size: 13px;
+  color: #d4d4cc;
+}
+
+.labelRole {
+  color: #e03333 !important;
+  background-color: #0d0d0f;
+  padding: 2px 5px;
+  border-radius: 10px;
+  font-weight: normal;
+}
+
+.linkName:link {
+  font-size: 13px;
+  color: #7ec87e;
+}
+
+.linkName:link:hover {
+  color: #e03333;
+}
+
+.panelBacklinks, .uploadCell, .labelLastEdit, .labelOmission {
+  font-size: 11px;
+}
+
+.labelOmission {
+  color: #4d4d48;
+  margin-top: 1em;
+}
+
+.contentOmissionIndicator {
+  margin: 15px 0 5px 10px;
+}
+
+.divBanMessage {
+  font-size: 14px;
+  color: #e03333;
+  margin: 0 10px 7px 10px;
+}
+
+/*hover reply box*/
+.quoteblock {
+  background: none !important;
+}
+
+.quoteblock .labelCreated, .quoteblock .linkQuote, .quoteblock .labelRole, .quoteblock .spanId, .quoteblock .linkSelf {
+  font-size: 12px;
+  color: #d4d4cc;
+}
+
+/*text formatting*/
+.greenText {
+  color: #8dbf5a;
+}
+
+span.spoiler {
+  background: #000000;
+  color: #000000;
+}
+
+.spoiler:hover {
+  color: #d4d4cc;
+  background-color: #000000;
+}
+
+.redText {
+  font-size: 14px;
+  color: #e03333;
+}
+
+code {
+  font-family: monospace;
+  font-size: 12px;
+  padding: 2px;
+  background: #1a1b1f;
+  color: #5db8c4;
+}
+
+/*catalog*/
+.catalogCell {
+  vertical-align: top;
+  text-align: center;
+  font-weight: normal;
+  display: inline-block;
+  font-size: 16px;
+  max-height: 238px;
+  margin: 0 15px 25px 20px;
+  padding: 15px;
+}
+
+.catalogCell:hover {
+  overflow-y: auto;
+  background-color: #131417;
+  border-color: #0a0a0c;
+}
+
+.linkThumb img {
+  box-shadow: 0 0 6px rgba(0, 0, 0, .75);
+  border: 2px solid rgba(93, 184, 196, 0);
+}
+
+.linkThumb img:hover {
+  border: 2px solid rgba(93, 184, 196, 0.35);
+}
+
+/*Board pages menu*/
+.threadPages, .boardPages {
+  color: #d4d4cc;
+  background: none;
+  border: none;
+  font-size: 15px;
+  margin-top: 25px;
+}
+
+.threadPages span {
+  color: #d4d4cc;
+}
+
+#divPages {
+  background: none;
+}
+
+/*report form*/
+.contentAction {
+  background-color: #131417;
+  border: 1px solid #1a1b1f;
+  float: none;
+  text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+  width: 25%;
+  min-width: 300px; 
+}
+
+#reportFieldReason {
+  margin-left: 2.1em;
+}
+
+#deletionFieldPassword {
+  margin-left: 1em;
+}
+
+img#captchaImageReport {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/*hidepreview*/
+.linkPreview {
+  visibility: collapse;
+}
+
+.linkPreview + .linkSelf {
+  margin-left: -50px;
+}
+
+.divMessage {
+  min-width: 300px;
+}
+
+.quoteblock .linkSelf {
+  margin-left: 0;
+}
+
+.catalogCell .divMessage {
+  min-width: 0;
+}
+
+}
