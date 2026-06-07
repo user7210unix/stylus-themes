@@ -14,3 +14,6 @@ Similar: https://www.color-hex.com/color/70c1b3
 
   <img src="preview.png" alt="Rice Setup Preview" width="800">
 </div>  
+
+
+https://userstyles.world/style/28441
