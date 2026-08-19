@@ -1,0 +1,104 @@
+/* ==UserStyle==
+@name           DuckDuckGo Custom Background
+@namespace      https://userstyles.world/user/Gabrikyun
+@author         Gabrikyun
+@version        1.2.1
+@description    DuckDuckGo Custom Background
+@preprocessor   uso
+
+@advanced text wpimg "Wallpaper Image (Custom)" "https://example.com/image.png"
+
+==/UserStyle== */
+
+@-moz-document url-prefix("https://duckduckgo.com/") {
+    
+    .site-wrapper, .minimal-homepage_layout__jbnsx {
+	    background-image: url(https://external-content.duckduckgo.com/iu/?u=/*[[wpimg]]*/);
+        background-size: cover;
+        background-repeat: no-repeat;
+	    background-position: center;
+	    background-attachment: fixed;
+    }
+
+    .minimal-homepage_minimalHero__sGGTi {
+	    background:rgba(0,0,0,0.55);
+    }
+    
+    .chip-select_root__rdLdI {
+        background:rgba(0,0,0,0.59);
+    }
+    
+    .ai-searchbox_combobox__LWmQ_, .ai-searchbox_combobox__LWmQ_[data-mode=search]:focus-within, .ai-searchbox_combobox__LWmQ_[data-mode=search][data-transitioning=true] {
+        background:rgba(26,26,26,0.91);
+    }
+    
+    .suggestions-list_suggestions__X_rVM {
+        background:rgba(0,0,0,0);
+    }
+    
+    .sideMenu_sideMenu__6CZ1k, .nav-menu--slideout {
+        background:rgba(26,26,26,0.97);
+    }
+    
+    .button_button__IWBae {
+        background:rgba(0,0,0,0.71);
+    }
+    
+    .button_button__IWBae:hover {
+        background:rgba(0,0,0,0.44);
+    }
+    
+    .ai-settings-button_saveButton__UEhya {
+        background: rgba(117,182,235);
+    }
+    
+    .ai-settings-button_modal__YoNg0 {
+        background:rgba(26,26,26,0.92);
+    }
+    
+    .minimal-homepage_belowTheFoldWrapper__T6mG9, .pull-tab-scroll-button_pullTabScrollButtonContainer__erxXa, .set-browser-promo, .tagline_tagline__HnlhS {
+        display:none;
+    }
+    
+    .header-wrap {
+	    background:rgba(0,0,0,0.87) !important;
+    }
+    
+    .jyBaPv1HPGOoWrXSAjiu .T265XEcezvjUhK71U8pN {
+        background:rgba(26,26,26,0.81);
+    }
+    
+    .orGu2D1JLhBpsPCIxCCY .dQyGJnFX6wNHwWR0QjkG {
+        background:rgba(26,26,26,0.98);
+    }
+    
+    .content-wrap {
+	    background:rgba(0,0,0,0.65);
+    }
+    
+    .O9Ipab51rBntYb0pwOQn, .HHJGgzrZRmw9obWw1QS1>:first-child {
+        background:rgba(26,26,26,0.93);
+    }
+    
+    ._2iQrmxmcSVuOHpCus2L._2iQrmxmcSVuOHpCus2L, .M6UFRY00hE21mXuKUYRg {
+        background:rgba(48,48,48,0.46);
+    }
+    
+    .ph1UFslrkUMqoYJEtp3t.AnI0juSKrY9ML7JPA2HT {
+        background:rgba(0,0,0,0.63);
+    }
+    
+    .DrcPyihFGyKMlg6lpwsa:before, .XvPRmQVeIoCP5lQhICTv.ofDl_1VxUG_EKc3b9E3x:before, .ph1UFslrkUMqoYJEtp3t.hnKIeVb9Fi3YMCZAeQvR:before, .ph1UFslrkUMqoYJEtp3t.hnKIeVb9Fi3YMCZAeQvR:after {
+         height: 0px;
+         width: 0px;
+    }
+    
+    .TccjmKV6RraCaCw5L9gd, div.W4_K5H4AqLL1ngRJt_pk {
+        display: none;
+    }
+    
+    .ph1UFslrkUMqoYJEtp3t.AnI0juSKrY9ML7JPA2HT .FYE8sDoV8K7xL0Tpn5TR:after, .ph1UFslrkUMqoYJEtp3t.AnI0juSKrY9ML7JPA2HT .FYE8sDoV8K7xL0Tpn5TR:before {
+        height: 0px;
+        width: 0px;
+    }
+}
